@@ -1,44 +1,21 @@
-const express=require('express');
-const static=require('express-static');
-const bodyParser=require('body-parser');
-const multer=require('multer');
-const multerObj=multer({dest: './static/upload'});
-const mysql=require('mysql');
-const cookieParser=require('cookie-parser');
-const cookieSession=require('cookie-session');
-const consolidate=require('consolidate');
-const expressRoute=require('express-route');
+//Used in the latest version of 'vue-cli'
 
-var server=express();
-server.listen(8080);
-
-//1.获取请求数据
-//get自带
-server.use(bodyParser.urlencoded());
-server.use(multerObj.any());
-
-//2.cookie、session
-server.use(cookieParser());
-(function (){
-  var keys=[];
-  for(var i=0;i<100000;i++){
-    keys[i]='a_'+Math.random();
-  }
-  server.use(cookieSession({
-    name: 'sess_id',
-    keys: keys,
-    maxAge: 20*60*1000  //20min
-  }));
-})();
-
-//3.模板
-server.engine('html', consolidate.ejs);
-server.set('views', 'template');
-server.set('view engine', 'html');
-
-//4.route
-server.use('/', require('./route/web')());
-server.use('/admin/', require('./route/admin')());
-
-//5.default：static
-server.use(static('./static/'));
+export default {
+	data(){
+		return {
+			arr:[1,2,3,4,5];
+		}
+	},
+	watch:{
+		arr:function(newData, oldData){
+                         console.log(`newData : ${newData} , newData : ${oldData}`);
+                      //When the 'ClickAnElement' method is executed, the print result is: newData : [1,2,3,4,5,6] , oldData : [1,2,3,4,5,6]
+                                       //Not the intended result newData : [1,2,3,4,5,6] , oldData : [1,2,3,4,5]
+                }
+	},
+	methods:{
+		ClickAnElement:function(){
+                         this.arr.push(6);
+                }
+	}
+};
