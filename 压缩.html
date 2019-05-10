@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type="file" id="aaa">
+</body>
+<script>
+function condense(json, cb){
+	var flie=json.file;
+	var maxWidth=json.maxWidth || null;
+	var maxHeight=json.maxHeight || null;
+	var quality=json.quality || null;
+	var type=json.type || 'image/png';
+
+	if(!HTMLCanvasElement.prototype.toBlob){    // 如果canvas对象没有toBlob方法原型, 则加上(即兼容低版本浏览器)
+	    Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
+	        value: function(callback, type, quality){
+	            var _this=this;
+	            setTimeout(function(){
+	                var binStr=atob(_this.toDataURL(type, quality).split(',')[1]);
+	                var len=binStr.length;
+	                var arr=new Uint8Array(len);
+
+	                for(var i=0; i<len; i++){
+	                    arr[i]=binStr.charCodeAt(i);
+	                };
+
+	                callback(new Blob([arr], {type:type || 'image/png'}));
+	            });
+	        }
+	    });
+	}
+
+	var reader=new FileReader();
+
+	var canvas=document.createElement('canvas');
+	var context=canvas.getContext('2d');
+
+	var img=new Image();
+
+	var target_width=0;
+	var target_height=0;
+
+	reader.onload=function(){
+	    img.src=this.result;
+	};
+
+	img.onload=function(){
+	    // 图片原始尺寸
+	    var originWidth = this.width;
+	    var originHeight = this.height;
+
+	    if((maxWidth && maxWidth>0) && (maxHeight && maxHeight>0)){
+		    if(originWidth>maxWidth || originHeight>maxHeight){
+		    	if(originWidth/originHeight>maxWidth/maxHeight){
+		    		target_width=maxWidth;
+		    		target_height=Math.ceil(maxWidth*(originHeight/originWidth));
+		    	}else{
+		    		target_width=Math.ceil(maxHeight*(originWidth/originHeight));
+		    		target_height=maxHeight;
+		    	};
+		    }else{
+		    	target_width=originWidth;
+		    	target_height=originHeight;
+		    };
+	    }else if((maxWidth && maxWidth>0) && !maxHeight){
+    		target_width=maxWidth;
+    		target_height=Math.ceil(maxWidth*(originHeight/originWidth));
+	    }else if(!maxWidth && (maxHeight && maxHeight>0)){
+    		target_width=Math.ceil(maxHeight*(originWidth/originHeight));
+    		target_height=maxHeight;
+	    }else if(!maxWidth && !maxHeight){
+	    	target_width=originWidth;
+	    	target_height=originHeight;
+	    };
+	    // 指定画布大小
+	    canvas.width=target_width;
+	    canvas.height=target_height;
+	    // 画布生成画面
+	    context.drawImage(img, 0, 0, target_width, target_height);
+
+	    if(quality){
+		    canvas.toBlob(cb, 'image/jpeg', quality);
+	    }else{
+		    canvas.toBlob(cb, type);
+	    };
+	}
+
+	reader.readAsDataURL(file);
+}
+
+
+/*condense({      // 压缩图片插件
+	file:xxx.files[0],      // 要压缩的文件
+	maxWidth:400,	// 压缩最大宽度, 如果原图片宽度超过该值则压缩至该值
+	maxHeight:400,	// 压缩最大高度, 如果原图片高度超过该值则压缩至该值
+	quality:.7,   // 压缩品质 最大1
+	type:'image/jpeg'  // 压缩格式
+}, function(blob){   // 回调函数的参数blob即为已压缩好的二进制文件
+	// todo...
+});*/
+
+</script>
+</html>
