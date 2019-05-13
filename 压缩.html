@@ -9,7 +9,7 @@
 </body>
 <script>
 function condense(json, cb){
-	var flie=json.file;
+	var file=json.file;
 	var maxWidth=json.maxWidth || null;
 	var maxHeight=json.maxHeight || null;
 	var quality=json.quality || null;
@@ -102,6 +102,17 @@ function condense(json, cb){
 }, function(blob){   // 回调函数的参数blob即为已压缩好的二进制文件
 	// todo...
 });*/
+
+aaa.onchange=function(){
+	console.log(this.files[0].size);
+	condense({
+		file:this.files[0],
+		quality:.3
+	}, function(blob){
+		console.log(blob.size);
+	})
+};
+
 
 </script>
 </html>
