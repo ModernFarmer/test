@@ -1,7 +1,7 @@
 *本模块是将node-mysql模块进行简单封装, 旨在更加简单直观地进行同步操作异步调用或异步操作异步调用, 本模块的相关参数设定完全遵循node-mysql模块的相关设定.*
-　<br>
+　<br><br><br>
 *This module is a simple encapsulation of node-mysql module, aiming to make asynchronous invocation of synchronous operation or asynchronous operation and asynchronous invocation more simple and intuitive. The parameter setting of this module fully follows the relevant setting of node-mysql module.*
-**The English document is at the back of the page!**<br><br>
+**The English document is at the back of the page!**<br><br><br>
 **下载:**
 
 ```javascript
@@ -1192,6 +1192,8 @@ app.post('/damo', async (req, res) => {
 　版本说明:　　　　　　　*删除了方法内部的绝大部分无谓的检测判断,
 　　　　　　　　　　　　　稍微提高代码效率*
   ```
+　<br><br>
+**\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-English API\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-**
 　<br><br>
 **Download:**
 
