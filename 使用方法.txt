@@ -1,0 +1,16 @@
+把 compact_expand_css_command.py 文件复制到 Packages\User 下
+
+打开 Preferences - Key Bindings 在 User 这边复制以下代码 (中文版: 首选项 / 快捷键设置 )
+
+[
+{ "keys": ["ctrl+alt+]"], "command": "compact_expand_css", "args": { "action": "expand" }  },
+{ "keys": ["ctrl+alt+["], "command": "compact_expand_css", "args": { "action": "compact" } }
+]
+
+上面配置:
+	 ctrl+alt+]  :  将css代码显示成多行
+	 ctrl+alt+[  :  将css代码显示成一行
+
+
+
+"highlight_line": true
