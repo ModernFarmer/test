@@ -1,0 +1,61 @@
+﻿git命令:
+
+git config --system --unset credential.helper          ***清除git上已保存的账号密码
+
+设置git基本信息:
+
+git config --global user.name "ModernFarmer"           设置git用户名
+
+git config --global user.email "850558682@qq.com"      设置git用户邮箱名
+
+      -----------------> 该设置将显示在git仓库主页, 显示是谁提交了最新的文件
+
+git config --list                                      显示当前的git基本信息
+
+
+
+操作本地仓库:
+
+git init                          将当前的本地文件夹初始化为仓库
+
+git status                        查看当前状态
+
+git add <文件名> <文件名> ...     将工作区的文件提交到暂存区
+
+git rm <文件名>                   将要删除的文件提交到暂存区
+
+git commit -m "文件描述"          将暂存区的文件提交到Git仓库
+
+
+
+git reset HEAD                           删除暂存区的所有文件
+
+git reset HEAD <文件名> <文件名> ...     删除暂存区的指定文件
+
+
+
+操作远程仓库:
+
+git pull                          是从远程git仓库直接同步最新文件到本地工作区
+
+git push                          将本地git仓库的文件同步到远程git仓库
+
+
+
+分支操作:
+
+查看分支 git branch -a 
+创建分支 git branch name 
+切换分支 git checkout name 
+创建并切换 git checkout -b name 
+合并某分支到当前分支 git merge name            --no-ff参数表示禁用快速合并
+删除分支 git branch -d name 
+
+将当前分支推到远程 git push origin name
+
+
+git log --graph --pretty=oneline --abbrev-commit  查看合并历史
+
+
+
+git clone <仓库地址>              将远程git仓库的文件复制到本地工作区
