@@ -24,18 +24,18 @@ function _MovingScroll(obj){                          //滚动条插件
         UM_MovingScroll.scrollBox.transition('.5s ease-out').css({'height':UM_MovingScroll.height_scroll()+'px', 'cursor':'pointer'});       //初始化滚动条高度，必要时需要加定时器
     },500);
     UM_MovingScroll.box.mousewheel(function(){
+        if(UM_MovingScroll.height_content()<UM_MovingScroll.height_box())return;
         _stopPropagation(event);
         var top_contentBox=parseInt(UM_MovingScroll.contentBox.getStyle('top')) + UM_MovingScroll.speed;
-        if(top_contentBox>0 || UM_MovingScroll.height_content()<UM_MovingScroll.height_box())top_contentBox=0;
-        if(UM_MovingScroll.height_content()<UM_MovingScroll.height_box())top_contentBox=0;
+        if(top_contentBox>0)top_contentBox=0;
         UM_MovingScroll.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
         var top_scrollBox=-Math.ceil(top_contentBox / (UM_MovingScroll.height_content() - UM_MovingScroll.height_box()) * (UM_MovingScroll.height_box() - UM_MovingScroll.height_scroll()));
         UM_MovingScroll.scrollBox.transition('.5s ease-out').css({'height':UM_MovingScroll.height_scroll()+'px', 'top':top_scrollBox+'px'});
     }, function(){
+        if(UM_MovingScroll.height_content()<UM_MovingScroll.height_box())return;
         _stopPropagation(event);
         var top_contentBox=parseInt(UM_MovingScroll.contentBox.getStyle('top')) - UM_MovingScroll.speed;
         if(top_contentBox<-(UM_MovingScroll.height_content()-UM_MovingScroll.height_box()))top_contentBox=-(UM_MovingScroll.height_content()-UM_MovingScroll.height_box());
-        if(UM_MovingScroll.height_content()<UM_MovingScroll.height_box())top_contentBox=0;
         UM_MovingScroll.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
         var top_scrollBox=-Math.ceil(top_contentBox / (UM_MovingScroll.height_content() - UM_MovingScroll.height_box()) * (UM_MovingScroll.height_box() - UM_MovingScroll.height_scroll()));
         UM_MovingScroll.scrollBox.transition('.5s ease-out').css({'height':UM_MovingScroll.height_scroll()+'px', 'top':top_scrollBox+'px'});
@@ -53,7 +53,6 @@ function _MovingScroll(obj){                          //滚动条插件
             }else if(top_contentBox<-(UM_MovingScroll.height_content()-UM_MovingScroll.height_box())){
                 top_contentBox=-(UM_MovingScroll.height_content()-UM_MovingScroll.height_box());
             }
-            if(UM_MovingScroll.height_content()<UM_MovingScroll.height_box())top_contentBox=0;
             UM_MovingScroll.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
             var top_scrollBox=-Math.ceil(top_contentBox / (UM_MovingScroll.height_content() - UM_MovingScroll.height_box()) * (UM_MovingScroll.height_box() - UM_MovingScroll.height_scroll()));
             UM_MovingScroll.scrollBox.transition('.5s ease-out').css({'height':UM_MovingScroll.height_scroll()+'px', 'top':top_scrollBox+'px'});
@@ -62,14 +61,13 @@ function _MovingScroll(obj){                          //滚动条插件
 
     if(UM_MovingScroll.watch_keyup===true){                  //当页面上按键抬起时，是否执行滚动条盒子的高度自动变化，根据需要添加该选项
         _(document).BD('keyup', function(){
-            setTimeout(function() {
+            setTimeout(function(){
                 var top_contentBox=parseInt(UM_MovingScroll.contentBox.getStyle('top')) + UM_MovingScroll.speed;
                 if(top_contentBox>0 || UM_MovingScroll.height_content()<UM_MovingScroll.height_box()){
                     top_contentBox=0;
                 }else if(top_contentBox<-(UM_MovingScroll.height_content()-UM_MovingScroll.height_box())){
                     top_contentBox=-(UM_MovingScroll.height_content()-UM_MovingScroll.height_box());
                 }
-                if(UM_MovingScroll.height_content()<UM_MovingScroll.height_box())top_contentBox=0;
                 UM_MovingScroll.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
                 var top_scrollBox=-Math.ceil(top_contentBox / (UM_MovingScroll.height_content() - UM_MovingScroll.height_box()) * (UM_MovingScroll.height_box() - UM_MovingScroll.height_scroll()));
                 UM_MovingScroll.scrollBox.transition('.5s ease-out').css({'height':UM_MovingScroll.height_scroll()+'px', 'top':top_scrollBox+'px'});
@@ -85,7 +83,6 @@ function _MovingScroll(obj){                          //滚动条插件
                 }else if(top_contentBox<-(UM_MovingScroll.height_content()-UM_MovingScroll.height_box())){
                     top_contentBox=-(UM_MovingScroll.height_content()-UM_MovingScroll.height_box());
                 }
-                if(UM_MovingScroll.height_content()<UM_MovingScroll.height_box())top_contentBox=0;
                 UM_MovingScroll.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
                 var top_scrollBox=-Math.ceil(top_contentBox / (UM_MovingScroll.height_content() - UM_MovingScroll.height_box()) * (UM_MovingScroll.height_box() - UM_MovingScroll.height_scroll()));
                 UM_MovingScroll.scrollBox.transition('.5s ease-out').css({'height':UM_MovingScroll.height_scroll()+'px', 'top':top_scrollBox+'px'});
@@ -101,14 +98,15 @@ function _MovingScroll(obj){                          //滚动条插件
                 }else if(top_contentBox<-(UM_MovingScroll.height_content()-UM_MovingScroll.height_box())){
                     top_contentBox=-(UM_MovingScroll.height_content()-UM_MovingScroll.height_box());
                 }
-                if(UM_MovingScroll.height_content()<UM_MovingScroll.height_box())top_contentBox=0;
                 UM_MovingScroll.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
                 var top_scrollBox=-Math.ceil(top_contentBox / (UM_MovingScroll.height_content() - UM_MovingScroll.height_box()) * (UM_MovingScroll.height_box() - UM_MovingScroll.height_scroll()));
                 UM_MovingScroll.scrollBox.transition('.5s ease-out').css({'height':UM_MovingScroll.height_scroll()+'px', 'top':top_scrollBox+'px'});
             }, UM_MovingScroll.watch_el.timeout);
         });
     }
-    UM_MovingScroll.scrollBox.BD('mousedown', function(event){
+    UM_MovingScroll.scrollBox.BD('click', function(){
+        _stopPropagation(event);
+    }).BD('mousedown', function(event){
         _stopPropagation(event);
         _preventDefault(event);
         var cursor_original=_scrollDistance().y+event.clientY;
@@ -130,13 +128,16 @@ function _MovingScroll(obj){                          //滚动条插件
     });
     if(_isArray(UM_MovingScroll.position) && UM_MovingScroll.position.length>0){
         for(var i=0; i<UM_MovingScroll.position.length; i++){
-            UM_MovingScroll.position[i].clickObj.el.setAttribute('UM_MovingScrollPlugIn', i);
-            UM_MovingScroll.position[i].clickObj.BD('click', function(){
-                var mark= UM_MovingScroll.position[this.getAttribute('UM_MovingScrollPlugIn')].targetObj.el.offsetTop>(UM_MovingScroll.height_content()-UM_MovingScroll.height_box())?-(UM_MovingScroll.height_content()-UM_MovingScroll.height_box()):-(UM_MovingScroll.position[this.getAttribute('UM_MovingScrollPlugIn')].targetObj.el.offsetTop);
-                if(UM_MovingScroll.height_content()<UM_MovingScroll.height_box())mark=0;
-                UM_MovingScroll.contentBox.transition('.5s ease-out').css({top:mark+'px'});
-                UM_MovingScroll.scrollBox.transition('.5s ease-out').css({top:Math.ceil(-mark*UM_MovingScroll.height_scroll()/UM_MovingScroll.height_box())+'px'});
-            });
+            (function(a){
+                UM_MovingScroll.position[a].clickObj.BD('click', function(){
+                    _stopPropagation(event);
+                    console.log(UM_MovingScroll.position[a].targetObj.el.offsetTop)
+                    var mark= UM_MovingScroll.position[a].targetObj.el.offsetTop>(UM_MovingScroll.height_content()-UM_MovingScroll.height_box())?-(UM_MovingScroll.height_content()-UM_MovingScroll.height_box()):-(UM_MovingScroll.position[a].targetObj.el.offsetTop);
+                    if(UM_MovingScroll.height_content()<UM_MovingScroll.height_box())mark=0;
+                    UM_MovingScroll.contentBox.transition('.5s ease-out').css({top:mark+'px'});
+                    UM_MovingScroll.scrollBox.transition('.5s ease-out').css({top:Math.ceil(-mark*UM_MovingScroll.height_scroll()/UM_MovingScroll.height_box())+'px'});
+                });
+            })(i);
         };
     }
 };
@@ -157,6 +158,8 @@ function ___constructor_PullDown(obj){             //下拉内容过渡插件-�
         scrollClassName:obj.scrollClassName || 'scrollClassName'
     };
 
+    this.downHidden=true; // 用于判断执行一些特定事件时是否要隐藏下拉框
+
     this.id='UM_PullDown_'+Math.ceil(Math.random()*100000000);
     this.now=obj.now || false;
 
@@ -173,7 +176,13 @@ function ___constructor_PullDown(obj){             //下拉内容过渡插件-�
         return this.UM_PullDown.down.getStyle('marginBottom');
     }.bind(this))();
 
-    this.UM_PullDown.down.css({overflow:'hidden', maxHeight:this.UM_PullDown.maxHeight?this.UM_PullDown.maxHeight:'none'});
+    this.UM_PullDown.down.css({overflow:'hidden', maxHeight:this.UM_PullDown.maxHeight?this.UM_PullDown.maxHeight:'none'}).BD('click', function(){
+        _stopPropagation(event);
+    }).BD('mousedown', function(){
+        this.downHidden=false;
+    }.bind(this));
+
+    // if(this.UM_PullDown.within)this.UM_PullDown.caption.isCaption=true;
 
     if(this.UM_PullDown.maxHeight){
         var _html=this.UM_PullDown.down.el.innerHTML;
@@ -193,6 +202,11 @@ function ___constructor_PullDown(obj){             //下拉内容过渡插件-�
         dom_scroll.style.right='2px';
         dom_scroll.style.zIndex='10';
         dom_scroll.className='UM_pullDown_'+this.UM_PullDown.scrollClassName;
+        _(dom_scroll).BD('mousedown', function(){
+            this.downHidden=false;
+        }.bind(this)).BD('mouseup', function(){
+            this.downHidden=true;
+        }.bind(this));
 
         this.UM_PullDown.down.el.appendChild(dom_content);
         this.UM_PullDown.down.el.appendChild(dom_scroll);
@@ -237,8 +251,12 @@ function ___constructor_PullDown(obj){             //下拉内容过渡插件-�
         };
     }.bind(this));
 
-    if(this.UM_PullDown.D_click===false){  // 当点击背景时, 折叠下拉框
+    if(!this.UM_PullDown.within && this.UM_PullDown.D_click===false){  // 当点击背景时, 折叠下拉框
         _(document).BD('click', function(){
+            if(!this.downHidden){
+                this.downHidden=true;
+                return;
+            }
             if(this.UM_PullDown.down.el.style.height==='auto')this.UM_PullDown.down.css({height:this.UM_PullDown.down.getStyle('height')});  // 为了使动画正常过渡, 需要设置height(当height的值为auto时, 改变height值不会显示动效)
             if(!this.UM_PullDown.within){
                 setTimeout(function(){
@@ -251,7 +269,6 @@ function ___constructor_PullDown(obj){             //下拉内容过渡插件-�
 
     if(this.UM_PullDown.select===false){  // 当点击选项时, 折叠下拉框
         this.UM_PullDown.down.BD('click', function(event){
-            _stopPropagation(event);
             if(this.UM_PullDown.within)this.UM_PullDown.within.css({height:'auto'});  // 当本插件为子嵌套插件时, 点击选项, 使父插件的down元素的height改成auto, 以使父插件的下拉框可以正确显示动效
             this.UM_PullDown.down.transition(this.UM_PullDown.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
             this.now=false;
@@ -272,11 +289,11 @@ ___constructor_PullDown.prototype._m_height=function(){
     if(this.UM_PullDown.maxHeight){
         for(var i=0; i<_('#'+this.id, 0).el.children.length; i++){
             result=result+_('#'+this.id, 0).el.children[i].offsetHeight+this._m_getStyleInf(_('#'+this.id, 0).el.children[i], 'marginTop')+this._m_getStyleInf(_('#'+this.id, 0).el.children[i], 'marginBottom');
-        console.log(_('#'+this.id, 0).el.children[i].offsetHeight)
+        /*console.log(_('#'+this.id, 0).el.children[i].offsetHeight)
         console.log(this._m_getStyleInf(_('#'+this.id, 0).el.children[i], 'marginTop'))
         console.log(this._m_getStyleInf(_('#'+this.id, 0).el.children[i], 'marginBottom'))
         console.log(result)
-        console.log('-------------------------------------')
+        console.log('-------------------------------------')*/
         };
     }else{
         for(var i=0; i<this.UM_PullDown.down.el.children.length; i++){
