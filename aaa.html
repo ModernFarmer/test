@@ -29,8 +29,8 @@
         <div class="listOpt">&nbsp;&nbsp;&nbsp;&nbsp;option2</div>
         <div class="listOpt">&nbsp;&nbsp;&nbsp;&nbsp;option3</div>
         <div class="listOpt">&nbsp;&nbsp;&nbsp;&nbsp;option4</div>
-        <div class="listOpt" id="childCaption">&nbsp;&nbsp;&nbsp;&nbsp;option5 - 嵌套插件</div>
-        <div class="listOpt" id="childContent">
+        <div class="listOpt" isUmCaption id="childCaption">&nbsp;&nbsp;&nbsp;&nbsp;option5 - 嵌套插件</div>
+        <div class="listOpt" isUmCaption id="childContent">
             <div class="childList">&nbsp;&nbsp;&nbsp;&nbsp;childOption1</div>
             <div class="childList">&nbsp;&nbsp;&nbsp;&nbsp;childOption2</div>
             <div class="childList">&nbsp;&nbsp;&nbsp;&nbsp;childOption3</div>
@@ -54,7 +54,8 @@ let obj_parent=_PullDown({
     caption:_(titleBtn),　　　//　标题选择器　　selector
     down:_(contentBox),　　　//　下拉内容选择器　　selector
     speed:.2,　　　//　速度(在几秒内完成过渡)
-    maxHeight:'200px'
+    maxHeight:'200px',
+    now:true
 });
 
 /*_MovingScroll({　　　//　滚动条插件    参数：json
@@ -72,6 +73,7 @@ let obj_child=_PullDown({
     caption:_(childCaption),　　　//　标题选择器　　selector
     down:_(childContent),　　　//　下拉内容选择器　　selector
     within:_(contentBox),　　　//　嵌套的父元素选择器　　selector
+    now:true,
     speed:.5　　　//　速度(在几秒内完成过渡)
 });
 
@@ -91,5 +93,13 @@ btn4.onclick=function(){
     _stopPropagation(event);  // 阻止事件冒泡
     obj_child.fold(); // 折叠子插件
 };
+
+// down 不能有padding-top和padding-bottom
+
+
+
+
+
+// ?? 滑动距离     ?? 点击caption自适应滚动条
 </script>
 </html>
