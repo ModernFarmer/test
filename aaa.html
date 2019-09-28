@@ -8,7 +8,7 @@
 	<style>
 	    html, body {width:100%; height:100%; padding:0; margin:0;}
 	    #titleBtn {width:200px; height:40px; line-height:40px; text-align:center; cursor:pointer; border:1px solid #0000FF; border-radius:10px; position:absolute; left:20%; top:10%;}
-	    #contentBox {width:250px; border:1px solid #FF8000; border-radius:10px; position:absolute; left:20%; top:calc(10% + 50px);}
+	    #contentBox {width:250px; padding-top:20px; padding-bottom:20px; border:3px solid #FF8000; border-radius:10px; position:absolute; left:20%; top:calc(10% + 50px);}
 	    .listOpt {width:85%; line-height:30px; border:1px solid gray; border-radius:5px; margin-left:5%; margin-top:5px;}
 	    .listOpt_last {margin-bottom:5px;}
 	    #childCaption {position:relative;}
@@ -19,7 +19,7 @@
 	    #btn3 {width:200px; height:30px; line-height:30px; border-radius:3px; border:1px dashed salmon; text-align:center; cursor:pointer; background:#e9e9e9; position:absolute; left:40%; top:calc(20% + 70px);}
 	    #btn4 {width:200px; height:30px; line-height:30px; border-radius:3px; border:1px dashed salmon; text-align:center; cursor:pointer; background:#e9e9e9; position:absolute; left:40%; top:calc(20% + 105px);}
 	    #btn1:hover,#btn2:hover,#btn3:hover,#btn4:hover {background:#71BEE8; color:white;}
-	    .UM_pullDown_scrollClassName {width:5px; border-radius:3px; background:green;}
+	    .UM_PullDown_scrollClassName {width:5px; border-radius:3px; background:#B0B0B0;}
 	</style>
 </head>
 <body>
@@ -74,7 +74,7 @@ let obj_child=_PullDown({
     down:_(childContent),　　　//　下拉内容选择器　　selector
     within:_(contentBox),　　　//　嵌套的父元素选择器　　selector
     now:true,
-    speed:.5　　　//　速度(在几秒内完成过渡)
+    speed:.2　　　//　速度(在几秒内完成过渡)
 });
 
 btn1.onclick=function(){
