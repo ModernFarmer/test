@@ -9,15 +9,17 @@ function _MovingScroll(obj){                          //滚动条插件
         watch_mouseup:obj.watch_mouseup || false,
         watch_el:obj.watch_el || false,
         height_box:function(){
-            // return parseInt(this.box.getStyle('height'));
             return this.box.el.offsetHeight-parseInt(this.box.getStyle('borderTopWidth'))-parseInt(this.box.getStyle('borderBottomWidth'));
         },
         height_content:function(){
             return this.contentBox.el.offsetHeight+parseInt(this.box.getStyle('paddingTop'))+parseInt(this.box.getStyle('paddingBottom'));
         },
         height_scroll:function(){
-            return this.height_content()<=this.height_box()?0:this.height_box()*this.height_box()/this.height_content();
-        }
+            var h_box=this.height_box();
+            var h_content=this.height_content();
+            return h_content<=h_box?0:h_box*h_box/h_content;
+        },
+        id:parseInt(Math.random()*100000000)
     };
 
     OB.contentBox.transition('.5s ease-out');
@@ -25,19 +27,29 @@ function _MovingScroll(obj){                          //滚动条插件
         OB.scrollBox.transition('.5s ease-out').css({'height':OB.height_scroll()+'px', 'cursor':'pointer'});       //初始化滚动条高度，必要时需要加定时器
     },500);
     OB.box.css({overflow:'hidden'}).mousewheel(function(){
-        if(OB.height_content()<OB.height_box())return;
-        var top_contentBox=parseFloat(OB.contentBox.getStyle('top')) + OB.speed;
+        var _top=parseFloat(OB.contentBox.getStyle('top'));
+        if(_top==0)return;
+        var h_content=OB.height_content();
+        var h_box=OB.height_box();
+        if(h_content<h_box)return;
+        var h_scroll=OB.height_scroll();
+        var top_contentBox=_top + OB.speed;
         if(top_contentBox>0)top_contentBox=0;
         OB.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
-        var top_scrollBox=-(OB.height_scroll()*top_contentBox/OB.height_box());
-        OB.scrollBox.transition('.5s ease-out').css({'height':OB.height_scroll()+'px', 'top':top_scrollBox+'px'});
+        var top_scrollBox=-(h_scroll*top_contentBox/h_box);
+        OB.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
     }, function(){
-        if(OB.height_content()<OB.height_box())return;
-        var top_contentBox=parseFloat(OB.contentBox.getStyle('top')) - OB.speed;
-        if(top_contentBox<-(OB.height_content()-OB.height_box()))top_contentBox=-(OB.height_content()-OB.height_box());
+        var _top=parseFloat(OB.contentBox.getStyle('top'));
+        var h_content=OB.height_content();
+        var h_box=OB.height_box();
+        if(_top==-(h_content-h_box))return;
+        if(h_content<h_box)return;
+        var h_scroll=OB.height_scroll();
+        var top_contentBox=_top - OB.speed;
+        if(top_contentBox<-(h_content-h_box))top_contentBox=-(h_content-h_box);
         OB.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
-        var top_scrollBox=-(OB.height_scroll()*top_contentBox/OB.height_box());;
-        OB.scrollBox.transition('.5s ease-out').css({'height':OB.height_scroll()+'px', 'top':top_scrollBox+'px'});
+        var top_scrollBox=-(h_scroll*top_contentBox/h_box);
+        OB.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
     });
 
     OB.box.BD('mouseenter', function(){
@@ -45,62 +57,51 @@ function _MovingScroll(obj){                          //滚动条插件
     }).BD('mouseleave', function(){
         OB.scrollBox.transition('1s ease-out').css({opacity:.4});
     }).BD('mousedown', function(){                                    //默认当点击容器盒子时，执行滚动条盒子的高度自动变化
-        setTimeout(function(){
+        if(window['UM_MS_default_'+OB.id])clearTimeout(window['UM_MS_default_'+OB.id]);
+        window['UM_MS_default_'+OB.id]=setTimeout(function(){
             var top_contentBox=parseFloat(OB.contentBox.getStyle('top'));
-            if(top_contentBox>0 || OB.height_content()<OB.height_box()){
-                top_contentBox=0;
-            }else if(top_contentBox<-(OB.height_content()-OB.height_box())){
-                top_contentBox=-(OB.height_content()-OB.height_box());
-            }
-            OB.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
-            var top_scrollBox=-(top_contentBox / (OB.height_content() - OB.height_box()) * (OB.height_box() - OB.height_scroll()));
-            OB.scrollBox.transition('.5s ease-out').css({'height':OB.height_scroll()+'px', 'top':top_scrollBox+'px'});
+            var h_scroll=OB.height_scroll();
+            var top_scrollBox=-(h_scroll*top_contentBox/OB.height_box());
+            OB.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
+            delete window['UM_MS_default_'+OB.id];
         }, 500);
     });
 
     if(OB.watch_keyup===true){                  //当页面上按键抬起时，是否执行滚动条盒子的高度自动变化，根据需要添加该选项
         _(document).BD('keyup', function(){
             if(!OB.contentBox.el)return;
-            setTimeout(function(){
-                var top_contentBox=parseFloat(OB.contentBox.getStyle('top')) + OB.speed;
-                if(top_contentBox>0 || OB.height_content()<OB.height_box()){
-                    top_contentBox=0;
-                }else if(top_contentBox<-(OB.height_content()-OB.height_box())){
-                    top_contentBox=-(OB.height_content()-OB.height_box());
-                }
-                OB.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
-                var top_scrollBox=-Math.ceil(top_contentBox / (OB.height_content() - OB.height_box()) * (OB.height_box() - OB.height_scroll()));
-                OB.scrollBox.transition('.5s ease-out').css({'height':OB.height_scroll()+'px', 'top':top_scrollBox+'px'});
+            if(window['UM_MS_keyup_'+OB.id])clearTimeout(window['UM_MS_keyup_'+OB.id]);
+            window['UM_MS_keyup_'+OB.id]=setTimeout(function(){
+                var top_contentBox=parseFloat(OB.contentBox.getStyle('top'));
+                var h_scroll=OB.height_scroll();
+                var top_scrollBox=-(h_scroll*top_contentBox/OB.height_box());
+                OB.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
+                delete window['UM_MS_keyup_'+OB.id];
             }, 500);
         });
     }
     if(OB.watch_mouseup===true){                  //当页面上鼠标抬起时，是否执行滚动条盒子的高度自动变化，根据需要添加该选项
         _(document).BD('mouseup', function(){
-            setTimeout(function() {
-                var top_contentBox=parseFloat(OB.contentBox.getStyle('top')) + OB.speed;
-                if(top_contentBox>0 || OB.height_content()<OB.height_box()){
-                    top_contentBox=0;
-                }else if(top_contentBox<-(OB.height_content()-OB.height_box())){
-                    top_contentBox=-(OB.height_content()-OB.height_box());
-                }
-                OB.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
-                var top_scrollBox=-Math.ceil(top_contentBox / (OB.height_content() - OB.height_box()) * (OB.height_box() - OB.height_scroll()));
-                OB.scrollBox.transition('.5s ease-out').css({'height':OB.height_scroll()+'px', 'top':top_scrollBox+'px'});
+            if(!OB.contentBox.el)return;
+            if(window['UM_MS_mouseup_'+OB.id])clearTimeout(window['UM_MS_mouseup_'+OB.id]);
+            window['UM_MS_mouseup_'+OB.id]=setTimeout(function() {
+                var top_contentBox=parseFloat(OB.contentBox.getStyle('top'));
+                var h_scroll=OB.height_scroll();
+                var top_scrollBox=-(h_scroll*top_contentBox/OB.height_box());
+                OB.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
+                delete window['UM_MS_mouseup_'+OB.id];
             }, 500);
         });
     }
     if(OB.watch_el){    // 当点击一个元素时, 执行滚动条高度自动变化, 根据需要添加该选项
         OB.watch_el.el.BD('click', function(){
-            setTimeout(function() {
-                var top_contentBox=parseFloat(OB.contentBox.getStyle('top')) + OB.speed;
-                if(top_contentBox>0 || OB.height_content()<OB.height_box()){
-                    top_contentBox=0;
-                }else if(top_contentBox<-(OB.height_content()-OB.height_box())){
-                    top_contentBox=-(OB.height_content()-OB.height_box());
-                }
-                OB.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
-                var top_scrollBox=-Math.ceil(top_contentBox / (OB.height_content() - OB.height_box()) * (OB.height_box() - OB.height_scroll()));
-                OB.scrollBox.transition('.5s ease-out').css({'height':OB.height_scroll()+'px', 'top':top_scrollBox+'px'});
+            if(window['UM_MS_watchEl_'+OB.id])clearTimeout(window['UM_MS_watchEl_'+OB.id]);
+            window['UM_MS_watchEl_'+OB.id]=setTimeout(function() {
+                var top_contentBox=parseFloat(OB.contentBox.getStyle('top'));
+                var h_scroll=OB.height_scroll();
+                var top_scrollBox=-(h_scroll*top_contentBox/OB.height_box());
+                OB.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
+                delete window['UM_MS_watchEl_'+OB.id];
             }, OB.watch_el.timeout);
         });
     }
@@ -114,9 +115,13 @@ function _MovingScroll(obj){                          //滚动条插件
         var ___runner=function(event){
             var cursor=_scrollDistance().y+event.clientY;
             var s=cursor-L;
+            var h_box=OB.height_box();
+            var h_scroll=OB.height_scroll();
+            var top_scroll_now=parseFloat(OB.scrollBox.getStyle('top'));
+            if((top_scroll_now==0 && s<0) || (top_scroll_now==Math.round((h_box-h_scroll)*1000)/1000 && s>h_box-h_scroll))return;
             if(s<0)s=0;
-            if(s>parseFloat(OB.height_box())-parseFloat(OB.scrollBox.getStyle('height')))s=parseFloat(OB.height_box())-parseFloat(OB.scrollBox.getStyle('height'));
-            var S=-(OB.height_box()*s/OB.height_scroll());
+            if(s>h_box-h_scroll)s=h_box-h_scroll;
+            var S=-(h_box*s/h_scroll);
             OB.scrollBox.transition('').css({top:s+'px'});
             OB.contentBox.transition('').css({top:S+'px'});
         };
@@ -131,17 +136,17 @@ function _MovingScroll(obj){                          //滚动条插件
             (function(a){
                 OB.position[a].clickObj.BD('click', function(){
                     _stopPropagation(event);
-                    var mark= OB.position[a].targetObj.el.offsetTop>(OB.height_content()-OB.height_box())?-(OB.height_content()-OB.height_box()):-(OB.position[a].targetObj.el.offsetTop);
-                    if(OB.height_content()<OB.height_box())mark=0;
+                    var h_content=OB.height_content();
+                    var h_box=OB.height_box();
+                    if(h_content<h_box)return;
+                    var mark= OB.position[a].targetObj.el.offsetTop>(h_content-h_box)?-(h_content-h_box):-(OB.position[a].targetObj.el.offsetTop);
                     OB.contentBox.transition('.5s ease-out').css({top:mark+'px'});
-                    OB.scrollBox.transition('.5s ease-out').css({top:Math.ceil(-mark*OB.height_scroll()/OB.height_box())+'px'});
+                    OB.scrollBox.transition('.5s ease-out').css({top:-(OB.height_scroll()*mark/h_box)+'px'});
                 });
             })(i);
         };
     }
 };
-
-// 优化: 滚动条高度变化, 滚动条top根据内容盒子的top变化
 
 function ___constructor_PullDown(obj){             //下拉内容过渡插件-构造函数
     this.OB={
@@ -207,7 +212,7 @@ ___constructor_PullDown.prototype._m_todo=function(){
         var dom_content=document.createElement('div'), dom_scroll=document.createElement('div');
         dom_content.id=this.id;
         dom_content.innerHTML=_html;
-        dom_content.style.width='100%';
+        dom_content.style.width='calc(100% - 2px)';
         dom_content.style.position='relative';
         dom_content.style.top='0';
         dom_content.style.left='0';
