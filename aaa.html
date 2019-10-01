@@ -55,7 +55,7 @@ let obj_parent=_PullDown({
     down:_(contentBox),　　　//　下拉内容选择器　　selector
     speed:.2,　　　//　速度(在几秒内完成过渡)
     maxHeight:'200px',
-    now:true
+    now:false
 });
 
 /*_MovingScroll({　　　//　滚动条插件    参数：json
@@ -72,7 +72,7 @@ let obj_parent=_PullDown({
 let obj_child=_PullDown({
     caption:_(childCaption),　　　//　标题选择器　　selector
     down:_(childContent),　　　//　下拉内容选择器　　selector
-    within:_(contentBox),　　　//　嵌套的父元素选择器　　selector
+    within:obj_parent,　　　//　嵌套的父元素选择器　　selector
     now:true,
     speed:.2　　　//　速度(在几秒内完成过渡)
 });
