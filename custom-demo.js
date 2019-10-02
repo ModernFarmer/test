@@ -1,135 +1,125 @@
 function ___constructor_MovingScroll(obj){                          //滚动条插件
-    this.OB={
-        box:obj.box,
-        contentBox:obj.contentBox,
-        scrollBox:obj.scrollBox,
-        speed:obj.speed,
-        position:obj.position || null,
-        watch_keyup:obj.watch_keyup || false,
-        watch_mouseup:obj.watch_mouseup || false,
-        watch_el:obj.watch_el || false,
-        height_box:function(){
-            return this.box.el.offsetHeight-parseInt(this.box.getStyle('borderTopWidth'))-parseInt(this.box.getStyle('borderBottomWidth'));
-        },
-        height_content:function(){
-            return this.contentBox.el.offsetHeight+parseInt(this.box.getStyle('paddingTop'))+parseInt(this.box.getStyle('paddingBottom'));
-        },
-        height_scroll:function(){
-            var h_box=this.height_box();
-            var h_content=this.height_content();
-            return h_content<=h_box?0:h_box*h_box/h_content;
-        },
-        id:parseInt(Math.random()*100000000)
-    };
+    this.id=parseInt(Math.random()*100000000);
 
-    this.box=box;
-    this.contentBox=contentBox;
-    this.scrollBox=scrollBox;
-    this.speed=speed || 150;
-    this.position=position || null;
-    this.watch_keyup=watch_keyup || false;
-    this.watch_mouseup=watch_mouseup || false;
-    this.watch_el=watch_el || false;
-    /*this.height_box=
-    this.height_content=
-    this.height_scroll=*/
+    this.box=obj.box;
+    this.contentBox=obj.contentBox;
+    this.scrollBox=obj.scrollBox;
+    this.speed=obj.speed || 150;
+    this.position=obj.position || null;
+    this.watch_keyup=obj.watch_keyup || false;
+    this.watch_mouseup=obj.watch_mouseup || false;
+    this.watch_el=obj.watch_el || false;
 
     this.todo();
 };
 
+___constructor_MovingScroll.prototype._m_h_box=function(){
+    return this.box.el.offsetHeight-parseInt(this.box.getStyle('borderTopWidth'))-parseInt(this.box.getStyle('borderBottomWidth'));
+};
+
+___constructor_MovingScroll.prototype._m_h_content=function(){
+    return this.contentBox.el.offsetHeight+parseInt(this.box.getStyle('paddingTop'))+parseInt(this.box.getStyle('paddingBottom'));
+};
+
+___constructor_MovingScroll.prototype._m_h_scroll=function(){
+    var h_box=this._m_h_box();
+    var h_content=this._m_h_content();
+    return h_content<=h_box?0:h_box*h_box/h_content;
+};
+
 ___constructor_MovingScroll.prototype.todo=function(){
-    this.OB.contentBox.transition('.5s ease-out');
+    this.contentBox.transition('.5s ease-out');
     setTimeout(function(){
-        this.OB.scrollBox.transition('.5s ease-out').css({'height':this.OB.height_scroll()+'px', 'cursor':'pointer'});       //初始化滚动条高度，必要时需要加定时器
+        this.scrollBox.transition('.5s ease-out').css({'height':this._m_h_scroll()+'px', 'cursor':'pointer'});       //初始化滚动条高度，必要时需要加定时器
     }.bind(this),500);
-    this.OB.box.css({overflow:'hidden'}).mousewheel(function(){
-        var _top=parseFloat(this.OB.contentBox.getStyle('top'));
+    this.box.css({overflow:'hidden'}).mousewheel(function(){
+        var _top=parseFloat(this.contentBox.getStyle('top'));
         if(_top==0)return;
-        var h_content=this.OB.height_content();
-        var h_box=this.OB.height_box();
+        var h_content=this._m_h_content();
+        var h_box=this._m_h_box();
         if(h_content<h_box)return;
-        var h_scroll=this.OB.height_scroll();
+        var h_scroll=this._m_h_scroll();
         var top_contentBox=_top + this.speed;
         if(top_contentBox>0)top_contentBox=0;
-        this.OB.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
+        this.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
         var top_scrollBox=-(h_scroll*top_contentBox/h_box);
-        this.OB.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
+        this.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
     }.bind(this), function(){
-        var _top=parseFloat(this.OB.contentBox.getStyle('top'));
-        var h_content=this.OB.height_content();
-        var h_box=this.OB.height_box();
+        var _top=parseFloat(this.contentBox.getStyle('top'));
+        var h_content=this._m_h_content();
+        var h_box=this._m_h_box();
         if(_top==-(h_content-h_box))return;
         if(h_content<h_box)return;
-        var h_scroll=this.OB.height_scroll();
+        var h_scroll=this._m_h_scroll();
         var top_contentBox=_top - this.speed;
         if(top_contentBox<-(h_content-h_box))top_contentBox=-(h_content-h_box);
-        this.OB.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
+        this.contentBox.transition('.1s ease-out').css({top:top_contentBox+'px'});
         var top_scrollBox=-(h_scroll*top_contentBox/h_box);
-        this.OB.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
+        this.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
     }.bind(this));
 
-    this.OB.box.BD('mouseenter', function(){
-        this.OB.scrollBox.transition('1s ease-out').css({opacity:1});
+    this.box.BD('mouseenter', function(){
+        this.scrollBox.transition('1s ease-out').css({opacity:1});
     }.bind(this)).BD('mouseleave', function(){
-        this.OB.scrollBox.transition('1s ease-out').css({opacity:.4});
+        this.scrollBox.transition('1s ease-out').css({opacity:.4});
     }.bind(this)).BD('mousedown', function(){                                    //默认当点击容器盒子时，执行滚动条盒子的高度自动变化
-        if(window['UM_MS_default_'+this.OB.id])clearTimeout(window['UM_MS_default_'+this.OB.id]);
-        window['UM_MS_default_'+this.OB.id]=setTimeout(function(){
-            var top_contentBox=parseFloat(this.OB.contentBox.getStyle('top'));
-            var h_scroll=this.OB.height_scroll();
-            var top_scrollBox=-(h_scroll*top_contentBox/this.OB.height_box());
-            this.OB.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
-            delete window['UM_MS_default_'+this.OB.id];
+        if(window['UM_MS_default_'+this.id])clearTimeout(window['UM_MS_default_'+this.id]);
+        window['UM_MS_default_'+this.id]=setTimeout(function(){
+            var top_contentBox=parseFloat(this.contentBox.getStyle('top'));
+            var h_scroll=this._m_h_scroll();
+            var top_scrollBox=-(h_scroll*top_contentBox/this._m_h_box());
+            this.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
+            delete window['UM_MS_default_'+this.id];
         }.bind(this), 500);
     }.bind(this));
 
-    if(this.OB.watch_keyup===true){                  //当页面上按键抬起时，是否执行滚动条盒子的高度自动变化，根据需要添加该选项
+    if(this.watch_keyup===true){                  //当页面上按键抬起时，是否执行滚动条盒子的高度自动变化，根据需要添加该选项
         _(document).BD('keyup', function(){
-            if(!this.OB.contentBox.el)return;
-            if(window['UM_MS_keyup_'+this.OB.id])clearTimeout(window['UM_MS_keyup_'+this.OB.id]);
-            window['UM_MS_keyup_'+this.OB.id]=setTimeout(function(){
-                var top_contentBox=parseFloat(this.OB.contentBox.getStyle('top'));
-                var h_scroll=this.OB.height_scroll();
-                var top_scrollBox=-(h_scroll*top_contentBox/this.OB.height_box());
-                this.OB.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
-                delete window['UM_MS_keyup_'+this.OB.id];
+            if(!this.contentBox.el)return;
+            if(window['UM_MS_keyup_'+this.id])clearTimeout(window['UM_MS_keyup_'+this.id]);
+            window['UM_MS_keyup_'+this.id]=setTimeout(function(){
+                var top_contentBox=parseFloat(this.contentBox.getStyle('top'));
+                var h_scroll=this._m_h_scroll();
+                var top_scrollBox=-(h_scroll*top_contentBox/this._m_h_box());
+                this.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
+                delete window['UM_MS_keyup_'+this.id];
             }.bind(this), 500);
         }.bind(this));
     }
 
-    if(this.OB.watch_mouseup===true){                  //当页面上鼠标抬起时，是否执行滚动条盒子的高度自动变化，根据需要添加该选项
+    if(this.watch_mouseup===true){                  //当页面上鼠标抬起时，是否执行滚动条盒子的高度自动变化，根据需要添加该选项
         _(document).BD('mouseup', function(){
-            if(!this.OB.contentBox.el)return;
-            if(window['UM_MS_mouseup_'+this.OB.id])clearTimeout(window['UM_MS_mouseup_'+this.OB.id]);
-            window['UM_MS_mouseup_'+this.OB.id]=setTimeout(function() {
-                var top_contentBox=parseFloat(this.OB.contentBox.getStyle('top'));
-                var h_scroll=this.OB.height_scroll();
-                var top_scrollBox=-(h_scroll*top_contentBox/this.OB.height_box());
-                this.OB.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
-                delete window['UM_MS_mouseup_'+this.OB.id];
+            if(!this.contentBox.el)return;
+            if(window['UM_MS_mouseup_'+this.id])clearTimeout(window['UM_MS_mouseup_'+this.id]);
+            window['UM_MS_mouseup_'+this.id]=setTimeout(function() {
+                var top_contentBox=parseFloat(this.contentBox.getStyle('top'));
+                var h_scroll=this._m_h_scroll();
+                var top_scrollBox=-(h_scroll*top_contentBox/this._m_h_box());
+                this.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
+                delete window['UM_MS_mouseup_'+this.id];
             }.bind(this), 500);
         }.bind(this));
     }
 
-    this.OB.scrollBox.BD('click', function(){
+    this.scrollBox.BD('click', function(){
         _stopPropagation(event);
     }.bind(this)).BD('mousedown', function(event){
         _stopPropagation(event);
         _preventDefault(event);
         var cursor_original=_scrollDistance().y+event.clientY;
-        var L=cursor_original-parseFloat(this.OB.scrollBox.getStyle('top'));
+        var L=cursor_original-parseFloat(this.scrollBox.getStyle('top'));
         var ___runner=function(event){
             var cursor=_scrollDistance().y+event.clientY;
             var s=cursor-L;
-            var h_box=this.OB.height_box();
-            var h_scroll=this.OB.height_scroll();
-            var top_scroll_now=parseFloat(this.OB.scrollBox.getStyle('top'));
+            var h_box=this._m_h_box();
+            var h_scroll=this._m_h_scroll();
+            var top_scroll_now=parseFloat(this.scrollBox.getStyle('top'));
             if((top_scroll_now==0 && s<0) || (top_scroll_now==Math.round((h_box-h_scroll)*1000)/1000 && s>h_box-h_scroll))return;
             if(s<0)s=0;
             if(s>h_box-h_scroll)s=h_box-h_scroll;
             var S=-(h_box*s/h_scroll);
-            this.OB.scrollBox.transition('').css({top:s+'px'});
-            this.OB.contentBox.transition('').css({top:S+'px'});
+            this.scrollBox.transition('').css({top:s+'px'});
+            this.contentBox.transition('').css({top:S+'px'});
         }.bind(this);
         var ___stopRun=function(){
             _(document).unBD('mousemove', ___runner).unBD('mouseup', ___stopRun);
@@ -138,19 +128,19 @@ ___constructor_MovingScroll.prototype.todo=function(){
         _(document).BD('mouseup', ___stopRun);
     }.bind(this));
 
-    if(_isArray(this.OB.position) && this.OB.position.length>0){  // 锚记导航, 根据需要添加该选项
-        for(var i=0; i<this.OB.position.length; i++){
+    if(_isArray(this.position) && this.position.length>0){  // 锚记导航, 根据需要添加该选项
+        for(var i=0; i<this.position.length; i++){
             (function(a){
-                this.OB.position[a].clickObj.BD('click', function(){
+                this.position[a].clickObj.BD('click', function(){
                     _stopPropagation(event);
-                    var h_content=this.OB.height_content();
-                    var h_box=this.OB.height_box();
+                    var h_content=this._m_h_content();
+                    var h_box=this._m_h_box();
                     if(h_content<h_box)return;
-                    var mark=this.OB.position[a].targetObj.el.offsetTop>(h_content-h_box)?-(h_content-h_box):-(this.OB.position[a].targetObj.el.offsetTop);
+                    var mark=this.position[a].targetObj.el.offsetTop>(h_content-h_box)?-(h_content-h_box):-(this.position[a].targetObj.el.offsetTop);
                     console.log(mark)
-                    console.log(-(this.OB.height_scroll()*mark/h_box)+'px')
-                    this.OB.contentBox.transition('.5s ease-out').css({top:mark+'px'});
-                    this.OB.scrollBox.transition('.5s ease-out').css({top:-(this.OB.height_scroll()*mark/h_box)+'px'});
+                    console.log(-(this._m_h_scroll()*mark/h_box)+'px')
+                    this.contentBox.transition('.5s ease-out').css({top:mark+'px'});
+                    this.scrollBox.transition('.5s ease-out').css({top:-(this._m_h_scroll()*mark/h_box)+'px'});
                 }.bind(this)).BD('mouseup', function(){
                     _stopPropagation(event);
                 }).BD('mousedown', function(){
@@ -162,13 +152,13 @@ ___constructor_MovingScroll.prototype.todo=function(){
 };
 
 ___constructor_MovingScroll.prototype.adaptive=function(ms){
-    if(window['UM_MS_watchEl_'+this.OB.id])clearTimeout(window['UM_MS_watchEl_'+this.OB.id]);
-    window['UM_MS_watchEl_'+this.OB.id]=setTimeout(function() {
-        var top_contentBox=parseFloat(this.OB.contentBox.getStyle('top'));
-        var h_scroll=this.OB.height_scroll();
-        var top_scrollBox=-(h_scroll*top_contentBox/this.OB.height_box());
-        this.OB.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
-        delete window['UM_MS_watchEl_'+this.OB.id];
+    if(window['UM_MS_watchEl_'+this.id])clearTimeout(window['UM_MS_watchEl_'+this.id]);
+    window['UM_MS_watchEl_'+this.id]=setTimeout(function() {
+        var top_contentBox=parseFloat(this.contentBox.getStyle('top'));
+        var h_scroll=this._m_h_scroll();
+        var top_scrollBox=-(h_scroll*top_contentBox/this._m_h_box());
+        this.scrollBox.transition('.5s ease-out').css({'height':h_scroll+'px', 'top':top_scrollBox+'px'});
+        delete window['UM_MS_watchEl_'+this.id];
     }.bind(this), ms);
 };
 
@@ -194,6 +184,8 @@ function ___constructor_PullDown(obj){             //下拉内容过渡插件-�
     this.id='UM_PullDown_'+Math.ceil(Math.random()*100000000);
     this.now=obj.now || false;
     this.MSobj=null;
+
+    // this.down_arguments=
 
     this._m_todo();
 };
@@ -290,10 +282,9 @@ ___constructor_PullDown.prototype._m_todo=function(){
         if(this.MSobj && this.now===false){
             this.MSobj.adaptive(500);  // 自适应滚动条高度
         }
-        if(this.winthin)console.log(this.within.maxHeight)
-        /*if(this.within && this.within.maxHeight && this.within.now===true){
+        if(this.within && this.within.maxHeight){  // 嵌套插件点击caption时, 自适应滚动条高度
             this.within.MSobj.adaptive(500);
-        }*/
+        }
         if(this.down.el.style.height!=='auto'){
             if(this.within)this.within.down.css({height:'auto'});
             if(this.now===false){
@@ -315,10 +306,10 @@ ___constructor_PullDown.prototype._m_todo=function(){
             }.bind(this));
         };
     }.bind(this)).BD('mousedown', function(){
-        _stopPropagation(event);
+        // _stopPropagation(event);
     }.bind(this));
 
-    if(!this.within && this.D_click===false)_(document).BD('click', function(){
+    if(!this.within && this.D_click===false)_(document).BD('click', function(){  // 当点击背景时, 折叠下拉框
         if(!this.downHidden){
             this.downHidden=true;
             return;
@@ -330,7 +321,7 @@ ___constructor_PullDown.prototype._m_todo=function(){
                 this.now=false;
             }.bind(this));
         }
-    }.bind(this));  // 当点击背景时, 折叠下拉框
+    }.bind(this));
 
     if(this.select===false && !this.maxHeight){  // 当点击选项时, 折叠下拉框
         for(var i=0; i<this.down.el.children.length; i++){
