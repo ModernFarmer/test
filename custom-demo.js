@@ -156,9 +156,10 @@ ___constructor_MovingScroll.prototype.todo=function(){
     }
 };
 
-___constructor_MovingScroll.prototype.adaptive=function(ms){
+___constructor_MovingScroll.prototype.adaptive=function(ms, condition){
     if(window['UM_MS_watchEl_'+this.id])clearTimeout(window['UM_MS_watchEl_'+this.id]);
     window['UM_MS_watchEl_'+this.id]=setTimeout(function() {
+        if(condition!==undefined && !condition)return;
         var top_contentBox=parseFloat(this.contentBox.getStyle('top'));
         var h_scroll=this._m_h_scroll();
         var top_scrollBox=-(h_scroll*top_contentBox/this._m_h_box());
@@ -215,14 +216,12 @@ ___constructor_PullDown.prototype._m_todo=function(){
         _stopPropagation(event);
         this.downHidden=true;
         if(this.selectHidden)return;
+        this.selectHidden=true;
         
-        this.down.css({height:this.down.getStyle('height')});
-        setTimeout(function(){
+        this.down.css({height:this.down.getStyle('height')}, function(){
             this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
             this.now=false;
         }.bind(this));
-        
-        this.selectHidden=true;
     }.bind(this)).BD('mousedown', function(){
         _stopPropagation(event);
         this.downHidden=false;
@@ -273,7 +272,7 @@ ___constructor_PullDown.prototype._m_todo=function(){
     }
 
     if(this.now===true){  // 设置初始状态为显示时的下拉框体样式
-        this.down.css({opacity:1, height:this._m_height()});
+        this.down.css({opacity:1, height:'auto'});
     }else if(this.now===false){  // 设置初始状态为隐藏时的下拉框体样式
         this.down.css({opacity:0, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
     }
@@ -282,42 +281,38 @@ ___constructor_PullDown.prototype._m_todo=function(){
 
     this.caption.BD('click', function(){
         _stopPropagation(event);
-        if(this.MSobj && this.now===false){
-            this.MSobj.adaptive(500);  // 自适应滚动条高度
+        this.downHidden=true;
+        if(this.MSobj && !this.now){
+            this.MSobj.adaptive(500, !this.now);  // 自适应滚动条高度
         }
         if(this.root && this.root.maxHeight){  // 嵌套插件点击caption时, 自适应根插件滚动条高度
             this.root.MSobj.adaptive(500);
         }
 
-        this.down.css({height:this.down.getStyle('height')});
-
-        setTimeout(function(){
+        this.down.css({height:this.down.getStyle('height')}, function(){
+            if(window[this.id+'_mainCaption'])clearTimeout(window[this.id+'_mainCaption']);
             if(this.now===false){
-                this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:1, height:this._m_height(), paddingTop:this.top_p, paddingBottom:this.bottom_p, marginTop:this.top_m, marginBottom:this.bottom_m});
+                this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:1, height:this._m_height(), paddingTop:this.top_p, paddingBottom:this.bottom_p, marginTop:this.top_m, marginBottom:this.bottom_m}, function(){
+                    this.now=!this.now;
+                    window[this.id+'_mainCaption']=setTimeout(function(){
+                        if(document.querySelector(this.downStr) && this.now)this.down.css({height:'auto'});
+                    }.bind(this), this.speed*1000);
+                }.bind(this));
             }else{
-                this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
+                this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0}, function(){
+                    this.now=!this.now;
+                    window[this.id+'_mainCaption']=setTimeout(function(){
+                        if(document.querySelector(this.downStr) && this.now)this.down.css({height:'auto'});
+                    }.bind(this), this.speed*1000);
+                }.bind(this));
             };
-            this.now=!this.now;
-            setTimeout(function(){
-                if(document.querySelector(this.downStr) && this.now)this.down.css({height:'auto'});
-            }.bind(this), this.speed*1000);
         }.bind(this));
-
-        this.downHidden=true;
-    }.bind(this)).BD('mousedown', function(){
-        // _stopPropagation(event);
-
-
-        console.log(this.downHidden)
-        setTimeout(()=>{console.log(this.downHidden)}, 500)
-        
-        // console.log(this.downHidden)
-
-        // this.downHidden=false;
+    }.bind(this)).BD('mouseup', function(){
+        if(this.root)this.root.downHidden=true;
     }.bind(this));
 
     if(!this.root && this.D_click===false)_(document).BD('click', function(){  // 当点击背景时, 折叠下拉框
-        if(document.querySelector(this.downStr)){
+        if(document.querySelector(this.downStr) && this.now){
             if(!this.downHidden){
                 this.downHidden=true;
                 return;
@@ -362,19 +357,29 @@ ___constructor_PullDown.prototype._m_height=function(){
 };
 
 ___constructor_PullDown.prototype.unfold=function(){
-    this.down.css({height:this.down.getStyle('height')});
-    setTimeout(function(){
+    if(this.now)return;
+    if(this.MSobj){
+        this.MSobj.adaptive(500, !this.now);  // 自适应滚动条高度
+    }
+    if(this.root && this.root.now && this.root.maxHeight){  // 自适应根插件滚动条高度
+        this.root.MSobj.adaptive(500);
+    }
+    this.down.css({height:this.down.getStyle('height')}, function(){
+        if(window[this.id+'_outButton'])clearTimeout(window[this.id+'_outButton']);
         this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:1, height:this._m_height(), paddingTop:this.top_p, paddingBottom:this.bottom_p, marginTop:this.top_m, marginBottom:this.bottom_m});
         this.now=true;
-        setTimeout(function(){
+        window[this.id+'_outButton']=setTimeout(function(){
             this.down.css({height:'auto'});
         }.bind(this), this.speed*1000);
     }.bind(this));
 };
 
 ___constructor_PullDown.prototype.fold=function(){
-    this.down.css({height:this.down.getStyle('height')});
-    setTimeout(function(){
+    if(!this.now)return;
+    if(this.root && this.root.now && this.root.maxHeight){  // 自适应根插件滚动条高度
+        this.root.MSobj.adaptive(500);
+    }
+    this.down.css({height:this.down.getStyle('height')}, function(){
         this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
         this.now=false;
     }.bind(this));
