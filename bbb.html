@@ -3,11 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-	<script src="./UM-1.3.4.js"></script>
+	<script src="./UM-1.3.5.js"></script>
 	<script src="./custom-demo.js"></script>
 	<style>
     html, body {width:100%; height:100%; padding:0; margin:0;}
-    #box {width:60%; height:60%; border:10px solid black; padding-left:0; padding-right:0; background:gray; position:absolute; left:20%; top:5%;}
+    #box {width:60%; height:60%; border:10px solid black; padding-left:0; padding-right:0; background:gray; position:absolute; left:10%; top:5%;}
     #scrollBox {width:2%; height:0; background:#3D3D3D; border-radius:5px; cursor:pointer; position:absolute; right:.5%; top:0; z-index:10;}
     #listBox {width:25%; height:100%; background:#3D3D3D; position:absolute; left:0; top:0;}
     #contentBox {width:75%; position:absolute; right:0; top:0;}
@@ -15,6 +15,7 @@
     .listText:hover {background:#020202;}
     .moduleName {font-size:18px; font-weight:900; line-height:30px;}
     .moduleContent {width:90%; height:100px; background:#DDDDDD; position:relative; left:5%;}
+    #btn {width:300px; height:40px; position:absolute; top:70%; left:50%;}
 	</style>
 </head>
 <body>
@@ -77,25 +78,55 @@
             </div>
         </div>
     </div>
+    <button id="btn">修改锚记导航设置</button>
 </body>
 <script>
-let obj=_MovingScroll({
-    box:_(box),　　//　容器盒子选择器
-    contentBox:_(contentBox),　　//　滚动内容盒子选择器
-    scrollBox:_(scrollBox),　　//　滚动条盒子选择器
+var OBJECT_MS=_MovingScroll({
+    box:'#box',　　//　容器盒子选择器
+    contentBox:'#contentBox',　　//　滚动内容盒子选择器
+    scrollBox:'#scrollBox',　　//　滚动条盒子选择器
     speed:150,　　//　滚动速度
-    position:[　　//　锚记定位
-        {clickObj:_('.title1', 0), targetObj:_('.option1', 0)},
-        {clickObj:_('.title2', 0), targetObj:_('.option2', 0)},
-        {clickObj:_('.title3', 0), targetObj:_('.option3', 0)},
-        {clickObj:_('.title4', 0), targetObj:_('.option4', 0)},
-        {clickObj:_('.title5', 0), targetObj:_('.option5', 0)},
-        {clickObj:_('.title6', 0), targetObj:_('.option6', 0)},
-        {clickObj:_('.title7', 0), targetObj:_('.option7', 0)},
-        {clickObj:_('.title8', 0), targetObj:_('.option8', 0)},
-        {clickObj:_('.title9', 0), targetObj:_('.option9', 0)},
-        {clickObj:_('.title10', 0), targetObj:_('.option10', 0)}
+    navigation:[　　//　锚记定位
+        {clickSelector:'.title1', targetSelector:'.option1'},
+        {clickSelector:'.title2', targetSelector:'.option2'},
+        {clickSelector:'.title3', targetSelector:'.option3'},
+        {clickSelector:'.title4', targetSelector:'.option4'},
+        {clickSelector:'.title5', targetSelector:'.option5'},
+        {clickSelector:'.title6', targetSelector:'.option6'},
+        {clickSelector:'.title7', targetSelector:'.option7'},
+        {clickSelector:'.title8', targetSelector:'.option8'},
+        {clickSelector:'.title9', targetSelector:'.option9'},
+        {clickSelector:'.title10', targetSelector:'.option10'}
     ]
 });
+
+var num=10;
+
+btn.onclick=function(){
+    num+=1;
+    var numStr=num<100?'0'+num:''+num;
+
+    // 添加标题子选项
+    var dom1=document.createElement('div');
+    dom1.innerHTML=numStr+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    dom1.className='listText title'+num;
+    listBox.appendChild(dom1);
+
+    // 添加内容子选项
+    var dom2=document.createElement('div');
+    dom2.innerHTML='<div class="moduleName">&nbsp;&nbsp;&nbsp;&nbsp;'+numStr+'-新添加的子元素</div><div class="moduleContent"></div>';
+    dom2.className='option'+num;
+    contentBox.appendChild(dom2);
+
+    // 生成新锚记定位数组
+    var navigation=JSON.parse(JSON.stringify(OBJECT_MS.navigation));
+    navigation.push({
+        clickSelector:'.title'+num,
+        targetSelector:'.option'+num
+    });
+
+    OBJECT_MS.setNav(navigation);  // 设置锚记导航
+    OBJECT_MS.adaptive(500);  // 自适应滚动条高度
+};
 </script>
 </html>

@@ -1,0 +1,467 @@
+
+/* ---翻页插件样式------------------------翻页插件样式------------------------翻页插件样式--- */
+
+.UM_pageTurn_ajax_OutBigBox {min-width:650px; position:relative;}
+.UM_pageTurn_ajax_ContentScroll {width:3px; border-radius:2px; background:#999999; cursor:pointer; position:absolute; right:1px; top:0; z-index:100;}
+.UM_pageTurn_ajax_functionButtonBox {height:45px; float:right; margin-right:10px; white-space:no-wrap; position:relative; z-index:10}
+.UM_pageTurn_ajax_limitTotal {height:24px; line-height:24px; margin-top:14px; margin-right:15px; float:right;}
+.UM_pageTurn_ajax_limitTotalText {font-size:10px; margin-right:5px; float:left;}
+.UM_pageTurn_ajax_limitTotalInput {width:50px; height:22px; outline:none; border-radius:3px; border:none; margin-right:5px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; font-size:12px; text-align:center; float:left;}
+.UM_pageTurn_ajax_showTotalNow {height:24px; line-height:24px; background:#f2f2f2; padding-left:5px; padding-right:5px; margin-top:14px; color:#717171; border-radius:3px; font-size:10px; text-align:right; float:right;}
+.UM_pageTurn_ajax_up {height:24px; line-height:24px; float:left; padding-left:10px; padding-right:10px; margin-right:5px; margin-top:14px; cursor:pointer; text-align:center; font-size:10px;}
+.UM_pageTurn_ajax_down {height:24px; line-height:24px; float:left; padding-left:10px; padding-right:10px; margin-right:5px; margin-top:14px; cursor:pointer; text-align:center; font-size:10px;}
+.UM_pageTurn_ajax_pageBox {height:24px; line-height:24px; text-align:center; float:left; position:relative; margin-top:14px; font-size:10px;}
+.UM_pageTurn_ajax_pageF {height:100%; float:left; margin-right:5px; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;}
+.UM_pageTurn_ajax_pageF2 {height:100%; float:left; margin-right:5px; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;}
+.UM_pageTurn_ajax_pageM1 {height:100%; float:left; margin-right:5px; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;}
+.UM_pageTurn_ajax_pageM2 {height:100%; float:left; margin-right:5px; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;}
+.UM_pageTurn_ajax_pageM3 {height:100%; float:left; margin-right:5px; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;}
+.UM_pageTurn_ajax_pageN2 {height:100%; float:left; margin-right:5px; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;} 
+.UM_pageTurn_ajax_pageN {height:100%; float:left; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;}
+.UM_pageTurn_ajax_pointN {height:100%; color:#717171; padding-right:5px; float:left;}
+.UM_pageTurn_ajax_pointF {height:100%; color:#717171; padding-right:5px; float:left;}
+.UM_pageTurn_ajax_turnBox {height:24px; line-height:24px; margin-top:14px; font-size:10px; text-align:center; padding-right:5px; float:left;}
+.UM_pageTurn_ajax_turnText {height:100%; margin-right:5px; color:#717171; float:left;}
+.UM_pageTurn_ajax_turnIpt {width:50px; height:calc(100% - 2px); outline:none; border-radius:3px; margin-right:3px; border:none; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; font-size:12px; float:left; text-align:center;}
+.UM_pageTurn_ajax_turnGo {height:100%; padding-left:5px; color:#717171; padding-right:6px; border-radius:3px; cursor:pointer; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; float:left;}
+
+		/* 功能按钮hover样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_pageTurn_ajax_up:hover {font-weight:900;}
+		.UM_pageTurn_ajax_down:hover {font-weight:900;}
+		.UM_pageTurn_ajax_turnGo:hover { background:#A4A4A4; color:white; font-weight:900;}
+
+		/* 选择页数按钮hover样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_pageTurn_ajax_pageF:hover {background:#A4A4A4; color:white;}
+		.UM_pageTurn_ajax_pageF2:hover {background:#A4A4A4; color:white;}
+		.UM_pageTurn_ajax_pageM1:hover {background:#A4A4A4; color:white;}
+		.UM_pageTurn_ajax_pageM2:hover {background:#A4A4A4; color:white;}
+		.UM_pageTurn_ajax_pageM3:hover {background:#A4A4A4; color:white;}
+		.UM_pageTurn_ajax_pageN2:hover {background:#A4A4A4; color:white;}
+		.UM_pageTurn_ajax_pageN:hover {background:#A4A4A4; color:white;}
+
+		/* 被选中选择页数按钮的样式() ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_pageTurn_ajax_now_bk {background:#868686; font-weight:900; font-size:14px; color:white;}
+
+		/* 当前页和共几页数字的文字样式 */
+		.UM_pageTurn_ajax_showTotal_num {color:black;}
+
+
+
+/* ---本地翻页插件样式------------------------本地翻页插件样式------------------------本地翻页插件样式--- */
+
+.UM_pageTurn_local_OutBigBox {min-width:650px; position:relative;}
+.UM_pageTurn_local_ContentScroll {width:3px; border-radius:2px; background:#999999; cursor:pointer; position:absolute; right:1px; top:0; z-index:100;}
+.UM_pageTurn_local_functionButtonBox {height:45px; float:right; margin-right:10px; white-space:no-wrap; position:relative; z-index:10}
+.UM_pageTurn_local_limitTotal {height:24px; line-height:24px; margin-top:14px; margin-right:15px; float:right;}
+.UM_pageTurn_local_limitTotalText {font-size:10px; margin-right:5px; float:left;}
+.UM_pageTurn_local_limitTotalInput {width:50px; height:22px; outline:none; border-radius:3px; border:none; margin-right:5px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; font-size:12px; text-align:center; float:left;}
+.UM_pageTurn_local_showTotalNow {height:24px; line-height:24px; background:#f2f2f2; padding-left:5px; padding-right:5px; margin-top:14px; color:#717171; border-radius:3px; font-size:10px; text-align:right; float:right;}
+.UM_pageTurn_local_up {height:24px; line-height:24px; float:left; padding-left:10px; padding-right:10px; margin-right:5px; margin-top:14px; cursor:pointer; text-align:center; font-size:10px;}
+.UM_pageTurn_local_down {height:24px; line-height:24px; float:left; padding-left:10px; padding-right:10px; margin-right:5px; margin-top:14px; cursor:pointer; text-align:center; font-size:10px;}
+.UM_pageTurn_local_pageBox {height:24px; line-height:24px; text-align:center; float:left; position:relative; margin-top:14px; font-size:10px;}
+.UM_pageTurn_local_pageF {height:100%; float:left; margin-right:5px; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;}
+.UM_pageTurn_local_pageF2 {height:100%; float:left; margin-right:5px; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;}
+.UM_pageTurn_local_pageM1 {height:100%; float:left; margin-right:5px; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;}
+.UM_pageTurn_local_pageM2 {height:100%; float:left; margin-right:5px; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;}
+.UM_pageTurn_local_pageM3 {height:100%; float:left; margin-right:5px; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;}
+.UM_pageTurn_local_pageN2 {height:100%; float:left; margin-right:5px; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;} 
+.UM_pageTurn_local_pageN {height:100%; float:left; padding-left:5px; padding-right:6px; border-radius:3px; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; cursor:pointer;}
+.UM_pageTurn_local_pointN {height:100%; color:#717171; padding-right:5px; float:left;}
+.UM_pageTurn_local_pointF {height:100%; color:#717171; padding-right:5px; float:left;}
+.UM_pageTurn_local_turnBox {height:24px; line-height:24px; margin-top:14px; font-size:10px; text-align:center; padding-right:5px; float:left;}
+.UM_pageTurn_local_turnText {height:100%; margin-right:5px; color:#717171; float:left;}
+.UM_pageTurn_local_turnIpt {width:50px; height:calc(100% - 2px); outline:none; border-radius:3px; margin-right:3px; border:none; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; font-size:12px; float:left; text-align:center;}
+.UM_pageTurn_local_turnGo {height:100%; padding-left:5px; color:#717171; padding-right:6px; border-radius:3px; cursor:pointer; box-shadow:inset 1px 0px #d2d2d2,inset -1px 0px #d2d2d2,inset 0px 1px #d2d2d2,inset 0px -1px #d2d2d2; float:left;}
+
+		/* 功能按钮hover样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_pageTurn_local_up:hover {font-weight:900;}
+		.UM_pageTurn_local_down:hover {font-weight:900;}
+		.UM_pageTurn_local_turnGo:hover { background:#A4A4A4; color:white; font-weight:900;}
+
+		/* 选择页数按钮hover样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_pageTurn_local_pageF:hover {background:#A4A4A4; color:white;}
+		.UM_pageTurn_local_pageF2:hover {background:#A4A4A4; color:white;}
+		.UM_pageTurn_local_pageM1:hover {background:#A4A4A4; color:white;}
+		.UM_pageTurn_local_pageM2:hover {background:#A4A4A4; color:white;}
+		.UM_pageTurn_local_pageM3:hover {background:#A4A4A4; color:white;}
+		.UM_pageTurn_local_pageN2:hover {background:#A4A4A4; color:white;}
+		.UM_pageTurn_local_pageN:hover {background:#A4A4A4; color:white;}
+
+		/* 被选中选择页数按钮的样式() ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_pageTurn_local_now_bk {background:#868686; font-weight:900; font-size:14px; color:white;}
+
+		/* 当前页和共几页数字的文字样式 */
+		.UM_pageTurn_local_showTotal_num {color:black;}
+
+
+
+/* ---选择下拉框插件样式------------------------选择下拉框插件样式------------------------选择下拉框插件样式--- */
+
+.UM_dropDown_plugIn_Box {cursor:pointer; position:absolute;}
+
+		/* <um-dropdown>下拉框体 的默认公共样式 */
+		.UM_dropDown_plugIn_contentBox_public {width:100%; overflow:auto; background:white; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; position:absolute; left:0; top:calc(100% + 4px);}
+
+
+		/* <um-dropdown1>下拉框体1 的默认公共样式 */
+		.UM_dropDown_plugIn_contentBox_public1 {width:100%; overflow:auto; background:white; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; position:absolute; left:0; top:calc(100% + 4px);}
+
+
+		/* <um-dropdown2>下拉框体2 的默认公共样式 */
+		.UM_dropDown_plugIn_contentBox_public2 {width:100%; overflow:auto; background:white; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; position:absolute; left:0; top:calc(100% + 4px);}
+
+
+		/* <um-dropdown3>下拉框体3 的默认公共样式 */
+		.UM_dropDown_plugIn_contentBox_public3 {width:100%; overflow:auto; background:white; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; position:absolute; left:0; top:calc(100% + 4px);}
+
+
+		/* <um-dropdown4>下拉框体4 的默认公共样式 */
+		.UM_dropDown_plugIn_contentBox_public4 {width:100%; overflow:auto; background:white; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; position:absolute; left:0; top:calc(100% + 4px);}
+
+
+
+/* ---包含标题的选择下拉框插件样式------------------------包含标题的选择下拉框插件样式------------------------包含标题的选择下拉框插件样式--- */
+
+		/* <um-title-dropdown> 选项头的默认公共样式 */
+		.UM_title_dropDown_plugIn_captionBox_public {width:calc(100% - 85px); height:100%; padding-left:5px; cursor:pointer; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; border-radius:3px; background:white; position:absolute; right:0; top:0;}
+		/* <um-title-dropdown> 向下箭头的默认公共样式 */
+		.UM_title_dropDown_plugIn_arrow {width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-bottom:10px solid transparent; border-top:10px solid #cccccc; position:absolute; right:5px; top:calc(50% - 5px);}
+		/* <um-title-dropdown> 下拉框体的默认公共样式 */
+		.UM_title_dropDown_optionBox_public {width:100%; overflow:auto; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; position:absolute; position:absolute; right:0; top:calc(100% + 4px);}
+
+
+		/* <um-title-dropdown1> 选项头的默认公共样式 */
+		.UM_title_dropDown_plugIn_captionBox_public1 {width:calc(100% - 85px); height:100%; padding-left:5px; cursor:pointer; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; border-radius:3px; background:white; position:absolute; right:0; top:0;}
+		/* <um-title-dropdown1> 向下箭头的默认公共样式 */
+		.UM_title_dropDown_plugIn_arrow1 {width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-bottom:10px solid transparent; border-top:10px solid #cccccc; position:absolute; right:5px; top:calc(50% - 5px);}
+		/* <um-title-dropdown1> 下拉框体的默认公共样式 */
+		.UM_title_dropDown_optionBox_public1 {width:100%; overflow:auto; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; position:absolute; position:absolute; right:0; top:calc(100% + 4px);}
+
+
+		/* <um-title-dropdown2> 选项头的默认公共样式 */
+		.UM_title_dropDown_plugIn_captionBox_public2 {width:calc(100% - 85px); height:100%; padding-left:5px; cursor:pointer; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; border-radius:3px; background:white; position:absolute; right:0; top:0;}
+		/* <um-title-dropdown2> 向下箭头的默认公共样式 */
+		.UM_title_dropDown_plugIn_arrow2 {width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-bottom:10px solid transparent; border-top:10px solid #cccccc; position:absolute; right:5px; top:calc(50% - 5px);}
+		/* <um-title-dropdown2> 下拉框体的默认公共样式 */
+		.UM_title_dropDown_optionBox_public2 {width:100%; overflow:auto; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; position:absolute; position:absolute; right:0; top:calc(100% + 4px);}
+
+
+		/* <um-title-dropdown3> 选项头的默认公共样式 */
+		.UM_title_dropDown_plugIn_captionBox_public3 {width:calc(100% - 85px); height:100%; padding-left:5px; cursor:pointer; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; border-radius:3px; background:white; position:absolute; right:0; top:0;}
+		/* <um-title-dropdown3> 向下箭头的默认公共样式 */
+		.UM_title_dropDown_plugIn_arrow3 {width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-bottom:10px solid transparent; border-top:10px solid #cccccc; position:absolute; right:5px; top:calc(50% - 5px);}
+		/* <um-title-dropdown3> 下拉框体的默认公共样式 */
+		.UM_title_dropDown_optionBox_public3 {width:100%; overflow:auto; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; position:absolute; position:absolute; right:0; top:calc(100% + 4px);}
+
+
+		/* <um-title-dropdown4> 选项头的默认公共样式 */
+		.UM_title_dropDown_plugIn_captionBox_public4 {width:calc(100% - 85px); height:100%; padding-left:5px; cursor:pointer; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; border-radius:3px; background:white; position:absolute; right:0; top:0;}
+		/* <um-title-dropdown4> 向下箭头的默认公共样式 */
+		.UM_title_dropDown_plugIn_arrow4 {width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-bottom:10px solid transparent; border-top:10px solid #cccccc; position:absolute; right:5px; top:calc(50% - 5px);}
+		/* <um-title-dropdown4> 下拉框体的默认公共样式 */
+		.UM_title_dropDown_optionBox_public4 {width:100%; overflow:auto; box-shadow:1px 0px #e4e4e4,-1px 0px #e4e4e4,0px 1px #e4e4e4,0px -1px #e4e4e4; position:absolute; position:absolute; right:0; top:calc(100% + 4px);}
+
+
+
+/* ---loading插件样式------------------------loading插件样式------------------------loading插件样式--- */
+
+@keyframes UM_loading_plugIn_animationName {
+	from {transform:translate(-50%, -50%) rotate(0deg); -ms-transform:translate(-50%, -50%) rotate(0deg); -moz-transform:translate(-50%, -50%) rotate(0deg); -webkit-transform:translate(-50%, -50%) rotate(0deg); -o-transform:translate(-50%, -50%) rotate(0deg);}
+	to {transform:translate(-50%, -50%) rotate(360deg); -ms-transform:translate(-50%, -50%) rotate(360deg); -moz-transform:translate(-50%, -50%) rotate(360deg); -webkit-transform:translate(-50%, -50%) rotate(360deg); -o-transform:translate(-50%, -50%) rotate(360deg);}
+}
+@-ms-keyframes UM_loading_plugIn_animationName {
+	from {transform:translate(-50%, -50%) rotate(0deg); -ms-transform:translate(-50%, -50%) rotate(0deg); -moz-transform:translate(-50%, -50%) rotate(0deg); -webkit-transform:translate(-50%, -50%) rotate(0deg); -o-transform:translate(-50%, -50%) rotate(0deg);}
+	to {transform:translate(-50%, -50%) rotate(360deg); -ms-transform:translate(-50%, -50%) rotate(360deg); -moz-transform:translate(-50%, -50%) rotate(360deg); -webkit-transform:translate(-50%, -50%) rotate(360deg); -o-transform:translate(-50%, -50%) rotate(360deg);}
+}
+@-moz-keyframes UM_loading_plugIn_animationName {
+	from {transform:translate(-50%, -50%) rotate(0deg); -ms-transform:translate(-50%, -50%) rotate(0deg); -moz-transform:translate(-50%, -50%) rotate(0deg); -webkit-transform:translate(-50%, -50%) rotate(0deg); -o-transform:translate(-50%, -50%) rotate(0deg);}
+	to {transform:translate(-50%, -50%) rotate(360deg); -ms-transform:translate(-50%, -50%) rotate(360deg); -moz-transform:translate(-50%, -50%) rotate(360deg); -webkit-transform:translate(-50%, -50%) rotate(360deg); -o-transform:translate(-50%, -50%) rotate(360deg);}
+}
+@-webkit-keyframes UM_loading_plugIn_animationName {
+	from {transform:translate(-50%, -50%) rotate(0deg); -ms-transform:translate(-50%, -50%) rotate(0deg); -moz-transform:translate(-50%, -50%) rotate(0deg); -webkit-transform:translate(-50%, -50%) rotate(0deg); -o-transform:translate(-50%, -50%) rotate(0deg);}
+	to {transform:translate(-50%, -50%) rotate(360deg); -ms-transform:translate(-50%, -50%) rotate(360deg); -moz-transform:translate(-50%, -50%) rotate(360deg); -webkit-transform:translate(-50%, -50%) rotate(360deg); -o-transform:translate(-50%, -50%) rotate(360deg);}
+}
+@-o-keyframes UM_loading_plugIn_animationName {
+	from {transform:translate(-50%, -50%) rotate(0deg); -ms-transform:translate(-50%, -50%) rotate(0deg); -moz-transform:translate(-50%, -50%) rotate(0deg); -webkit-transform:translate(-50%, -50%) rotate(0deg); -o-transform:translate(-50%, -50%) rotate(0deg);}
+	to {transform:translate(-50%, -50%) rotate(360deg); -ms-transform:translate(-50%, -50%) rotate(360deg); -moz-transform:translate(-50%, -50%) rotate(360deg); -webkit-transform:translate(-50%, -50%) rotate(360deg); -o-transform:translate(-50%, -50%) rotate(360deg);}
+}
+
+
+
+/* ---单选框插件样式------------------------单选框插件样式------------------------单选框插件样式--- */
+
+.UM_radio_plugIn_Box {position:relative; cursor:pointer; overflow:hidden;}
+.UM_radio_plugIn_Box_cover {width:100%; height:100%; position:absolute; left:0; top:0; z-index:100;}
+
+		/* <um-radio> 的radio外框的默认公共样式 */
+		.UM_radio_plugIn_radioBox_public {width:18px; height:18px; box-shadow:1px 0px #cccccc,-1px 0px #cccccc,0px 1px #cccccc,0px -1px #cccccc; border-radius:50%; position:absolute; left:1px; top:3px;}
+		/* <um-radio> 的radio被选中标记的默认公共样式 */
+		.UM_radio_plugIn_radioBox_checked_public {width:12px; height:12px; background:#0080FF; position:absolute; left:3px; top:3px;}
+		/* <um-radio> 的选项名称框的默认公共样式 */
+		.UM_radio_plugIn_describe_public {width:calc(100% - 35px); height:100%; position:relative; left:35px; top:0;}
+
+
+		/* <um-radio1> 的radio外框的默认公共样式 */
+		.UM_radio_plugIn_radioBox_public1 {width:18px; height:18px; box-shadow:1px 0px #cccccc,-1px 0px #cccccc,0px 1px #cccccc,0px -1px #cccccc; border-radius:50%; position:absolute; left:1px; top:3px;}
+		/* <um-radio1> 的radio被选中标记的默认公共样式 */
+		.UM_radio_plugIn_radioBox_checked_public1 {width:12px; height:12px; background:#0080FF; position:absolute; left:3px; top:3px;}
+		/* <um-radio1> 的选项名称框的默认公共样式 */
+		.UM_radio_plugIn_describe_public1 {width:calc(100% - 35px); height:100%; position:relative; left:35px; top:0;}
+
+
+		/* <um-radio2> 的radio外框的默认公共样式 */
+		.UM_radio_plugIn_radioBox_public2 {width:18px; height:18px; box-shadow:1px 0px #cccccc,-1px 0px #cccccc,0px 1px #cccccc,0px -1px #cccccc; border-radius:50%; position:absolute; left:1px; top:3px;}
+		/* <um-radio2> 的radio被选中标记的默认公共样式 */
+		.UM_radio_plugIn_radioBox_checked_public2 {width:12px; height:12px; background:#0080FF; position:absolute; left:3px; top:3px;}
+		/* <um-radio2> 的选项名称框的默认公共样式 */
+		.UM_radio_plugIn_describe_public2 {width:calc(100% - 35px); height:100%; position:relative; left:35px; top:0;}
+
+
+		/* <um-radio3> 的radio外框的默认公共样式 */
+		.UM_radio_plugIn_radioBox_public3 {width:18px; height:18px; box-shadow:1px 0px #cccccc,-1px 0px #cccccc,0px 1px #cccccc,0px -1px #cccccc; border-radius:50%; position:absolute; left:1px; top:3px;}
+		/* <um-radio3> 的radio被选中标记的默认公共样式 */
+		.UM_radio_plugIn_radioBox_checked_public3 {width:12px; height:12px; background:#0080FF; position:absolute; left:3px; top:3px;}
+		/* <um-radio3> 的选项名称框的默认公共样式 */
+		.UM_radio_plugIn_describe_public3 {width:calc(100% - 35px); height:100%; position:relative; left:35px; top:0;}
+
+
+		/* <um-radio4> 的radio外框的默认公共样式 */
+		.UM_radio_plugIn_radioBox_public4 {width:18px; height:18px; box-shadow:1px 0px #cccccc,-1px 0px #cccccc,0px 1px #cccccc,0px -1px #cccccc; border-radius:50%; position:absolute; left:1px; top:3px;}
+		/* <um-radio4> 的radio被选中标记的默认公共样式 */
+		.UM_radio_plugIn_radioBox_checked_public4 {width:12px; height:12px; background:#0080FF; position:absolute; left:3px; top:3px;}
+		/* <um-radio4> 的选项名称框的默认公共样式 */
+		.UM_radio_plugIn_describe_public4 {width:calc(100% - 35px); height:100%; position:relative; left:35px; top:0;}
+
+
+
+/* ---多选框插件样式------------------------多选框插件样式------------------------多选框插件样式--- */
+
+.UM_checkbox_plugIn_Box {position:relative; cursor:pointer; overflow:hidden;}
+.UM_checkbox_plugIn_Box_cover {width:100%; height:100%; position:absolute; left:0; top:0; z-index:100}
+.UM_checkbox_plugIn_describe_hidden_public {display:none;}
+
+		/* <um-checkbox> 的radio外框的默认公共样式 */
+		.UM_checkbox_plugIn_radioBox_public {width:18px; height:18px; box-shadow:1px 0px #cccccc,-1px 0px #cccccc,0px 1px #cccccc,0px -1px #cccccc; border-radius:3px; position:absolute; left:1px; top:3px;}
+		/* <um-checkbox> 的radio被选中标记的默认公共样式 */
+		.UM_checkbox_plugIn_checkboxBox_checked_public {width:12px; height:12px; background:#0080FF; position:absolute; left:3px; top:3px;}
+		/* <um-checkbox> 的选项名称框的默认公共样式 */
+		.UM_checkbox_plugIn_describe_public {width:calc(100% - 35px); height:100%; position:relative; left:35px; top:0;}
+
+
+		/* <um-checkbox> 的radio外框的默认公共样式 */
+		.UM_checkbox_plugIn_radioBox_public1 {width:18px; height:18px; box-shadow:1px 0px #cccccc,-1px 0px #cccccc,0px 1px #cccccc,0px -1px #cccccc; border-radius:3px; position:absolute; left:1px; top:3px;}
+		/* <um-checkbox> 的radio被选中标记的默认公共样式 */
+		.UM_checkbox_plugIn_checkboxBox_checked_public1 {width:12px; height:12px; background:#0080FF; position:absolute; left:3px; top:3px;}
+		/* <um-checkbox> 的选项名称框的默认公共样式 */
+		.UM_checkbox_plugIn_describe_public1 {width:calc(100% - 35px); height:100%; position:relative; left:35px; top:0;}
+
+
+		/* <um-checkbox> 的radio外框的默认公共样式 */
+		.UM_checkbox_plugIn_radioBox_public2 {width:18px; height:18px; box-shadow:1px 0px #cccccc,-1px 0px #cccccc,0px 1px #cccccc,0px -1px #cccccc; border-radius:3px; position:absolute; left:1px; top:3px;}
+		/* <um-checkbox> 的radio被选中标记的默认公共样式 */
+		.UM_checkbox_plugIn_checkboxBox_checked_public2 {width:12px; height:12px; background:#0080FF; position:absolute; left:3px; top:3px;}
+		/* <um-checkbox> 的选项名称框的默认公共样式 */
+		.UM_checkbox_plugIn_describe_public2 {width:calc(100% - 35px); height:100%; position:relative; left:35px; top:0;}
+
+
+		/* <um-checkbox> 的radio外框的默认公共样式 */
+		.UM_checkbox_plugIn_radioBox_public3 {width:18px; height:18px; box-shadow:1px 0px #cccccc,-1px 0px #cccccc,0px 1px #cccccc,0px -1px #cccccc; border-radius:3px; position:absolute; left:1px; top:3px;}
+		/* <um-checkbox> 的radio被选中标记的默认公共样式 */
+		.UM_checkbox_plugIn_checkboxBox_checked_public3 {width:12px; height:12px; background:#0080FF; position:absolute; left:3px; top:3px;}
+		/* <um-checkbox> 的选项名称框的默认公共样式 */
+		.UM_checkbox_plugIn_describe_public3 {width:calc(100% - 35px); height:100%; position:relative; left:35px; top:0;}
+
+
+		/* <um-checkbox> 的radio外框的默认公共样式 */
+		.UM_checkbox_plugIn_radioBox_public4 {width:18px; height:18px; box-shadow:1px 0px #cccccc,-1px 0px #cccccc,0px 1px #cccccc,0px -1px #cccccc; border-radius:3px; position:absolute; left:1px; top:3px;}
+		/* <um-checkbox> 的radio被选中标记的默认公共样式 */
+		.UM_checkbox_plugIn_checkboxBox_checked_public4 {width:12px; height:12px; background:#0080FF; position:absolute; left:3px; top:3px;}
+		/* <um-checkbox> 的选项名称框的默认公共样式 */
+		.UM_checkbox_plugIn_describe_public4 {width:calc(100% - 35px); height:100%; position:relative; left:35px; top:0;}
+
+
+
+/* ---显示图片文件插件样式------------------------显示图片文件插件样式------------------------显示图片文件插件样式--- */
+
+		/* [图片框],[关闭按钮],[预览按钮],[预览框]和[预览框关闭按钮]的默认公共样式 */
+		.UM_showImages_plugIn_opationBox {width:23%; height:23%; box-shadow:1px 0px gray,-1px 0px gray,0px 1px gray,0px -1px gray; margin:5px 5px 5px 5px; border-radius:3px; float:left; position:relative;}
+		.UM_showImages_plugIn_fnCloose {width:16px; height:16px; text-align:center; line-height:13px; color:white; cursor:pointer; border-radius:50%; background:#e4e4e4;  position:absolute; right:3px; top:3px; z-index:10;}
+		.UM_showImages_plugIn_preview {width:30%; height:20%; background:white; text-align:center; cursor:pointer; position:absolute; right:3px; bottom:2%; z-index:10;}
+		.UM_showImages_plugIn_showImg {width:80%; height:80%; box-shadow:1px 0px #cccccc,-1px 0px #cccccc,0px 1px #cccccc,0px -1px #cccccc; border-radius:5px; background:rgba(255,255,255,.8); position:absolute; left:10%; top:10%; z-index:20;}
+		.UM_showImages_plugIn_preview_fnCloose {width:20px; height:20px; line-height:20px; text-align:center; color:white; cursor:pointer; border-radius:50%; background:#e4e4e4; position:absolute; right:5px; top:5px; z-index:30;}
+
+		/*关闭按钮的hover样式*/
+		.UM_showImages_plugIn_fnCloose:hover {background:#0f73ed;}
+		/*预览按钮的hover样式*/
+		.UM_showImages_plugIn_preview:hover {background:#0f73ed; color:white;}
+		/*预览框关闭按钮的hover样式*/
+		.UM_showImages_plugIn_preview_fnCloose:hover {background:#0f73ed; color:white;}
+
+
+
+/* ---按钮 插件样式------------------------按钮 插件样式------------------------按钮 插件样式--- */
+
+		/* <um-button> 的默认公共样式 */
+		.UM_button_plugIn_Box {cursor:pointer; text-align:center; border-radius:3px;}
+		.UM_button_plugIn_Box:hover {background:#3B3B3B; color:white;}
+
+
+		/* <um-button1> 的默认公共样式 */
+		.UM_button_plugIn_Box_1 {cursor:pointer; text-align:center; box-shadow:3px 0px #0080FF,-3px 0px #0080FF,0px 3px #0080FF,0px -3px #0080FF; border-radius:3px;}
+		.UM_button_plugIn_Box_1:hover {background:#3B3B3B; color:white;}
+
+
+		/* <um-button2> 的默认公共样式 */
+		.UM_button_plugIn_Box_2 {cursor:pointer; font-size:20px; font-weight:900; text-align:center; border-radius:3px;}
+		.UM_button_plugIn_Box_2:hover {background:#3B3B3B; color:white;}
+
+
+		/* <um-button3> 的默认公共样式 */
+		.UM_button_plugIn_Box_3 {cursor:pointer; text-align:center; color:green; border-radius:3px;}
+		.UM_button_plugIn_Box_3:hover {background:#3B3B3B; color:white;}
+
+
+		/* <um-button4> 的默认公共样式 */
+		.UM_button_plugIn_Box_4 {cursor:pointer; text-align:center; border-radius:3px;}
+		.UM_button_plugIn_Box_4:hover {background:#3B3B3B; color:white;}
+
+
+		/* <um-button5> 的默认公共样式 */
+		.UM_button_plugIn_Box_5 {cursor:pointer; text-align:center; border-radius:3px;}
+		.UM_button_plugIn_Box_5:hover {background:#3B3B3B; color:white;}
+
+
+		/* <um-button6> 的默认公共样式 */
+		.UM_button_plugIn_Box_6 {cursor:pointer; text-align:center; border-radius:3px;}
+		.UM_button_plugIn_Box_6:hover {background:#3B3B3B; color:white;}
+
+
+		/* <um-button7> 的默认公共样式 */
+		.UM_button_plugIn_Box_7 {cursor:pointer; text-align:center; border-radius:3px;}
+		.UM_button_plugIn_Box_7:hover {background:#3B3B3B; color:white;}
+
+
+		/* <um-button8> 的默认公共样式 */
+		.UM_button_plugIn_Box_8 {cursor:pointer; text-align:center; border-radius:3px;}
+		.UM_button_plugIn_Box_8:hover {background:#3B3B3B; color:white;}
+
+
+		/* <um-button9> 的默认公共样式 */
+		.UM_button_plugIn_Box_9 {cursor:pointer; text-align:center; border-radius:3px;}
+		.UM_button_plugIn_Box_9:hover {background:#3B3B3B; color:white;}
+
+
+
+/* ---包含标题的input 插件样式------------------------包含标题的input 插件样式------------------------包含标题的input 插件样式--- */
+
+		/* <um-title-input> 的默认公共样式 */
+		.UM_titleInput_plugIn_input {width:calc(100% - 75px); height:calc(100% - 4px); padding-left:5px; border-radius:3px; border:1px solid #cccccc; position:absolute; top:0; right:0;}
+
+
+		/* <um-title-input1> 的默认公共样式 */
+		.UM_titleInput_plugIn_input1 {width:calc(100% - 75px); height:calc(100% - 4px); padding-left:5px; border-radius:3px; border:1px solid #cccccc; position:absolute; top:0; right:0;}
+
+
+		/* <um-title-input2> 的默认公共样式 */
+		.UM_titleInput_plugIn_input2 {width:calc(100% - 75px); height:calc(100% - 4px); padding-left:5px; border-radius:3px; border:1px solid #cccccc; position:absolute; top:0; right:0;}
+
+
+		/* <um-title-input3> 的默认公共样式 */
+		.UM_titleInput_plugIn_input3 {width:calc(100% - 75px); height:calc(100% - 4px); padding-left:5px; border-radius:3px; border:1px solid #cccccc; position:absolute; top:0; right:0;}
+
+
+		/* <um-title-input4> 的默认公共样式 */
+		.UM_titleInput_plugIn_input4 {width:calc(100% - 75px); height:calc(100% - 4px); padding-left:5px; border-radius:3px; border:1px solid #cccccc; position:absolute; top:0; right:0;}
+
+
+
+/* ---弹出框插件样式------------------------弹出框插件样式------------------------弹出框插件样式--- */
+
+		/* 弹出框总背景样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_Box {width:100%; height:100%; position:relative; z-index:1000000;}
+		/* 弹出框本身背景样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_mainOutBox_public {width:400px; height:200px; border-radius:5px; overflow:hidden; box-shadow:0px 0px 3px #646464; background:white; position:absolute; left:calc(50% - 250px); top:calc(50% - 230px); z-index:1500000;}
+		/* 弹出框标题样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_titleText_public {width:100%; height:30px; line-height:30px; cursor:pointer; background:#cccccc; font-size:12px; font-weight:900;}
+		/* 弹出框内容容器样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_contentTextContainer_public {width:100%; height:calc(100% - 85px); overflow:hidden; position:absolute; left:0; top:30px;}
+		/* 弹出框内容样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_contentText_public {width:86%; font-size:14px; line-height:22px; white-space:pre-wrap; word-break:break-all; position:absolute;}
+		/* 弹出框确定按钮样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_submitBtn_public {width:50px; height:24px; line-height:24px; font-size:10px; font-weight:900; text-align:center; cursor:pointer; border-radius:3px; border:1px solid #e4e4e4; position:absolute; right:80px; bottom:10px;}
+		.UM_alert_plugIn_submitBtn_public:hover {background:#646464; color:white;}
+		/* 弹出框取消按钮样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_cancelBtn_public {width:50px; height:24px; line-height:24px; font-size:10px; font-weight:900; text-align:center; cursor:pointer; border-radius:3px; border:1px solid #e4e4e4; position:absolute; right:15px; bottom:10px;}
+		.UM_alert_plugIn_cancelBtn_public:hover {background:#646464; color:white;}
+
+
+		/* 弹出框总背景样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_Box1 {width:100%; height:100%; position:relative; z-index:1000000;}
+		/* 弹出框本身背景样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_mainOutBox_public1 {width:400px; height:200px; border-radius:5px; overflow:hidden; box-shadow:0px 0px 3px #646464; background:white; position:absolute; left:calc(50% - 250px); top:calc(50% - 230px); z-index:1500000;}
+		/* 弹出框标题样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_titleText_public1 {width:100%; height:30px; line-height:30px; cursor:pointer; background:#cccccc; font-size:12px; font-weight:900;}
+		/* 弹出框内容容器样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_contentTextContainer_public1 {width:100%; height:calc(100% - 85px); overflow:hidden; position:absolute; left:0; top:30px;}
+		/* 弹出框内容样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_contentText_public1 {width:86%; font-size:14px; line-height:22px; white-space:pre-wrap; word-break:break-all; position:absolute;}
+		/* 弹出框确定按钮样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_submitBtn_public1 {width:50px; height:24px; line-height:24px; font-size:10px; font-weight:900; text-align:center; cursor:pointer; border-radius:3px; border:1px solid #e4e4e4; position:absolute; right:80px; bottom:10px;}
+		.UM_alert_plugIn_submitBtn_public1:hover {background:#646464; color:white;}
+		/* 弹出框取消按钮样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_cancelBtn_public1 {width:50px; height:24px; line-height:24px; font-size:10px; font-weight:900; text-align:center; cursor:pointer; border-radius:3px; border:1px solid #e4e4e4; position:absolute; right:15px; bottom:10px;}
+		.UM_alert_plugIn_cancelBtn_public1:hover {background:#646464; color:white;}
+
+
+		/* 弹出框总背景样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_Box2 {width:100%; height:100%; position:relative; z-index:1000000;}
+		/* 弹出框本身背景样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_mainOutBox_public2 {width:400px; height:200px; border-radius:5px; overflow:hidden; box-shadow:0px 0px 3px #646464; background:white; position:absolute; left:calc(50% - 250px); top:calc(50% - 230px); z-index:1500000;}
+		/* 弹出框标题样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_titleText_public2 {width:100%; height:30px; line-height:30px; cursor:pointer; background:#cccccc; font-size:12px; font-weight:900;}
+		/* 弹出框内容容器样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_contentTextContainer_public2 {width:100%; height:calc(100% - 85px); overflow:hidden; position:absolute; left:0; top:30px;}
+		/* 弹出框内容样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_contentText_public2 {width:86%; font-size:14px; line-height:22px; white-space:pre-wrap; word-break:break-all; position:absolute;}
+		/* 弹出框确定按钮样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_submitBtn_public2 {width:50px; height:24px; line-height:24px; font-size:10px; font-weight:900; text-align:center; cursor:pointer; border-radius:3px; border:1px solid #e4e4e4; position:absolute; right:80px; bottom:10px;}
+		.UM_alert_plugIn_submitBtn_public2:hover {background:#646464; color:white;}
+		/* 弹出框取消按钮样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_cancelBtn_public2 {width:50px; height:24px; line-height:24px; font-size:10px; font-weight:900; text-align:center; cursor:pointer; border-radius:3px; border:1px solid #e4e4e4; position:absolute; right:15px; bottom:10px;}
+		.UM_alert_plugIn_cancelBtn_public2:hover {background:#646464; color:white;}
+
+
+		/* 弹出框总背景样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_Box3 {width:100%; height:100%; position:relative; z-index:1000000;}
+		/* 弹出框本身背景样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_mainOutBox_public3 {width:400px; height:200px; border-radius:5px; overflow:hidden; box-shadow:0px 0px 3px #646464; background:white; position:absolute; left:calc(50% - 250px); top:calc(50% - 230px); z-index:1500000;}
+		/* 弹出框标题样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_titleText_public3 {width:100%; height:30px; line-height:30px; cursor:pointer; background:#cccccc; font-size:12px; font-weight:900;}
+		/* 弹出框内容容器样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_contentTextContainer_public3 {width:100%; height:calc(100% - 85px); overflow:hidden; position:absolute; left:0; top:30px;}
+		/* 弹出框内容样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_contentText_public3 {width:86%; font-size:14px; line-height:22px; white-space:pre-wrap; word-break:break-all; position:absolute;}
+		/* 弹出框确定按钮样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_submitBtn_public3 {width:50px; height:24px; line-height:24px; font-size:10px; font-weight:900; text-align:center; cursor:pointer; border-radius:3px; border:1px solid #e4e4e4; position:absolute; right:80px; bottom:10px;}
+		.UM_alert_plugIn_submitBtn_public3:hover {background:#646464; color:white;}
+		/* 弹出框取消按钮样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_cancelBtn_public3 {width:50px; height:24px; line-height:24px; font-size:10px; font-weight:900; text-align:center; cursor:pointer; border-radius:3px; border:1px solid #e4e4e4; position:absolute; right:15px; bottom:10px;}
+		.UM_alert_plugIn_cancelBtn_public3:hover {background:#646464; color:white;}
+
+
+		/* 弹出框总背景样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_Box4 {width:100%; height:100%; position:relative; z-index:1000000;}
+		/* 弹出框本身背景样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_mainOutBox_public4 {width:400px; height:200px; border-radius:5px; overflow:hidden; box-shadow:0px 0px 3px #646464; background:white; position:absolute; left:calc(50% - 250px); top:calc(50% - 230px); z-index:1500000;}
+		/* 弹出框标题样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_titleText_public4 {width:100%; height:30px; line-height:30px; cursor:pointer; background:#cccccc; font-size:12px; font-weight:900;}
+		/* 弹出框内容容器样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_contentTextContainer_public4 {width:100%; height:calc(100% - 85px); overflow:hidden; position:absolute; left:0; top:30px;}
+		/* 弹出框内容样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_contentText_public4 {width:86%; font-size:14px; line-height:22px; white-space:pre-wrap; word-break:break-all; position:absolute;}
+		/* 弹出框确定按钮样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_submitBtn_public4 {width:50px; height:24px; line-height:24px; font-size:10px; font-weight:900; text-align:center; cursor:pointer; border-radius:3px; border:1px solid #e4e4e4; position:absolute; right:80px; bottom:10px;}
+		.UM_alert_plugIn_submitBtn_public4:hover {background:#646464; color:white;}
+		/* 弹出框取消按钮样式 ↓↓↓↓↓↓↓↓↓↓↓↓↓ */
+		.UM_alert_plugIn_cancelBtn_public4 {width:50px; height:24px; line-height:24px; font-size:10px; font-weight:900; text-align:center; cursor:pointer; border-radius:3px; border:1px solid #e4e4e4; position:absolute; right:15px; bottom:10px;}
+		.UM_alert_plugIn_cancelBtn_public4:hover {background:#646464; color:white;}

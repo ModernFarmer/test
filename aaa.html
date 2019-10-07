@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	<script src="./UM-1.3.4.js"></script>
-	<script src="./custom-demo.js"></script>
-	<style>
-	    html, body {width:100%; height:100%; padding:0; margin:0;}
-	    #titleBtn {width:200px; height:40px; line-height:40px; text-align:center; cursor:pointer; border:1px solid #0000FF; border-radius:10px; position:absolute; left:20%; top:10%;}
-	    #contentBox {width:250px; padding-top:20px; padding-bottom:20px; border:3px solid #FF8000; border-radius:10px; position:absolute; left:20%; top:calc(10% + 50px);}
-	    .listOpt {width:85%; line-height:30px; border:1px solid gray; border-radius:5px; margin-left:5%; margin-top:5px;}
-	    .listOpt_last {margin-bottom:5px;}
-	    #childCaption {position:relative;}
-	    .childList {width:85%; height:20px; font-size:12px; line-height:20px; border:1px solid #DFDFDF; border-radius:5px; margin-left:10%; margin-top:5px;}
-	    
-	    #btn1 {width:200px; height:30px; line-height:30px; border-radius:3px; border:1px dashed salmon; text-align:center; cursor:pointer; background:#e9e9e9; position:absolute; left:40%; top:20%;}
-	    #btn2 {width:200px; height:30px; line-height:30px; border-radius:3px; border:1px dashed salmon; text-align:center; cursor:pointer; background:#e9e9e9; position:absolute; left:40%; top:calc(20% + 35px);}
-	    #btn3 {width:200px; height:30px; line-height:30px; border-radius:3px; border:1px dashed salmon; text-align:center; cursor:pointer; background:#e9e9e9; position:absolute; left:40%; top:calc(20% + 70px);}
-	    #btn4 {width:200px; height:30px; line-height:30px; border-radius:3px; border:1px dashed salmon; text-align:center; cursor:pointer; background:#e9e9e9; position:absolute; left:40%; top:calc(20% + 105px);}
-	    #btn1:hover,#btn2:hover,#btn3:hover,#btn4:hover {background:#71BEE8; color:white;}
-	    .UM_PullDown_scrollClassName {width:5px; border-radius:3px; background:#B0B0B0;}
-	</style>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="./UM-1.3.5.js"></script>
+    <script src="./custom-UM-1.2.0.js"></script>
+    <style>
+        html, body {width:100%; height:100%; padding:0; margin:0;}
+        #titleBtn {width:200px; height:40px; line-height:40px; text-align:center; cursor:pointer; border:1px solid #0000FF; border-radius:10px; position:absolute; left:20%; top:10%;}
+        #contentBox {width:250px; padding-top:20px; padding-bottom:20px; border:1px solid gray; border-radius:3px; position:absolute; left:20%; top:calc(10% + 50px);}
+        .listOpt {width:85%; line-height:30px; border:1px solid gray; border-radius:5px; margin-left:5%; margin-top:5px;}
+        .listOpt_last {margin-bottom:5px;}
+        #childCaption {position:relative;}
+        .childList {width:85%; font-size:12px; line-height:20px; border:1px solid #DFDFDF; border-radius:5px; margin-left:10%; margin-top:5px;}
+        .smallList {width:75%; line-height:16px; font-size:12px; border:1px solid #3BCBCA; border-radius:3px; margin-left:20%; margin-top:5px;}
+        
+        #btn1 {width:200px; height:30px; line-height:30px; border-radius:3px; border:1px dashed salmon; text-align:center; cursor:pointer; background:#e9e9e9; position:absolute; left:40%; top:20%;}
+        #btn2 {width:200px; height:30px; line-height:30px; border-radius:3px; border:1px dashed salmon; text-align:center; cursor:pointer; background:#e9e9e9; position:absolute; left:40%; top:calc(20% + 35px);}
+        #btn3 {width:200px; height:30px; line-height:30px; border-radius:3px; border:1px dashed salmon; text-align:center; cursor:pointer; background:#e9e9e9; position:absolute; left:40%; top:calc(20% + 70px);}
+        #btn4 {width:200px; height:30px; line-height:30px; border-radius:3px; border:1px dashed salmon; text-align:center; cursor:pointer; background:#e9e9e9; position:absolute; left:40%; top:calc(20% + 105px);}
+        #btn5 {width:200px; height:30px; line-height:30px; border-radius:3px; border:1px dashed salmon; text-align:center; cursor:pointer; background:#e9e9e9; position:absolute; left:40%; top:calc(20% + 140px);}
+        #btn6 {width:200px; height:30px; line-height:30px; border-radius:3px; border:1px dashed salmon; text-align:center; cursor:pointer; background:#e9e9e9; position:absolute; left:40%; top:calc(20% + 175px);}
+
+        #btn1:hover,#btn2:hover,#btn3:hover,#btn4:hover,#btn5:hover,#btn6:hover {background:#71BEE8; color:white;}
+        .UM_PullDown_scrollClassName {width:5px; border-radius:3px; background:#B0B0B0;}
+    </style>
 </head>
 <body>
     <div id="titleBtn">_PullDown</div>　　　<!--标题div-->
@@ -29,13 +33,24 @@
         <div class="listOpt">&nbsp;&nbsp;&nbsp;&nbsp;option2</div>
         <div class="listOpt">&nbsp;&nbsp;&nbsp;&nbsp;option3</div>
         <div class="listOpt">&nbsp;&nbsp;&nbsp;&nbsp;option4</div>
-        <div class="listOpt" isUmCaption id="childCaption">&nbsp;&nbsp;&nbsp;&nbsp;option5 - 嵌套插件</div>
-        <div class="listOpt" isUmCaption id="childContent">
-            <div class="childList">&nbsp;&nbsp;&nbsp;&nbsp;childOption1</div>
-            <div class="childList">&nbsp;&nbsp;&nbsp;&nbsp;childOption2</div>
-            <div class="childList">&nbsp;&nbsp;&nbsp;&nbsp;childOption3</div>
-            <div class="childList">&nbsp;&nbsp;&nbsp;&nbsp;childOption4</div>
-            <div class="childList listOpt_last">&nbsp;&nbsp;&nbsp;&nbsp;childOption5</div>
+        <div isUmCaption="on">
+            <div class="listOpt" id="childCaption">&nbsp;&nbsp;&nbsp;&nbsp;option5 - 2级嵌套</div>
+            <div class="listOpt" id="childContent">
+                <div class="childList">&nbsp;&nbsp;&nbsp;&nbsp;childOption1</div>
+                <div class="childList">&nbsp;&nbsp;&nbsp;&nbsp;childOption2</div>
+                <div isUmCaption="on">
+                    <div class="childList" id="smallCaption">&nbsp;&nbsp;&nbsp;&nbsp;childOption3 - 3级嵌套</div>
+                    <div class="childList" id="smallContent">
+                        <div class="smallList">smallOption1</div>
+                        <div class="smallList">smallOption2</div>
+                        <div class="smallList">smallOption3</div>
+                        <div class="smallList">smallOption4</div>
+                        <div class="smallList listOpt_last">smallOption5</div>
+                    </div>
+                </div>
+                <div class="childList">&nbsp;&nbsp;&nbsp;&nbsp;childOption6</div>
+                <div class="childList listOpt_last">&nbsp;&nbsp;&nbsp;&nbsp;childOption7</div>
+            </div>
         </div>
         <div class="listOpt">&nbsp;&nbsp;&nbsp;&nbsp;option6</div>
         <div class="listOpt">&nbsp;&nbsp;&nbsp;&nbsp;option7</div>
@@ -46,60 +61,59 @@
     
     <div id="btn1">展开父插件</div>
     <div id="btn2">折叠父插件</div>
-    <div id="btn3">展开子插件</div>
-    <div id="btn4">折叠子插件</div>
+    <div id="btn3">展开2级嵌套插件</div>
+    <div id="btn4">折叠2级嵌套插件</div>
+    <div id="btn5">展开3级嵌套插件</div>
+    <div id="btn6">折叠3级嵌套插件</div>
 </body>
 <script>
-let obj_parent=_PullDown({
-    caption:_(titleBtn),　　　//　标题选择器　　selector
-    down:_(contentBox),　　　//　下拉内容选择器　　selector
+let OBJECT_PARENT=_PullDown({
+    caption:'#titleBtn',　　　//　标题选择器　　selector
+    down:'#contentBox',　　　//　下拉内容选择器　　selector
     speed:.2,　　　//　速度(在几秒内完成过渡)
-    maxHeight:'200px',
+    maxHeight:'300px',
     now:false
 });
 
-/*_MovingScroll({　　　//　滚动条插件    参数：json
-    box:_('.box', 0),                   //　容器盒子选择器　　selector　　容器盒子不能加任何border、padding和margin相关的任何样式，如有需要可在容器盒子再套一个div来添加样式
-    contentBox:_('.content', 0),　　　//　滚动内容盒子选择器　　selector
-    scrollBox:_('.scroll', 0),　　　//　滚动条盒子选择器　　selector
-    speed:50,　　　//　滚动速度　　number
-    watch_el:{　　　//　当点击某个h5元素时, 执行滚动条高度自动变化,可选项,默认false (主要用于配合下拉插件, 点击下拉的caption元素时, 延时执行滚动条变化, 由于caption元素已经阻止了冒泡, 故而增加该选项)　　json
-        el:_('.selector', 0),　　　//　被点击的元素　　selector
-        timeout:1000　　　//　执行延时　　number
-    }
-});*/
+let OBJECT_CHILD_1=_PullDown({
+    caption:'#childCaption',　　　//　标题选择器　　selector
+    down:'#childContent',　　　//　下拉内容选择器　　selector
+    root:OBJECT_PARENT,　　　//　嵌套的父元素选择器　　selector
+    now:true,
+    speed:.2　　　//　速度(在几秒内完成过渡)
+});
 
-let obj_child=_PullDown({
-    caption:_(childCaption),　　　//　标题选择器　　selector
-    down:_(childContent),　　　//　下拉内容选择器　　selector
-    within:obj_parent,　　　//　嵌套的父元素选择器　　selector
+let OBJECT_CHILD_2=_PullDown({
+    caption:'#smallCaption',　　　//　标题选择器　　selector
+    down:'#smallContent',　　　//　下拉内容选择器　　selector
+    root:OBJECT_PARENT,　　　//　嵌套的父元素选择器　　selector
     now:true,
     speed:.2　　　//　速度(在几秒内完成过渡)
 });
 
 btn1.onclick=function(){
     _stopPropagation(event);  // 阻止事件冒泡
-    obj_parent.unfold(); // 展开父插件  **! 插件对象上的unfold()方法用法
+    OBJECT_PARENT.unfold(); // 展开父插件  **! 插件对象上的unfold()方法用法
 };
 btn2.onclick=function(){
     _stopPropagation(event);  // 阻止事件冒泡
-    obj_parent.fold(); // 折叠父插件  **! 插件对象上的fold()方法用法
+    OBJECT_PARENT.fold(); // 折叠父插件  **! 插件对象上的fold()方法用法
 };
 btn3.onclick=function(){
     _stopPropagation(event);  // 阻止事件冒泡
-    obj_child.unfold(); // 展开子插件
+    OBJECT_CHILD_1.unfold(); // 展开2级嵌套插件
 };
 btn4.onclick=function(){
     _stopPropagation(event);  // 阻止事件冒泡
-    obj_child.fold(); // 折叠子插件
+    OBJECT_CHILD_1.fold(); // 折叠2级嵌套插件
 };
-
-// down 不能有padding-top和padding-bottom
-
-
-
-
-
-// ?? 滑动距离     ?? 点击caption自适应滚动条
+btn5.onclick=function(){
+    _stopPropagation(event);  // 阻止事件冒泡
+    OBJECT_CHILD_2.unfold(); // 展开3级嵌套插件
+};
+btn6.onclick=function(){
+    _stopPropagation(event);  // 阻止事件冒泡
+    OBJECT_CHILD_2.fold(); // 折叠3级嵌套插件
+};
 </script>
 </html>
