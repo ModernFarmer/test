@@ -7,18 +7,18 @@
         <div class="app_headerTitle">Modules For Vue - <span style="color:#FFF3CE">UncleMao</span></div>
 
         <div class="app_fnBtnBox">
-            <div :class="{app_functionBtn:true, app_typeNow:showType=='Modules'}" @click="toChangeShowType('Modules')">Modules</div>
             <div :class="{app_functionBtn:true, app_typeNow:showType=='TemplateAPI'}" @click="toChangeShowType('TemplateAPI')">Template API</div>
-            <div :class="{app_functionBtn:true, app_typeNow:showType=='MethodAPI'}" style="border-right:none" @click="toChangeShowType('MethodAPI')">Method API</div>
+            <div :class="{app_functionBtn:true, app_typeNow:showType=='MethodAPI'}" @click="toChangeShowType('MethodAPI')">Method API</div>
+            <div :class="{app_functionBtn:true, app_typeNow:showType=='Modules'}" style="border-right:none" @click="toChangeShowType('Modules')">Modules</div>
         </div>
     </div>
 
     <div class="app_leftBox">
-        <div :class="{app_leftOption:true, app_leftOption_first:index==0, app_leftOption_last:index==list.length-1, app_leftOption_choosed:turnTo==val}" v-for="(val, index) in list" @click="toTurn(val)">{{val}}</div>
+        <div :class="{app_leftOption:true, app_leftOption_first:index==0, app_leftOption_last:index==list.length-1, app_leftOption_choosed:now==val}" v-for="(val, index) in list" @click="toTurn(val)">{{val}}</div>
     </div>
 
     <div class="app_mainBox">
-        
+        <router-view></router-view>
     </div>
 </div>
 </template>
@@ -27,26 +27,27 @@
 export default {
     data(){
         return {
-			list:['翻页列表模板'],
-			showType:'Modules', // 当前显示类型  Modules | TemplateAPI | MethodAPI
-			Modules:'["翻页列表模板"]', // 显示类型为module时的菜单列表数据
-			TemplateAPI:'["pageturn", "pageturn-local", "dropdown", "title-dropdown", "loading", "radio", "checkbox", "showImages", "button", "title-input", "date-simple", "alert", "pageturn-local", "dropdown", "title-dropdown", "loading", "radio", "checkbox", "showImages", "button", "title-input", "date-simple", "alert"]', // 显示类型为TemplateAPI时的菜单列表数据
+            now:'pageturn',
+			list:[],
+            showType:'TemplateAPI', // 当前显示类型  Modules | TemplateAPI | MethodAPI
+            TemplateAPI:'["pageturn", "dropdown", "loading", "radio", "checkbox", "button", "input", "date", "alert"]', // 显示类型为TemplateAPI时的菜单列表数据
 			MethodAPI:'["_shrink()"]', // 显示类型为TemplateAPI时的菜单列表数据
-			turnTo:'翻页列表模板'
+            Modules:'["翻页列表模板"]' // 显示类型为module时的菜单列表数据
 		}
     },
     methods:{
         toTurn(val){
-            this.turnTo=val;
+            this.now=val;
+            this.$router.push(`/${this.showType}/${val}`);
         },
         toChangeShowType(val){
             this.showType=val;
             this.list=JSON.parse(this[val]);
-            this.turnTo=this.list[0];
+            this.now=this.list[0];
         }
     },
     mounted:function(){
-    	
+    	this.list=JSON.parse(this.TemplateAPI);
     }
 }
 </script>
