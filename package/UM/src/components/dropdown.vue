@@ -1,6 +1,6 @@
 <template>
-<div class="">
-	2222222222
+<div class="api_dropdown_Box">
+	<um-dropdown></um-dropdown>
 </div>
 </template>
 
@@ -15,5 +15,5 @@ export default {
 </script>
 
 <style>
-
+.api_dropdown_Box {width:100%; height:100%;}
 </style>

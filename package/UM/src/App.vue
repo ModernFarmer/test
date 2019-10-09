@@ -37,6 +37,7 @@ export default {
     },
     methods:{
         toTurn(val){
+            if(this.$route.path.split('/')[2]==val)return;
             this.now=val;
             this.$router.push(`/${this.showType}/${val}`);
         },
@@ -47,7 +48,8 @@ export default {
         }
     },
     mounted:function(){
-    	this.list=JSON.parse(this.TemplateAPI);
+        this.now=window.location.hash.split('/')[2];
+    	this.list=JSON.parse(this[window.location.hash.split('/')[1]]);
     }
 }
 </script>

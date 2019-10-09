@@ -10,6 +10,10 @@ Vue.config.productionTip = false; // 阻止开发环境启用生产信息
 
 Vue.use(UMUI);
 
+/*router.beforeEach((to, from, next)=>{
+	next();
+});*/
+
 new Vue({
 	router,
 	store,
