@@ -47,12 +47,83 @@ class ___UM_ajax{
 			};
 		};
 	}
-	onceConfig(){
-		// todo ...
+	config(json){
+		let result={};
+		result.baseUrl=json.baseUrl || null;
+		result.timeout=json.timeout || null;
+		result.ontimeout=json.ontimeout || null;
+		result.responseType=json.responseType || null;
+		result.headers=json.headers || null;
+		result.onprogress=json.onprogress || null;
+
+		if(JSON.stringify(result)!=='{}')this.temporary=result;
+
 		return this;
 	}
 	get(url, json){
 		if(!this.config)throw ' -> ajax对象未初始化, 请先执行.init()方法初始化ajax对象!';
+		return new Promise(async (resolve, reject)=>{
+			let _a=await this.BEFORE_OPEN(json);
+
+			let {ajaxObj,trueConfig}=_a;
+
+	        let dataObj=null;
+			if(json)dataObj=this.__toBeEncoded(json);
+
+	        let trueUrl=dataObj?trueConfig.baseUrl+url+'?'+dataObj.encoded:trueConfig.baseUrl+url;
+
+	        ajaxObj.open('GET', trueUrl, true);
+
+	        this.BEFORE_SEND(ajaxObj, trueConfig);
+
+	        ajaxObj.send();
+
+	        ajaxObj.onreadystatechange=this.READY_RESPONSED.bind(this, resolve, ajaxObj);
+		});
+	}
+	post(url, json){
+		if(!this.config)throw ' -> ajax对象未初始化, 请先执行.init()方法初始化ajax对象!';
+		return new Promise(async (resolve, reject)=>{
+			let _a=await this.BEFORE_OPEN(json);
+
+			let {ajaxObj,trueConfig}=_a;
+
+	        let dataObj=null;
+			if(json)dataObj=this.__toBeEncoded(json);
+
+	        ajaxObj.open('POST', trueConfig.baseUrl+url, true);
+
+	        let _encoded=null;
+	        if(dataObj){
+	        	ajaxObj.setRequestHeader('Content-Type', dataObj.header);
+	        	_encoded=dataObj.encoded
+	        }else{
+	        	ajaxObj.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	        };
+
+	        this.BEFORE_SEND(ajaxObj, trueConfig);
+
+	        ajaxObj.send(_encoded);
+
+	        ajaxObj.onreadystatechange=this.READY_RESPONSED.bind(this, resolve, ajaxObj);
+		});
+	}
+	form(){
+
+	}
+	forms(){
+
+	}
+	put(){
+
+	}
+	delete(){
+
+	}
+	patch(){
+		
+	}
+	BEFORE_OPEN(json){
 		return new Promise(async (resolve, reject)=>{
 			let temporary=null;
 			if(this.temporary){
@@ -71,8 +142,6 @@ class ___UM_ajax{
 				if(temporary.onprogress)trueConfig.onprogress=temporary.onprogress;
 	        }
 
-	        let dataObj=null;
-			if(json)dataObj=this.__toBeEncoded(json);
 			let ajaxObj=null;
 	        if(window.XMLHttpRequest){
 	            ajaxObj=new XMLHttpRequest();
@@ -80,77 +149,63 @@ class ___UM_ajax{
 	            ajaxObj=new ActiveXObject('Microsoft.XMLHTTP');
 	        };
 
-	        let trueUrl=dataObj?trueConfig.baseUrl+url+'?'+dataObj.encoded:trueConfig.baseUrl+url;
-
-	        ajaxObj.open('GET',trueUrl, true);
-
-	        if(trueConfig.responseType)ajaxObj.responseType=trueConfig.responseType;
-
-	        if(trueConfig.headers){
-	        	for(let name in trueConfig.headers){
-	        		ajaxObj.setRequestHeader(name, trueConfig.headers[name]);
-	        	};
-	        }
-
-	        if(trueConfig.onprogress && typeof trueConfig.onprogress==='function'){
-	        	ajaxObj.onprogress=function(eventObj){
-	        		trueConfig.onprogress(eventObj);
-	        	};
-	        }
-
-	        if(trueConfig.timeout){
-	        	ajaxObj.timeout=trueConfig.timeout;
-	        	if(trueConfig.ontimeout && typeof trueConfig.ontimeout==='function'){
-	        		ajaxObj.ontimeout=function(ajaxObj){
-	        			trueConfig.ontimeout(ajaxObj);
-	        		};
-	        	}
-	        }
-
-	        ajaxObj.send();
-
-	        ajaxObj.onreadystatechange=()=>{
-	            if(ajaxObj.readyState==4){
-	            	let data=ajaxObj.response;
-	            	if(this.responsed)this.__after(this.responsed, data, ajaxObj);
-            		if(typeof data==='string'){
-            			try{
-            				let r=JSON.parse(data);
-            				resolve(r);
-            			}catch{
-            				resolve(data);
-            			}
-            		}else{
-            			resolve(data);
-            		};
-	            }
-	        };
+	        resolve({ajaxObj, trueConfig});
 		});
 	}
-	post(){
+	BEFORE_SEND(ajaxObj, trueConfig){
+        if(trueConfig.headers){
+        	for(let name in trueConfig.headers){
+        		ajaxObj.setRequestHeader(name, trueConfig.headers[name]);
+        	};
+        }
 
-	}
-	jsonPost(){
+        if(trueConfig.responseType)ajaxObj.responseType=trueConfig.responseType;
 
-	}
-	form(){
+        if(trueConfig.onprogress && typeof trueConfig.onprogress==='function'){
+        	ajaxObj.onprogress=function(eventObj){
+        		trueConfig.onprogress(eventObj);
+        	};
+        }
 
+        if(trueConfig.timeout){
+        	ajaxObj.timeout=trueConfig.timeout;
+        	if(trueConfig.ontimeout && typeof trueConfig.ontimeout==='function'){
+        		ajaxObj.ontimeout=function(ajaxObj){
+        			trueConfig.ontimeout(ajaxObj);
+        		};
+        	}
+        }
 	}
-	forms(){
-
-	}
-	put(){
-
-	}
-	delete(){
-
-	}
+	READY_RESPONSED(resolve, ajaxObj){
+        if(ajaxObj.readyState==4){
+        	let data=ajaxObj.response;
+        	if(this.responsed)this.__after(this.responsed, data, ajaxObj);
+    		if(typeof data==='string'){
+    			try{
+    				let _r=JSON.parse(data);
+    				resolve(_r);
+    			}catch{
+    				resolve(data);
+    			}
+    		}else{
+    			resolve(data);
+    		};
+        }
+    }
 	__toBeEncoded(item){
 		if(typeof item=='string'){
-			return {
-				header:'application/json',
-				encoded:item
-			};
+			try{
+				JSON.parse(item);
+				return {
+					header:'application/json;charset=utf-8',
+					encoded:item
+				};
+			}catch{
+				return {
+					header:'application/x-www-form-urlencoded',
+					encoded:item
+				};
+			}
 		}else{
 		    let arr=[];
 		    for(let name in item){
@@ -189,6 +244,8 @@ class ___UM_ajax{
 
 let ajax=new ___UM_ajax();
 
-ajax.get('/demo').then(data=>{
+ajax.init({baseUrl:'http://localhost:8888'});
+
+ajax.post('/demo').then(data=>{
 	console.log(data);
-})
+});
