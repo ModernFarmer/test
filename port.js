@@ -1,6 +1,8 @@
 const express=require('express');
 const bodyParser=require('body-parser');
 const async4mysql=require('async4mysql');
+const multiparty=require('multiparty');
+const fs=require('fs');
 
 const app=express();
 const port=8888;
@@ -47,5 +49,30 @@ app.post('/demo', async (req, res)=>{
         res.json(data);
     }).catch(err=>{
         res.json({ok:false, msg:'Oh, no!'});
+    });
+});
+
+app.post('/file', async (req, res)=>{
+    let form=new multiparty.Form({
+        encoding:'utf-8',           //定义编码, 默认为utf-8
+        uploadDir:'./upload',       //定义文件上传到服务器的文件夹路径 *必须在服务器手动添加路径,multiparty不会自动生成相应路径
+        maxFilesSize:20*1024*1024,   //限定单个文件的大小, 默认为无穷大
+        maxFields:1000,             //限定最大文件数, 默认为1000
+        maxFieldsSize:2*1024*1024   //限定所有文件上传时所占用的内存, 默认为2M
+    });
+
+    form.parse(req, function(err, fields, files){     //上传完成后执行        fields:字段信息     files:文件信息
+        if(err){
+            res.json({ok:'失败!'});
+        }else{
+            console.log(fields)
+            console.log(files)
+            console.log(files.up_[0].headers)
+            console.log(files.up_[1].headers)
+
+            res.json({ok:true});
+            /*fs.rename(oldPath, newPath);            //重命名接收到的文件
+            res.json({ok:'成功!'});*/
+        };
     });
 });
