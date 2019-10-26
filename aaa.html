@@ -7,7 +7,8 @@
 </head>
 <body>
     <div id="app"></div>
-    <input type="file" id="abc">
+    <input multiple type="file" id="abc">
+    <input multiple type="file" id="bbc">
 <script>
 class ___UM_ajax{
     constructor(){
@@ -137,13 +138,13 @@ class ___UM_ajax{
                 		});
                 	}else if(json.files[0] instanceof HTMLInputElement && json.files[0].type==='file'){
                 		json.files.forEach(val=>{
-                			val.files.forEach(file=>{
+                			[...val.files].forEach(file=>{
                 				formObj.append(json.fieldName, file);
                 			});
                 		});
                 	}
                 }else if(json.files instanceof HTMLInputElement && json.files.type==='file'){
-                	json.files.files.forEach(val=>{
+                	[...json.files.files].forEach(val=>{
                 		formObj.append(json.fieldName, val);
                 	});
                 }
@@ -162,7 +163,7 @@ class ___UM_ajax{
 
     }
     delete(){
-    	
+
     }
     patch(){
         
@@ -295,52 +296,23 @@ class ___UM_ajax{
 }
 let ajax=new ___UM_ajax();
 ajax.init({baseUrl:'http://localhost:8888'});
-ajax.post('/demo').then(data=>{
-    console.log(data);
-}).catch(err=>{
-    console.log(err)
-});
+
 abc.onchange=function(){
     let _f=abc.files[0];
-    console.log(_f);
+var debug = {hello: "world"};
+var blob = new Blob([JSON.stringify(debug, null, 2)],{type : 'application/json'});
+
     ajax.form('/file', {
-        fieldName:'up_',
+        fieldName:'FIELS',
         files:{
-            'pic.jpg':_f,
-            'pic':_f
-        },
-        data:{
-            a:'aaa',
-            b:'123'
+        	name:'abc',
+        	file:blob
         }
     }).then(data=>{
         console.log(data);
     });
 };
-{
-    fieldName: [
-        {
-            fieldName: 'fieldName',
-            originalFilename: 'pic.jpg',
-            path: 'upload\\KujSNXG8R8mLzni40_2M9zAC.jpg',
-            headers: {
-                'content-disposition': 'form-data; name="fieldName"; filename="pic.jpg"',
-                'content-type': 'image/jpeg'
-            },
-            size: 294762
-        },
-        {
-            fieldName: 'fieldName',
-            originalFilename: 'pic.jpg',
-            path: 'upload\\KujSNXG8R8mLzni40_2M9zAC.jpg',
-            headers: {
-                'content-disposition': 'form-data; name="fieldName"; filename="pic"',
-                'content-type': 'image/jpeg'
-            },
-            size: 294762
-        },
-    ]
-}
+
 </script>
 </body>
 
