@@ -19,11 +19,8 @@ class ___UM_ajax{
             headers:null, // [json] 设置请求头
             onprogress:null  // [function] 设置下载进度执行函数  自带固定参数: ProgressEvent对象, 它的.loaded属性代表已经完成发送部分的文件大小[number], 它的.total属性代表整个文件大小[number]
         };*/
-
         this.config=null;
-
         this.temporary=null;  // 存放单次临时数据的对象
-
         this.beforeRequest=function(config){  // 请求发送前触发 [function]  默认null  自带固定参数: config对象; 代表ajax的*全局*配置
             // 如果beforeRequest里面有异步函数, 则必须返回一个Promise
             // 比如:
@@ -36,11 +33,9 @@ class ___UM_ajax{
             // todo ...
             return config;  // 必须返回config
         };
-
         this.responsed=function(result, XMLObj){  // 接收请求数据后立即触发 [function]  默认null  自带固定参数: 1:接收到的数据, 2:XMLHttpRequest对象; 代表ajax的*全局*配置
             // todo
         };
-
         this.init=function(json){
             let result={};
             result.baseUrl=json.baseUrl || null;
@@ -49,7 +44,6 @@ class ___UM_ajax{
             result.responseType=json.responseType || null;
             result.headers=json.headers || null;
             result.onprogress=json.onprogress || null;
-
             if(typeof result.baseUrl==='string' && /^https?\:\/\//.test(result.baseUrl)){
                 this.config=result;
                 delete this.init;
@@ -66,29 +60,20 @@ class ___UM_ajax{
         result.responseType=json.responseType || null;
         result.headers=json.headers || null;
         result.onprogress=json.onprogress || null;
-
         if(JSON.stringify(result)!=='{}')this.temporary=result;
-
         return this;
     }
     get(url, json){
         if(!this.config)throw ' -> ajax对象未初始化, 请先执行.init()方法初始化ajax对象!';
         return new Promise(async (resolve, reject)=>{
             let _a=await this.BEFORE_OPEN(json);
-
             let {ajaxObj,trueConfig}=_a;
-
             let dataObj=null;
             if(json)dataObj=this.__toBeEncoded(json);
-
             let trueUrl=dataObj?trueConfig.baseUrl+url+'?'+dataObj.encoded:trueConfig.baseUrl+url;
-
             ajaxObj.open('GET', trueUrl, true);
-
             this.BEFORE_SEND(ajaxObj, trueConfig);
-
             ajaxObj.send();
-
             ajaxObj.onreadystatechange=this.READY_RESPONSED.bind(this, resolve, reject, ajaxObj);
         });
     }
@@ -96,11 +81,8 @@ class ___UM_ajax{
         if(!this.config)throw ' -> ajax对象未初始化, 请先执行.init()方法初始化ajax对象!';
         return new Promise(async (resolve, reject)=>{
             let _a=await this.BEFORE_OPEN();
-
             let {ajaxObj,trueConfig}=_a;
-
             ajaxObj.open('POST', trueConfig.baseUrl+url, true);
-
             let dataObj=null;
             if(json)dataObj=this.__toBeEncoded(json);
             let _encoded=null;
@@ -108,65 +90,79 @@ class ___UM_ajax{
                 if(dataObj.header)ajaxObj.setRequestHeader('Content-Type', dataObj.header);
                 _encoded=dataObj.encoded;
             }
-
             this.BEFORE_SEND(ajaxObj, trueConfig);
-
             ajaxObj.send(_encoded);
-
             ajaxObj.onreadystatechange=this.READY_RESPONSED.bind(this, resolve, reject, ajaxObj);
         });
     }
     form(url, json){
         /*let aaa={
             fieldName:'', // 传给后台的文件数组字段名
-            files:{
-                key0:file0,
-                key1:file1
-            },
+            files:file,
+            files:{key0:file0,key1:file1},
+            files:{name:'', file:null},
+            files:[{name:'', file:null}],
+            files:[file0, file1],
+            files:[InputElemnent0, InputElement1],
+            files:InputElement,
             data:{
-
             }
         };*/
         if(!this.config)throw ' -> ajax对象未初始化, 请先执行.init()方法初始化ajax对象!';
         return new Promise(async (resolve, reject)=>{
             let _a=await this.BEFORE_OPEN();
-
             let {ajaxObj,trueConfig}=_a;
-
             ajaxObj.open('POST', trueConfig.baseUrl+url, true);
-
             let formObj=new FormData();
-
             if(json.files){
                 if(!json.fieldName)throw '.form(url, json)方法的第二个参数缺少fieldName字段!';
-                for(let key in json.files){
-                    // formObj.append(json.fieldName, json.files[key], key);
-                    formObj.append(json.fieldName, json.files[key]);
-                };
+                if(json.files instanceof File || json.files instanceof Blob){
+                	formObj.append(json.fieldName, json.files);
+                }else if(this._isJson(json.files)){
+                	if('name' in json.files && 'file' in json.files){
+                		formObj.append(json.fieldName, json.files.file, json.files.name);
+                	}else{
+		                for(let key in json.files){
+		                    formObj.append(json.fieldName, json.files[key], key);
+		                };
+                	};
+                }else if(Array.isArray(json.files) && json.files.length>0){
+                	if(this._isJson(json.files[0]) && 'name' in json.files[0] && 'file' in json.files[0]){
+                		json.files.forEach(val=>{
+                			formObj.append(json.fieldName, val.file, val.name);
+                		});
+                	}else if(json.files[0] instanceof File || json.files[0] instanceof Blob){
+                		json.files.forEach(val=>{
+                			formObj.append(json.fieldName, val);
+                		});
+                	}else if(json.files[0] instanceof HTMLInputElement && json.files[0].type==='file'){
+                		json.files.forEach(val=>{
+                			val.files.forEach(file=>{
+                				formObj.append(json.fieldName, file);
+                			});
+                		});
+                	}
+                }else if(json.files instanceof HTMLInputElement && json.files.type==='file'){
+                	json.files.files.forEach(val=>{
+                		formObj.append(json.fieldName, val);
+                	});
+                }
             }
             if(json.data){
                 for(let key in json.data){
                     formObj.set(key, json.data[key]);
                 };
             }
-
             this.BEFORE_SEND(ajaxObj, trueConfig);
-
             ajaxObj.send(formObj);
-
             ajaxObj.onreadystatechange=this.READY_RESPONSED.bind(this, resolve, reject, ajaxObj);
         });
-    }
-    forms(){
-        if(dom instanceof HTMLElement && dom.tagName.toLowerCase()==='input' && dom.getAttribute('type').toLowerCase()==='file'){
-
-        }
     }
     put(){
 
     }
     delete(){
-
+    	
     }
     patch(){
         
@@ -189,14 +185,12 @@ class ___UM_ajax{
                 if(temporary.headers)trueConfig.headers=temporary.headers;
                 if(temporary.onprogress)trueConfig.onprogress=temporary.onprogress;
             }
-
             let ajaxObj=null;
             if(window.XMLHttpRequest){
                 ajaxObj=new XMLHttpRequest();
             }else{
                 ajaxObj=new ActiveXObject('Microsoft.XMLHTTP');
             };
-
             resolve({ajaxObj, trueConfig});
         });
     }
@@ -206,15 +200,12 @@ class ___UM_ajax{
                 ajaxObj.setRequestHeader(name, trueConfig.headers[name]);
             };
         }
-
         if(trueConfig.responseType)ajaxObj.responseType=trueConfig.responseType;
-
         if(trueConfig.onprogress && typeof trueConfig.onprogress==='function'){
             ajaxObj.onprogress=function(eventObj){
                 trueConfig.onprogress(eventObj);
             };
         }
-
         if(trueConfig.timeout){
             ajaxObj.timeout=trueConfig.timeout;
             if(trueConfig.ontimeout && typeof trueConfig.ontimeout==='function'){
@@ -228,7 +219,6 @@ class ___UM_ajax{
         if(ajaxObj.readyState==4){
             let data=ajaxObj.response;
             if(this.responsed)this.__after(this.responsed, data, ajaxObj);
-
             if(ajaxObj.status>=200 && ajaxObj.status<300 || ajaxObj.status==304){
                 if(typeof data==='string'){
                     try{
@@ -303,17 +293,13 @@ class ___UM_ajax{
         return boolean_isjson;
     }
 }
-
 let ajax=new ___UM_ajax();
-
 ajax.init({baseUrl:'http://localhost:8888'});
-
 ajax.post('/demo').then(data=>{
     console.log(data);
 }).catch(err=>{
     console.log(err)
 });
-
 abc.onchange=function(){
     let _f=abc.files[0];
     console.log(_f);
@@ -331,7 +317,6 @@ abc.onchange=function(){
         console.log(data);
     });
 };
-
 {
     fieldName: [
         {
@@ -356,7 +341,6 @@ abc.onchange=function(){
         },
     ]
 }
-
 </script>
 </body>
 
