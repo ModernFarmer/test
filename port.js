@@ -22,6 +22,7 @@ app.all('*',function (req, res, next) {                   //使服务可被跨�
     };
 });
 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
 const db=new async4mysql({
@@ -67,12 +68,15 @@ app.post('/file', async (req, res)=>{
         }else{
             console.log(fields)
             console.log(files)
-            console.log(files.up_[0].headers)
-            console.log(files.up_[1].headers)
 
             res.json({ok:true});
             /*fs.rename(oldPath, newPath);            //重命名接收到的文件
             res.json({ok:'成功!'});*/
         };
     });
+});
+
+app.put('/put', async (req, res)=>{
+    console.log(req.body.a);
+    res.json({msg:'sdfsdfsdf'});
 });
