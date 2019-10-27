@@ -7,8 +7,7 @@
 </head>
 <body>
     <div id="app"></div>
-    <input multiple type="file" id="abc">
-    <input multiple type="file" id="bbc">
+    <input multiple type="file" id="aaa">
 <script>
 class ___UM_ajax{
     constructor(){
@@ -45,6 +44,8 @@ class ___UM_ajax{
             result.responseType=json.responseType || null;
             result.headers=json.headers || null;
             result.onprogress=json.onprogress || null;
+            result.user=json.user || null;
+            result.password=json.password || null;
             if(typeof result.baseUrl==='string' && /^https?\:\/\//.test(result.baseUrl)){
                 this.config=result;
                 delete this.init;
@@ -55,12 +56,14 @@ class ___UM_ajax{
     }
     config(json){
         let result={};
-        result.baseUrl=json.baseUrl || null;
-        result.timeout=json.timeout || null;
-        result.ontimeout=json.ontimeout || null;
-        result.responseType=json.responseType || null;
-        result.headers=json.headers || null;
-        result.onprogress=json.onprogress || null;
+        if(json.baseUrl)result.baseUrl=json.baseUrl;
+        if(json.timeout)result.timeout=json.timeout;
+        if(json.ontimeout)result.ontimeout=json.ontimeout;
+        if(json.responseType)result.responseType=json.responseType;
+        if(json.headers)result.headers=json.headers;
+        if(json.onprogress)result.onprogress=json.onprogress;
+        if(json.user)result.user=json.user;
+        if(json.password)result.password=json.password;
         if(JSON.stringify(result)!=='{}')this.temporary=result;
         return this;
     }
@@ -72,7 +75,7 @@ class ___UM_ajax{
             let dataObj=null;
             if(json)dataObj=this.__toBeEncoded(json);
             let trueUrl=dataObj?trueConfig.baseUrl+url+'?'+dataObj.encoded:trueConfig.baseUrl+url;
-            ajaxObj.open('GET', trueUrl, true);
+            ajaxObj.open('GET', trueUrl, true, trueConfig.user, trueConfig.password);
             this.BEFORE_SEND(ajaxObj, trueConfig);
             ajaxObj.send();
             ajaxObj.onreadystatechange=this.READY_RESPONSED.bind(this, resolve, reject, ajaxObj);
@@ -83,7 +86,7 @@ class ___UM_ajax{
         return new Promise(async (resolve, reject)=>{
             let _a=await this.BEFORE_OPEN();
             let {ajaxObj,trueConfig}=_a;
-            ajaxObj.open('POST', trueConfig.baseUrl+url, true);
+            ajaxObj.open('POST', trueConfig.baseUrl+url, true, trueConfig.user, trueConfig.password);
             let dataObj=null;
             if(json)dataObj=this.__toBeEncoded(json);
             let _encoded=null;
@@ -113,40 +116,40 @@ class ___UM_ajax{
         return new Promise(async (resolve, reject)=>{
             let _a=await this.BEFORE_OPEN();
             let {ajaxObj,trueConfig}=_a;
-            ajaxObj.open('POST', trueConfig.baseUrl+url, true);
+            ajaxObj.open('POST', trueConfig.baseUrl+url, true, trueConfig.user, trueConfig.password);
             let formObj=new FormData();
             if(json.files){
                 if(!json.fieldName)throw '.form(url, json)方法的第二个参数缺少fieldName字段!';
                 if(json.files instanceof File || json.files instanceof Blob){
-                	formObj.append(json.fieldName, json.files);
+                    formObj.append(json.fieldName, json.files);
                 }else if(this._isJson(json.files)){
-                	if('name' in json.files && 'file' in json.files){
-                		formObj.append(json.fieldName, json.files.file, json.files.name);
-                	}else{
-		                for(let key in json.files){
-		                    formObj.append(json.fieldName, json.files[key], key);
-		                };
-                	};
+                    if('name' in json.files && 'file' in json.files){
+                        formObj.append(json.fieldName, json.files.file, json.files.name);
+                    }else{
+                        for(let key in json.files){
+                            formObj.append(json.fieldName, json.files[key], key);
+                        };
+                    };
                 }else if(Array.isArray(json.files) && json.files.length>0){
-                	if(this._isJson(json.files[0]) && 'name' in json.files[0] && 'file' in json.files[0]){
-                		json.files.forEach(val=>{
-                			formObj.append(json.fieldName, val.file, val.name);
-                		});
-                	}else if(json.files[0] instanceof File || json.files[0] instanceof Blob){
-                		json.files.forEach(val=>{
-                			formObj.append(json.fieldName, val);
-                		});
-                	}else if(json.files[0] instanceof HTMLInputElement && json.files[0].type==='file'){
-                		json.files.forEach(val=>{
-                			[...val.files].forEach(file=>{
-                				formObj.append(json.fieldName, file);
-                			});
-                		});
-                	}
+                    if(this._isJson(json.files[0]) && 'name' in json.files[0] && 'file' in json.files[0]){
+                        json.files.forEach(val=>{
+                            formObj.append(json.fieldName, val.file, val.name);
+                        });
+                    }else if(json.files[0] instanceof File || json.files[0] instanceof Blob){
+                        json.files.forEach(val=>{
+                            formObj.append(json.fieldName, val);
+                        });
+                    }else if(json.files[0] instanceof HTMLInputElement && json.files[0].type==='file'){
+                        json.files.forEach(val=>{
+                            [...val.files].forEach(file=>{
+                                formObj.append(json.fieldName, file);
+                            });
+                        });
+                    }
                 }else if(json.files instanceof HTMLInputElement && json.files.type==='file'){
-                	[...json.files.files].forEach(val=>{
-                		formObj.append(json.fieldName, val);
-                	});
+                    [...json.files.files].forEach(val=>{
+                        formObj.append(json.fieldName, val);
+                    });
                 }
             }
             if(json.data){
@@ -159,14 +162,34 @@ class ___UM_ajax{
             ajaxObj.onreadystatechange=this.READY_RESPONSED.bind(this, resolve, reject, ajaxObj);
         });
     }
-    put(){
-
+    put(url, json){
+        if(!this.config)throw ' -> ajax对象未初始化, 请先执行.init()方法初始化ajax对象!';
+        return new Promise(async (resolve, reject)=>{
+            let _a=await this.BEFORE_OPEN();
+            let {ajaxObj,trueConfig}=_a;
+            ajaxObj.open('PUT', trueConfig.baseUrl+url, true, trueConfig.user, trueConfig.password);
+            let dataObj=null;
+            if(json)dataObj=this.__toBeEncoded(json);
+            let _encoded=null;
+            if(dataObj){
+                if(dataObj.header)ajaxObj.setRequestHeader('Content-Type', dataObj.header);
+                _encoded=dataObj.encoded;
+            }
+            this.BEFORE_SEND(ajaxObj, trueConfig);
+            ajaxObj.send(_encoded);
+            ajaxObj.onreadystatechange=this.READY_RESPONSED.bind(this, resolve, reject, ajaxObj);
+        });
     }
     delete(){
-
     }
     patch(){
         
+    }
+    head(){
+
+    }
+    option(){
+
     }
     BEFORE_OPEN(){
         return new Promise(async (resolve, reject)=>{
@@ -185,6 +208,8 @@ class ___UM_ajax{
                 if(temporary.responseType)trueConfig.responseType=temporary.responseType;
                 if(temporary.headers)trueConfig.headers=temporary.headers;
                 if(temporary.onprogress)trueConfig.onprogress=temporary.onprogress;
+                if(temporary.user)trueConfig.user=temporary.user;
+                if(temporary.password)trueConfig.password=temporary.password;
             }
             let ajaxObj=null;
             if(window.XMLHttpRequest){
@@ -290,30 +315,77 @@ class ___UM_ajax{
         };
     }
     _isJson(obj){             //判断一个对象是否为json对象,返回布尔值
-        var boolean_isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
+        let boolean_isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
         return boolean_isjson;
     }
+    _isBase64(str){            //判断一个字符串是否为Base64字符串,返回布尔值
+        let arr=str.split(',');
+
+        if(arr.length!==2){
+            return false;
+        }else{
+            if(!/^data\:/.test(arr[0]))return false;
+            if(!/\;base64$/.test(arr[0]))return false;
+            let len=arr[1].length;
+            if(!len || len % 4 !== 0 || !/[a-zA-Z0-9\+\/\=]/.test(arr[1]))return false;
+            let index = str.indexOf('=');
+            return index === -1 || index === len - 1 || (index === len - 2 && str[len - 1] === '=');
+        };
+    }
+    _toBase64(blobOrFile){     // 将File或者Blob转成Base64, 返回Promise
+        return new Promise(resolve=>{
+            let obj=new FileReader();
+            obj.readAsDataURL(blobOrFile);
+            obj.onload=function(o){
+                resolve(o.target.result);
+            }
+        });
+    }
+    _base64ToBlob(base64){    // 将Base64转成Blob, 返回Blob
+        let arr = base64.split(','),
+            type = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {type});
+    }
+    _base64ToFile(base64, filename){    // 将Base64转成File, 返回File
+        let arr = base64.split(','),
+            type = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]),
+            n = bstr.length,
+            u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, {type});
+    }
+    // xxx(){}  // 压缩
 }
+
 let ajax=new ___UM_ajax();
 ajax.init({baseUrl:'http://localhost:8888'});
 
-abc.onchange=function(){
-    let _f=abc.files[0];
-var debug = {hello: "world"};
-var blob = new Blob([JSON.stringify(debug, null, 2)],{type : 'application/json'});
+aaa.onchange=async function(){
+    let _f=aaa.files[0];
 
-    ajax.form('/file', {
-        fieldName:'FIELS',
-        files:{
-        	name:'abc',
-        	file:blob
-        }
-    }).then(data=>{
+    let bs=await ajax._toBase64(_f);
+
+    console.log(ajax._base64ToFile(bs, 'abc'));
+
+    ajax.form('/file', {fieldName:'vvv', data:{a:123, b:'bbb'}}).then(data=>{
         console.log(data);
     });
-};
+}
 
+ajax.put('/put', {a:'aaa', b:'bbb'}).then(data=>{
+    console.log(data)
+}).catch(err=>{
+    console.log(err);
+});
 </script>
 </body>
-
 </html>
