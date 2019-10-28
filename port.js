@@ -13,7 +13,7 @@ app.listen(port, function(){
 app.all('*',function (req, res, next) {                   //使服务可被跨域请求
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
-    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS, PATCH, HEAD');
     if (req.method == 'OPTIONS') {
         res.send(200); /让options请求快速返回/
     }
@@ -34,6 +34,7 @@ const db=new async4mysql({
 });
 
 app.get('/demo', async (req, res)=>{
+    console.log(req.query)
     let sql=`SELECT * FROM baseInfo WHERE id<10`;
 
     db.select(sql).then(data=>{
@@ -44,6 +45,7 @@ app.get('/demo', async (req, res)=>{
 });
 
 app.post('/demo', async (req, res)=>{
+    console.log(req.body)
     let sql=`SELECT * FROM baseInfo WHERE id>10 AND id<20`;
 
     db.select(sql).then(data=>{
@@ -76,7 +78,18 @@ app.post('/file', async (req, res)=>{
     });
 });
 
-app.put('/put', async (req, res)=>{
-    console.log(req.body.a);
+app.put('/put/:id', async (req, res)=>{
+    console.log(req.params)
     res.json({msg:'sdfsdfsdf'});
 });
+
+app.patch('/patch', async (req, res)=>{
+    console.log(req.query)
+    console.log(req.body)
+    res.json('Oh! Year~');
+});
+
+app.delete('/delete', async (req, res)=>{
+    console.log(req.body)
+    res.json('Oh! Year~');
+})
