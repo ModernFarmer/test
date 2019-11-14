@@ -10,7 +10,7 @@
 
 <script>
 export default {
-	props:['data', 'icon', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'change'],
+	props:['data', 'icon', 'maxHeight', 'view', 'option', 'disabled', 'clearable'],
 	data(){
 		return {
 			index_now:null,
@@ -33,6 +33,7 @@ export default {
 				this.text=this.data[index];
 				this.$emit('input', this.data[index]);
 			};
+			this.$emit('change', val, index);
 		}
 	},
 	mounted:function(){

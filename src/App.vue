@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-<um-dropdown class="aaaaa" :data="list1" :option="'value'" :view="'id'" v-model="a"></um-dropdown>
+<um-dropdown class="aaaaa" :data="list1" :option="'value'" :view="'id'" v-model="a" @change="abc"></um-dropdown>
 <br>
 <br>
 <br>
@@ -27,6 +27,12 @@ export default {
         	list1:[{id:1, value:11},{id:2, value:22},{id:3, value:33},{id:4, value:44},{id:5, value:55},{id:6, value:66}],
         	a:'23124'
         }
+    },
+    methods:{
+    	abc(val, index){
+    		console.log(val);
+    		console.log(index);
+    	}
     },
     mounted:function(){
         
