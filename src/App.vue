@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-<um-dropdown class="aaaaa" :data="list1" :option="'value'" :view="'id'" v-model="a" @change="abc"></um-dropdown>
+<um-dropdown class="aaaaa" :list="list1" option="value" view="id" v-model="a" @change="abc"></um-dropdown>
 <br>
 <br>
 <br>
