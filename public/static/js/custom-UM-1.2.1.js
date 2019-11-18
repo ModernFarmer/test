@@ -159,6 +159,9 @@ function ___constructor_PullDown(obj){             //下拉内容过渡插件-�
     this.maxHeight=obj.maxHeight || null;
     this.scrollClassName=obj.scrollClassName || 'UM_PullDown_scrollClassName';
 
+    this.top_p=0;
+    this.bottom_p=0;
+
     this.downHidden=true; // 用于判断执行一些特定事件时是否要隐藏下拉框
     this.selectHidden=false; // 用于判断点击下拉框背景时是否要折叠下拉框
 
@@ -174,12 +177,6 @@ ___constructor_PullDown.prototype._m_todo=function(){
     }.bind(this))();
     this.bottom_p=(function(){
         return this.down.getStyle('paddingBottom');
-    }.bind(this))();
-    this.top_m=(function(){
-        return this.down.getStyle('marginTop');
-    }.bind(this))();
-    this.bottom_m=(function(){
-        return this.down.getStyle('marginBottom');
     }.bind(this))();
 
     this.down.css({overflow:'hidden', maxHeight:this.maxHeight?this.maxHeight:'none'}).BD('click', function(){
@@ -198,11 +195,11 @@ ___constructor_PullDown.prototype._m_todo=function(){
     }.bind(this));
 
     if(this.maxHeight){
-        var _html=this.down.el.innerHTML;
-        this.down.el.innerHTML='';
         var dom_content=document.createElement('div'), dom_scroll=document.createElement('div');
+        while(this.down.el.children.length>0){
+            dom_content.appendChild(this.down.el.children[0]);
+        };
         dom_content.id=this.id+'_content';
-        dom_content.innerHTML=_html;
         dom_content.style.width='calc(100% - 2px)';
         dom_content.style.position='relative';
         dom_content.style.top='0';
@@ -267,7 +264,7 @@ ___constructor_PullDown.prototype._m_todo=function(){
             if(window[this.id+'_mainCaption'])clearTimeout(window[this.id+'_mainCaption']);
             if(this.now===false){
                 this.now=true;
-                this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:1, height:this._m_height(), paddingTop:this.top_p, paddingBottom:this.bottom_p, marginTop:this.top_m, marginBottom:this.bottom_m}, function(){
+                this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:1, height:this._m_height(), paddingTop:this.top_p, paddingBottom:this.bottom_p}, function(){
                     window[this.id+'_mainCaption']=setTimeout(function(){
                         if(document.querySelector(this.downStr) && this.now)this.down.css({height:'auto'});
                     }.bind(this), this.speed*1000);
@@ -316,11 +313,11 @@ ___constructor_PullDown.prototype._m_height=function(){
     var result=0;
     if(this.maxHeight){
         for(var i=0; i<_('#'+this.id+'_content', 0).el.children.length; i++){
-            result=result+_('#'+this.id+'_content', 0).el.children[i].offsetHeight+this._m_getStyleInf(_('#'+this.id+'_content', 0).el.children[i], 'marginTop')+this._m_getStyleInf(_('#'+this.id+'_content', 0).el.children[i], 'marginBottom');
+            result=result+_('#'+this.id+'_content', 0).el.children[i].offsetHeight+this._m_getStyleInf(_('#'+this.id+'_content', 0).el.children[i], 'marginTop')+this._m_getStyleInf(_('#'+this.id+'_content', 0).el.children[i], 'marginBottom')+this._m_getStyleInf(_('#'+this.id+'_content', 0).el.children[i], 'paddingTop')+this._m_getStyleInf(_('#'+this.id+'_content', 0).el.children[i], 'paddingBottom');
         };
     }else{
         for(var i=0; i<this.down.el.children.length; i++){
-            result=result+this.down.el.children[i].offsetHeight+this._m_getStyleInf(this.down.el.children[i], 'marginTop')+this._m_getStyleInf(this.down.el.children[i], 'marginBottom');
+            result=result+this.down.el.children[i].offsetHeight+this._m_getStyleInf(this.down.el.children[i], 'marginTop')+this._m_getStyleInf(this.down.el.children[i], 'marginBottom')+this._m_getStyleInf(this.down.el.children[i], 'paddingTop')+this._m_getStyleInf(this.down.el.children[i], 'paddingBottom');
         };
     };
     return result+'px';
@@ -334,7 +331,7 @@ ___constructor_PullDown.prototype.unfold=function(){
         }
         this.down.css({height:this.down.getStyle('height')}, function(){
             if(window[this.id+'_outButton'])clearTimeout(window[this.id+'_outButton']);
-            this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:1, height:this._m_height(), paddingTop:this.top_p, paddingBottom:this.bottom_p, marginTop:this.top_m, marginBottom:this.bottom_m});
+            this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:1, height:this._m_height(), paddingTop:this.top_p, paddingBottom:this.bottom_p});
             this.now=true;
             window[this.id+'_outButton']=setTimeout(function(){
                 this.down.css({height:'auto'});
