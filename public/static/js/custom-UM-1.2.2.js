@@ -61,7 +61,7 @@ ___constructor_MovingScroll.prototype._m_todo=function(){
     this.box.BD('mouseenter', function(){
         this.scrollBox.transition('1s ease-out').css({opacity:1});
     }.bind(this)).BD('mouseleave', function(){
-        this.scrollBox.transition('1s ease-out').css({opacity:.4});
+        this.scrollBox.transition('1s ease-out').css({opacity:.5});
     }.bind(this));
 
     this.scrollBox.BD('click', function(){
@@ -144,7 +144,7 @@ function _MovingScroll(obj){
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function ___constructor_PullDown(obj){             //下拉内容过渡插件-构造函数
+function ___constructor_PullDown(obj, movingObj){             //下拉内容过渡插件-构造函数
     this.captionStr=obj.caption;
     this.downStr=obj.down;
     this.id='UM_PullDown_'+Math.ceil(Math.random()*100000000);
@@ -166,7 +166,8 @@ function ___constructor_PullDown(obj){             //下拉内容过渡插件-�
     this.selectHidden=false; // 用于判断点击下拉框背景时是否要折叠下拉框
 
     this.now=obj.now || false;
-    this.MSobj=null;
+    this.MSobj=movingObj || null;
+    this.haveMSobj=movingObj?true:false; // 是否存在movingObj参数
 
     this._m_todo();
 };
@@ -179,7 +180,9 @@ ___constructor_PullDown.prototype._m_todo=function(){
         return this.down.getStyle('paddingBottom');
     }.bind(this))();
 
-    this.down.css({overflow:'hidden', maxHeight:this.maxHeight?this.maxHeight:'none'}).BD('click', function(){
+    let _cj={overflow:'hidden'};
+    if(this.maxHeight && !this.haveMSobj)_cj.maxHeight=this.maxHeight;
+    this.down.css(_cj).BD('click', function(){
         _stopPropagation(event);
         this.downHidden=true;
         if(!this.selectHidden)return;
@@ -194,7 +197,7 @@ ___constructor_PullDown.prototype._m_todo=function(){
         this.downHidden=false;
     }.bind(this));
 
-    if(this.maxHeight){
+    if(this.maxHeight && !this.haveMSobj){
         var dom_content=document.createElement('div'), dom_scroll=document.createElement('div');
         while(this.down.el.children.length>0){
             dom_content.appendChild(this.down.el.children[0]);
@@ -223,11 +226,11 @@ ___constructor_PullDown.prototype._m_todo=function(){
 
         this.down.el.appendChild(dom_content);
         this.down.el.appendChild(dom_scroll);
-        if(this.select===false){
+        if(this.select===false){  // 当点击选项时, 折叠下拉框
             for(var i=0; i<_('#'+this.id+'_content', 0).el.children.length; i++){
                 if(_('#'+this.id+'_content', 0).el.children[i].getAttribute('isUmCaption')!=='on')_(_('#'+this.id+'_content', 0).el.children[i]).BD('click', function(){
                     this.selectHidden=true;
-                    if(this.root && this.root.maxHeight)this.root.MSobj.adaptive(500);
+                    if(this.root && this.root.MSobj)this.root.MSobj.adaptive(500);
                 }.bind(this));
             };
         }
@@ -237,7 +240,32 @@ ___constructor_PullDown.prototype._m_todo=function(){
             scrollBox:'#'+this.id+'_scroll',　　//　滚动条盒子选择器
             speed:100
         });
-    }
+    }else if(this.haveMSobj){
+        this.MSobj.scrollBox.BD('mousedown', function(){
+            _stopPropagation(event);
+            this.downHidden=false;
+        }.bind(this)).BD('mouseup', function(){
+            this.downHidden=true;
+        }.bind(this));
+
+        if(this.select===false){  // 当点击选项时, 折叠下拉框
+            for(var i=0; i<this.MSobj.contentBox.el.children.length; i++){
+                if(this.MSobj.contentBox.el.children[i].getAttribute('isUmCaption')!=='on')_(this.MSobj.contentBox.el.children[i]).BD('click', function(){
+                    this.selectHidden=true;
+                    if(this.root && this.root.MSobj)this.root.MSobj.adaptive(500);
+                }.bind(this));
+            };
+        }
+    }else{
+        if(this.select===false){  // 当点击选项时, 折叠下拉框
+            for(var i=0; i<this.down.el.children.length; i++){
+                if(this.down.el.children[i].getAttribute('isUmCaption')!=='on')_(this.down.el.children[i]).BD('click', function(){
+                    this.selectHidden=true;
+                    if(this.root && this.root.MSobj)this.root.MSobj.adaptive(500);
+                }.bind(this));
+            };
+        }
+    };
 
     if(this.now===true){  // 设置初始状态为显示时的下拉框体样式
         this.down.css({opacity:1, height:'auto'});
@@ -258,7 +286,7 @@ ___constructor_PullDown.prototype._m_todo=function(){
         }else if(this.MSobj){
             this.MSobj.adaptive(500, false);  // 清除.adaptive()方法内部的定时器
         }
-        if(this.root && this.root.maxHeight)this.root.MSobj.adaptive(500);  // 嵌套插件点击caption时, 自适应根插件滚动条高度
+        if(this.root && this.root.MSobj)this.root.MSobj.adaptive(500);  // 嵌套插件点击caption时, 自适应根插件滚动条高度
 
         this.down.css({height:this.down.getStyle('height')}, function(){
             if(window[this.id+'_mainCaption'])clearTimeout(window[this.id+'_mainCaption']);
@@ -290,15 +318,6 @@ ___constructor_PullDown.prototype._m_todo=function(){
             }.bind(this));
         }
     }.bind(this));
-
-    if(this.select===false && !this.maxHeight){  // 当点击选项时, 折叠下拉框
-        for(var i=0; i<this.down.el.children.length; i++){
-            if(this.down.el.children[i].getAttribute('isUmCaption')!=='on')_(this.down.el.children[i]).BD('click', function(){
-                this.selectHidden=true;
-                if(this.root && this.root.maxHeight)this.root.MSobj.adaptive(500);
-            }.bind(this));
-        };
-    }
 };
 
 ___constructor_PullDown.prototype._m_getStyleInf=function(dom, typeName){
@@ -311,9 +330,9 @@ ___constructor_PullDown.prototype._m_getStyleInf=function(dom, typeName){
 
 ___constructor_PullDown.prototype._m_height=function(){
     var result=0;
-    if(this.maxHeight){
-        for(var i=0; i<_('#'+this.id+'_content', 0).el.children.length; i++){
-            result=result+_('#'+this.id+'_content', 0).el.children[i].offsetHeight+this._m_getStyleInf(_('#'+this.id+'_content', 0).el.children[i], 'marginTop')+this._m_getStyleInf(_('#'+this.id+'_content', 0).el.children[i], 'marginBottom')+this._m_getStyleInf(_('#'+this.id+'_content', 0).el.children[i], 'paddingTop')+this._m_getStyleInf(_('#'+this.id+'_content', 0).el.children[i], 'paddingBottom');
+    if(this.haveMSobj){
+        for(var i=0; i<this.MSobj.contentBox.el.children.length; i++){
+            result=result+this.MSobj.contentBox.el.children[i].offsetHeight+this._m_getStyleInf(this.MSobj.contentBox.el.children[i], 'marginTop')+this._m_getStyleInf(this.MSobj.contentBox.el.children[i], 'marginBottom')+this._m_getStyleInf(this.MSobj.contentBox.el.children[i], 'paddingTop')+this._m_getStyleInf(this.MSobj.contentBox.el.children[i], 'paddingBottom');
         };
     }else{
         for(var i=0; i<this.down.el.children.length; i++){
@@ -326,7 +345,7 @@ ___constructor_PullDown.prototype._m_height=function(){
 ___constructor_PullDown.prototype.unfold=function(){
     if(document.querySelector(this.downStr) && !this.now){
         if(this.MSobj)this.MSobj.adaptive(500);  // 自适应滚动条高度
-        if(this.root && this.root.now && this.root.maxHeight){  // 自适应根插件滚动条高度
+        if(this.root && this.root.now && this.root.MSobj){  // 自适应根插件滚动条高度
             this.root.MSobj.adaptive(500);
         }
         this.down.css({height:this.down.getStyle('height')}, function(){
@@ -343,7 +362,7 @@ ___constructor_PullDown.prototype.unfold=function(){
 ___constructor_PullDown.prototype.fold=function(){
     if(document.querySelector(this.downStr) && this.now){
         if(this.MSobj)this.MSobj.adaptive(500, false);  // 清除.adaptive()方法内部的定时器
-        if(this.root && this.root.now && this.root.maxHeight){  // 自适应根插件滚动条高度
+        if(this.root && this.root.now && this.root.MSobj){  // 自适应根插件滚动条高度
             this.root.MSobj.adaptive(500);
         }
         this.down.css({height:this.down.getStyle('height')}, function(){
@@ -353,8 +372,8 @@ ___constructor_PullDown.prototype.fold=function(){
     }
 };
 
-function _PullDown(obj){             //下拉内容过渡插件
-    return new ___constructor_PullDown(obj);
+function _PullDown(obj, movingObj){             //下拉内容过渡插件
+    return new ___constructor_PullDown(obj, movingObj);
 };
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------

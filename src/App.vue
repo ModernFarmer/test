@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-<um-dropdown class="aaaaa" :list="list2" clearable option="value.a" view="id.a" v-model="a" @change="abc"></um-dropdown>
+<um-dropdown class="aaaaa" :list="list2" :sss="sss" clearable option="value.a" view="id.a" v-model="a" @change="abc"></um-dropdown>
 <br>
 <br>
 <br>
@@ -33,15 +33,16 @@ export default {
     	abc(val, index){
     		console.log(val);
     		console.log(index);
-    	}
+    	},
+        sss(a){
+            alert(1)
+        }
     },
     mounted:function(){
         setTimeout(()=>{
-            this.list2=[{id:{a:'id_zz'}, value:{a:'zz'}}];
+            this.list2=[{id:{a:'id_d'}, value:{a:'dd'}},{id:{a:'id_e'}, value:{a:'ee'}},{id:{a:'id_f'}, value:{a:'ff'}},{id:{a:'id_gg'}, value:{a:'gg'}},{id:{a:'id_hh'}, value:{a:'hh'}},{id:{a:'id_ii'}, value:{a:'ii'}},{id:{a:'id_jj'}, value:{a:'jj'}},{id:{a:'id_kk'}, value:{a:'kk'}},{id:{a:'id_ll'}, value:{a:'ll'}}];
         }, 2000);
-        setTimeout(()=>{
-            this.list2=[{id:{a:'ww'}, value:{a:'ww'}},{id:{a:'tt'}, value:{a:'tt'}},{id:{a:'id_c'}, value:{a:'cc'}},{id:{a:'id_d'}, value:{a:'dd'}},{id:{a:'id_e'}, value:{a:'ee'}},{id:{a:'id_f'}, value:{a:'ff'}},{id:{a:'id_gg'}, value:{a:'gg'}},{id:{a:'id_hh'}, value:{a:'hh'}},{id:{a:'id_ii'}, value:{a:'ii'}},{id:{a:'id_jj'}, value:{a:'jj'}},{id:{a:'id_kk'}, value:{a:'kk'}},{id:{a:'id_ll'}, value:{a:'ll'}},{id:{a:'id_mm'}, value:{a:'mm'}}];
-        }, 8000);
+        
     }
 }
 </script>
