@@ -8,7 +8,7 @@
 	<div :class="{um__dropdown__container_down:!unfoldUp, um__dropdown__container_up:unfoldUp}" :id="'down'+num">
 		<div class="um__dropdown__scrollClassName" :id="'scroll'+num"></div>
 		<div class="um__dropdown__contentbox" :id="'contentbox'+num">
-			<div class="um__dropdown__search" @click.stop @mousedown.stop="toStopFnDown" @mouseup="toStopFnUp($event)">
+			<div class="um__dropdown__search" v-if="searchable!==undefined" @click.stop @mousedown.stop="toStopFnDown" @mouseup="toStopFnUp($event)">
 				<input class="um__dropdown__searchInput" type="text" v-model="searchKey" @input="toSearch">
 			</div>
 			<div class="um__dropdown__option__placeholder" v-if="clearable!==undefined" @click="toClearSelecter">{{placeholder?placeholder:'请选择 ...'}}</div>
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-	props:['list', 'value', 'icon', 'selected', 'model', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'placeholder'],
+	props:['list', 'value', 'icon', 'searchable', 'selected', 'model', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'placeholder'],
 	data(){
 		return {
 			showList:[...this.list], // 展示用数据
@@ -45,8 +45,13 @@ export default {
 			};
 		},
 		optionList:function(){
-			return this.list.map(item=>{
+			return this.showList.map(item=>{
 				return this.toFilterOption(item, this.option);
+			});
+		},
+		textList:function(){
+			return this.showList.map(item=>{
+				return this.toFilterOption(item, this.view);
 			});
 		}
 	},
@@ -60,18 +65,37 @@ export default {
 	},
 	methods:{
 		toSearch(){
-			if(window[`dropD_${this.num}`])clearTimeout(window[`dropD_${this.num}`]);
+			if(window[`dropD_${this.num}`]){
+				this.movingScrollObj.adaptive(500, false);
+				clearTimeout(window[`dropD_${this.num}`]);
+				delete window[`dropD_${this.num}`];
+			}
 			window[`dropD_${this.num}`]=setTimeout(()=>{
-				this.optionList
+				if(this.searchKey.replace(/\s/g, '')!==''){
+					this.showList=this.list.filter(val=>{
+						return this.toFilterOption(val, this.option).indexOf(this.searchKey.replace(/^\s*|\s*$/g, ''))!=-1;
+					});
+				}else{
+					this.showList=[...this.list];
+				};
+				this.movingScrollObj.adaptive(500);
+				delete window[`dropD_${this.num}`];
 			}, 500);
 		},
-		toJudge(event){ // 判断向上还是向下展开
-			let offsetY=event.offsetY, clientY=event.clientY, cH=_clientSize().h, h=eval(`caption${this.num}`).offsetHeight, dH=parseFloat(this.pullDownObj._m_height());
-			if(cH-h-clientY+offsetY-5<dH && clientY-offsetY-5>dH){
-				this.unfoldUp=true;
-			}else{
-				this.unfoldUp=false;
-			};
+		toJudge(event){
+			if(this.searchable!==undefined && !this.pullDownObj.now){ // 每次下拉初始化搜索数据
+				this.searchKey='';
+				this.showList=[...this.list];
+				this.index_now=this.textList.indexOf(this.text);
+			}
+			if(!this.pullDownObj.now){ // 判断向上还是向下展开
+				let offsetY=event.offsetY, clientY=event.clientY, cH=_clientSize().h, h=eval(`caption${this.num}`).offsetHeight, dH=parseFloat(this.pullDownObj._m_height());
+				if(cH-h-clientY+offsetY-5<dH && clientY-offsetY-5>dH){
+					this.unfoldUp=true;
+				}else{
+					this.unfoldUp=false;
+				};
+			}
 		},
 		toSelect(val, index){
 			if(this.index_now===index)return;

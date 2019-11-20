@@ -251,6 +251,7 @@ ___constructor_PullDown.prototype._m_todo=function(){
         if(this.select===false){  // 当点击选项时, 折叠下拉框
             for(var i=0; i<this.MSobj.contentBox.el.children.length; i++){
                 if(this.MSobj.contentBox.el.children[i].getAttribute('isUmCaption')!=='on')_(this.MSobj.contentBox.el.children[i]).BD('click', function(){
+        console.log(1)
                     this.selectHidden=true;
                     if(this.root && this.root.MSobj)this.root.MSobj.adaptive(500);
                 }.bind(this));

@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-<um-dropdown class="aaaaa" :list="list2" :sss="sss" clearable option="value.a" view="id.a" v-model="a" @change="abc"></um-dropdown>
+<um-dropdown class="aaaaa" :list="list2" :sss="sss" searchable option="value.a" view="id.a" v-model="a" @change="abc"></um-dropdown>
 <br>
 <br>
 <br>
@@ -31,18 +31,21 @@ export default {
     },
     methods:{
     	abc(val, index){
-    		console.log(val);
-    		console.log(index);
+    		
     	},
         sss(a){
             alert(1)
         }
     },
     mounted:function(){
-        setTimeout(()=>{
-            this.list2=[{id:{a:'id_d'}, value:{a:'dd'}},{id:{a:'id_e'}, value:{a:'ee'}},{id:{a:'id_f'}, value:{a:'ff'}},{id:{a:'id_gg'}, value:{a:'gg'}},{id:{a:'id_hh'}, value:{a:'hh'}},{id:{a:'id_ii'}, value:{a:'ii'}},{id:{a:'id_jj'}, value:{a:'jj'}},{id:{a:'id_kk'}, value:{a:'kk'}},{id:{a:'id_ll'}, value:{a:'ll'}}];
-        }, 2000);
+        /*setTimeout(()=>{
+            this.list2=[{id:{a:'id_d'}, value:{a:'dd'}},{id:{a:'id_e'}, value:{a:'ee'}},{id:{a:'id_f'}, value:{a:'ff'}},{id:{a:'id_gg'}, value:{a:'gg'}},{id:{a:'id_hh'}, value:{a:'hh'}},{id:{a:'id_ii'}, value:{a:'ii'}},{id:{a:'id_jj'}, value:{a:'jj'}},{id:{a:'id_kk'}, value:{a:'kk'}},{id:{a:'id_ll'}, value:{a:'ll'}},{id:{a:'id_d'}, value:{a:'dd'}},{id:{a:'id_e'}, value:{a:'ee'}},{id:{a:'id_f'}, value:{a:'ff'}},{id:{a:'id_gg'}, value:{a:'gg'}},{id:{a:'id_hh'}, value:{a:'hh'}},{id:{a:'id_ii'}, value:{a:'ii'}},{id:{a:'id_jj'}, value:{a:'jj'}},{id:{a:'id_kk'}, value:{a:'kk'}},{id:{a:'id_ll'}, value:{a:'ll'}}];
+        }, 2000);*/
         
+
+
+
+        // ----------------- 巨大的BUG 改变list时, 如果list的length变长, 不会监听下拉对象的选项点击事件
     }
 }
 </script>
