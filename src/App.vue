@@ -48,6 +48,6 @@ export default {
 </script>
 
 <style>
-#app {width:100%; height:100%; background:#EDEDED; padding-left:10%; padding-top:10%;}
+#app {width:100%; height:100%; background:#EDEDED; padding-left:10%; padding-top:80%;}
 .aaaaa {}
 </style>

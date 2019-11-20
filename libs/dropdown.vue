@@ -28,7 +28,7 @@ export default {
 			movingScrollObj:null, // 自定义滚动条插件对象
 			index_now:null, // 当前选中的选项的索引
 			text:this.placeholder?this.placeholder:'请选择 ...', // caption展示的内容
-			empty:false, // caption展示是否为空
+			empty:true, // caption展示是否为空
 			unfoldUp:false, // 是否向上展开
 			searchKey:'' // 搜索关键字
 		}
@@ -66,9 +66,8 @@ export default {
 			}, 500);
 		},
 		toJudge(event){ // 判断向上还是向下展开
-			let offsetY=event.offsetY, pageY=event.pageY, cH=_clientSize().h, h=eval(`caption${this.num}`).offsetHeight, dH=parseFloat(this.pullDownObj._m_height());
-
-			if(cH-h-pageY+offsetY-5<dH && pageY-offsetY-5>dH){
+			let offsetY=event.offsetY, clientY=event.clientY, cH=_clientSize().h, h=eval(`caption${this.num}`).offsetHeight, dH=parseFloat(this.pullDownObj._m_height());
+			if(cH-h-clientY+offsetY-5<dH && clientY-offsetY-5>dH){
 				this.unfoldUp=true;
 			}else{
 				this.unfoldUp=false;
