@@ -169,6 +169,11 @@ function ___constructor_PullDown(obj, movingObj){             //下拉内容过�
     this.MSobj=movingObj || null;
     this.haveMSobj=movingObj?true:false; // 是否存在movingObj参数
 
+    this[this.id+'_function']=function(){
+        this.selectHidden=true;
+        if(this.root && this.root.MSobj)this.root.MSobj.adaptive(500);
+    }.bind(this);
+
     this._m_todo();
 };
 
@@ -228,10 +233,7 @@ ___constructor_PullDown.prototype._m_todo=function(){
         this.down.el.appendChild(dom_scroll);
         if(this.select===false){  // 当点击选项时, 折叠下拉框
             for(var i=0; i<_('#'+this.id+'_content', 0).el.children.length; i++){
-                if(_('#'+this.id+'_content', 0).el.children[i].getAttribute('isUmCaption')!=='on')_(_('#'+this.id+'_content', 0).el.children[i]).BD('click', function(){
-                    this.selectHidden=true;
-                    if(this.root && this.root.MSobj)this.root.MSobj.adaptive(500);
-                }.bind(this));
+                if(_('#'+this.id+'_content', 0).el.children[i].getAttribute('isUmCaption')!=='on')_(_('#'+this.id+'_content', 0).el.children[i]).BD('click', this[this.id+'_function']);
             };
         }
         this.MSobj=_MovingScroll({  // 滚动条插件
@@ -250,20 +252,13 @@ ___constructor_PullDown.prototype._m_todo=function(){
 
         if(this.select===false){  // 当点击选项时, 折叠下拉框
             for(var i=0; i<this.MSobj.contentBox.el.children.length; i++){
-                if(this.MSobj.contentBox.el.children[i].getAttribute('isUmCaption')!=='on')_(this.MSobj.contentBox.el.children[i]).BD('click', function(){
-        console.log(1)
-                    this.selectHidden=true;
-                    if(this.root && this.root.MSobj)this.root.MSobj.adaptive(500);
-                }.bind(this));
+                if(this.MSobj.contentBox.el.children[i].getAttribute('isUmCaption')!=='on')_(this.MSobj.contentBox.el.children[i]).BD('click', this[this.id+'_function']);
             };
         }
     }else{
         if(this.select===false){  // 当点击选项时, 折叠下拉框
             for(var i=0; i<this.down.el.children.length; i++){
-                if(this.down.el.children[i].getAttribute('isUmCaption')!=='on')_(this.down.el.children[i]).BD('click', function(){
-                    this.selectHidden=true;
-                    if(this.root && this.root.MSobj)this.root.MSobj.adaptive(500);
-                }.bind(this));
+                if(this.down.el.children[i].getAttribute('isUmCaption')!=='on')_(this.down.el.children[i]).BD('click', this[this.id+'_function']);
             };
         }
     };
@@ -370,6 +365,14 @@ ___constructor_PullDown.prototype.fold=function(){
             this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
             this.now=false;
         }.bind(this));
+    }
+};
+
+___constructor_PullDown.prototype.reBind=function(){  // 可以重新给选项绑定内部事件(场景: 比如下拉选项增加后, 增加的选项dom应该执行该方法, 否则增加的选项被点击后不能正常隐藏下拉框)
+    if(this.select===false && this.haveMSobj){
+        for(var i=0; i<this.MSobj.contentBox.el.children.length; i++){
+            if(this.MSobj.contentBox.el.children[i].getAttribute('isUmCaption')!=='on')_(this.MSobj.contentBox.el.children[i]).BD('click', this[this.id+'_function']);
+        };
     }
 };
 

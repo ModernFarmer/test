@@ -20,7 +20,7 @@
 
 <script>
 export default {
-	props:['list', 'value', 'icon', 'searchable', 'selected', 'model', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'placeholder'],
+	props:['list', 'value', 'searchable', 'closeSearchClear', 'selected', 'model', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'placeholder'],
 	data(){
 		return {
 			showList:[...this.list], // 展示用数据
@@ -30,7 +30,8 @@ export default {
 			text:this.placeholder?this.placeholder:'请选择 ...', // caption展示的内容
 			empty:true, // caption展示是否为空
 			unfoldUp:false, // 是否向上展开
-			searchKey:'' // 搜索关键字
+			searchKey:'', // 搜索关键字
+			downHeight:220 // 最大下拉框高度
 		}
 	},
 	computed:{
@@ -61,6 +62,9 @@ export default {
 			this.searchKey='';
 			this.showList=[...arr];
 			this.toClearSelecter();
+			this.$nextTick(function(){
+				this.pullDownObj.reBind();
+			});
 		}
 	},
 	methods:{
@@ -83,13 +87,18 @@ export default {
 			}, 500);
 		},
 		toJudge(event){
-			if(this.searchable!==undefined && !this.pullDownObj.now){ // 每次下拉初始化搜索数据
+			if(this.searchable!==undefined && this.closeSearchClear===undefined && !this.pullDownObj.now){ // 每次下拉初始化搜索数据
 				this.searchKey='';
 				this.showList=[...this.list];
 				this.index_now=this.textList.indexOf(this.text);
 			}
 			if(!this.pullDownObj.now){ // 判断向上还是向下展开
-				let offsetY=event.offsetY, clientY=event.clientY, cH=_clientSize().h, h=eval(`caption${this.num}`).offsetHeight, dH=parseFloat(this.pullDownObj._m_height());
+				let offsetY=event.offsetY;
+				let clientY=event.clientY;
+				let cH=_clientSize().h;
+				let h=eval(`caption${this.num}`).offsetHeight;
+				let dH=parseFloat(this.pullDownObj._m_height());
+				dH=dH<this.downHeight?dH:this.downHeight;
 				if(cH-h-clientY+offsetY-5<dH && clientY-offsetY-5>dH){
 					this.unfoldUp=true;
 				}else{
@@ -135,6 +144,7 @@ export default {
 	mounted:function(){
 		this.$nextTick(function(){
 			let maxHeight=this.maxHeight || '220px';
+			maxHeight=maxHeight.replace(/\s+/g, '');
 			_(`#down${this.num}`).css({maxHeight});
 			this.movingScrollObj=_MovingScroll({
 				box:`#down${this.num}`,
@@ -147,6 +157,15 @@ export default {
 			    down:`#down${this.num}`,
 			    speed:.2
 			}, this.movingScrollObj);
+			if(/px$/.test(maxHeight)){
+				this.downHeight=Math.ceil(maxHeight.replace(/px$/, ''));
+			}else if(/rem$/.test(maxHeight)){
+				this.downHeight=Math.ceil(_(document.getElementsByTagName('html')[0]).getStyle('fontSize').replace(/px$/, ''))*Number(maxHeight.replace(/rem$/, ''));
+			}else if(/em$/.test(maxHeight)){
+				this.downHeight=Math.ceil(_(eval(`caption${this.num}`).parentNode).getStyle('fontSize').replace(/px$/, ''))*Number(maxHeight.replace(/em$/, ''))
+			}else{
+				throw `um-dropdown插件的maxHeight属性只支持三种单位: 'px', 'em', 'rem'`;
+			};
 		});
 		if(this.selected!==undefined){
 			let index=Math.ceil(this.selected);
