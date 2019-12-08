@@ -13,7 +13,9 @@
 				<div class="icon um__dropdown__searchIcon">&#xe651;</div>
 			</div>
 			<div class="um__dropdown__option__placeholder" v-if="clearable!==undefined" @click="toClearSelecter">{{placeholder?placeholder:'请选择 ...'}}</div>
-			<div :class="{um__dropdown__option:true, um__dropdown__option__chooded:index==index_now}" v-for="(val, index) in showList" :key="'key'+num+'_'+index" @click="toSelect(val, index)">{{optionList[index]}}</div>
+			<div :class="{um__dropdown__option:true, um__dropdown__option__chooded:index==index_now}" v-for="(val, index) in showList" :key="'key'+num+'_'+index" @click="toSelect(val, index)">
+<div @click.stop style="width:100%; height:100%; background:transparent; cursor:not-allowed; position:absolute; left:0; top:0; z-index:100"></div>
+			{{optionList[index]}}</div>
 		</div>
 	</div>
 </div>
@@ -21,7 +23,7 @@
 
 <script>
 export default {
-	props:['list', 'value', 'searchable', 'closeSearchClear', 'selected', 'model', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'placeholder'],
+	props:['list', 'searchable', 'closeSearchClear', 'selected', 'model', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'placeholder'],
 	data(){
 		return {
 			first:true, // 是否首次加载
@@ -209,7 +211,7 @@ export default {
 .um__dropdown__searchIcon {width:24px; height:24px; line-height:24px; color:#c0c4cc; font-size:12px; text-align:center; position:absolute; left:calc(100% - 39px); top:9px; z-index:5;}
 .um__dropdown__option__placeholder {width:calc(100% - 10px); line-height:28px; font-size:14px; padding-left:10px; cursor:pointer; color:#c0c4cc;}
 .um__dropdown__option__placeholder:hover {background:#f0f3f7;}
-.um__dropdown__option {width:calc(100% - 10px); line-height:28px; font-size:14px; padding-left:10px; cursor:pointer;}
+.um__dropdown__option {width:calc(100% - 10px); line-height:28px; font-size:14px; padding-left:10px; cursor:pointer; position:relative;}
 .um__dropdown__option:hover {background:#f0f3f7;}
 .um__dropdown__option__chooded {color:#409eff; font-weight:900;}
 .um__dropdown__scrollClassName {width:5px; height:0; border-radius:3px; background:#e1e6ec; position:absolute; right:1px; top:0; z-index:100;} /*滚动条样式*/
