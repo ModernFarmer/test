@@ -13,9 +13,10 @@
 				<div class="icon um__dropdown__searchIcon">&#xe651;</div>
 			</div>
 			<div class="um__dropdown__option__placeholder" v-if="clearable!==undefined" @click="toClearSelecter">{{placeholder?placeholder:'请选择 ...'}}</div>
-			<div :class="{um__dropdown__option:true, um__dropdown__option__chooded:index==index_now}" v-for="(val, index) in showList" :key="'key'+num+'_'+index" @click="toSelect(val, index)">
-<div @click.stop style="width:100%; height:100%; background:transparent; cursor:not-allowed; position:absolute; left:0; top:0; z-index:100"></div>
-			{{optionList[index]}}</div>
+			<div class="um__dropdown__option_box" v-for="(val, index) in showList" :key="'key'+num+'_'+index" @click="toSelect(val, index)">
+				<div class="um__dropdown__option__cover" v-show="!_rule(val)" @click.stop></div>
+				<div :class="{um__dropdown__option:true, um__dropdown__option__chooded:index==index_now}">{{optionList[index]}}</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -23,7 +24,7 @@
 
 <script>
 export default {
-	props:['list', 'searchable', 'closeSearchClear', 'selected', 'model', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'placeholder'],
+	props:['list', 'searchable', 'closeSearchClear', 'selected', 'model', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'placeholder', 'enabled'],
 	data(){
 		return {
 			first:true, // 是否首次加载
@@ -61,10 +62,28 @@ export default {
 			return this.showList.map(item=>{
 				return this.toFilterOption(item, this.view);
 			});
+		},
+		enabledRule:function(){
+			if(this.enabled===undefined){
+				return null;
+			}else{
+				let arr=this.enabled.replace(/\s+/g, '').split('|');
+				let attr=arr[0];
+				let value=null;
+				if(arr.length>1)value=arr[1];
+
+				let result='';
+				let arr_str=attr.split('.');
+				arr_str.forEach(val=>{
+					result+=`['${val}']`;
+				});
+
+				return {attr:result, value};
+			};
 		}
 	},
 	watch:{
-		list:function(arr){ // 当列表发生变化时, 自适应滚动条长度
+		list:function(arr){ // 当列表发生变化时, 自适应滚动条长度 *列表发生变化不包括列表的某一内容发生变化, 如: list[0].name=value
 			if(this.pullDownObj.now)this.movingScrollObj.adaptive(500);
 			this.searchKey='';
 			this.showList=[...arr];
@@ -135,7 +154,7 @@ export default {
 		toFilterOption(item, pointer){
 			if(pointer){
 				let result='item';
-				let arr=pointer.split('\.');
+				let arr=pointer.split('.');
 				arr.forEach(val=>{
 					result+=`['${val}']`;
 				});
@@ -149,6 +168,13 @@ export default {
 		},
 		toStopFnUp(){ // 点击搜索div时合理改变_PullDown插件内部的downHidden值, 使它被点击时不会隐藏下拉框
 			this.pullDownObj.downHidden=true;
+		},
+		_rule(item){
+			if(!this.enabledRule){
+				return false;
+			}else{
+				return eval(`item${this.enabledRule.attr}`)===(this.enabledRule.value?this.enabledRule.value:true);
+			};
 		}
 	},
 	mounted:function(){
@@ -211,7 +237,9 @@ export default {
 .um__dropdown__searchIcon {width:24px; height:24px; line-height:24px; color:#c0c4cc; font-size:12px; text-align:center; position:absolute; left:calc(100% - 39px); top:9px; z-index:5;}
 .um__dropdown__option__placeholder {width:calc(100% - 10px); line-height:28px; font-size:14px; padding-left:10px; cursor:pointer; color:#c0c4cc;}
 .um__dropdown__option__placeholder:hover {background:#f0f3f7;}
-.um__dropdown__option {width:calc(100% - 10px); line-height:28px; font-size:14px; padding-left:10px; cursor:pointer; position:relative;}
+.um__dropdown__option__cover {width:100%; height:100%; background:transparent; cursor:not-allowed; position:absolute; left:0; top:0; z-index:100}
+.um__dropdown__option_box {width:calc(100% - 10px); line-height:28px; font-size:14px; padding-left:10px; cursor:pointer; position:relative;}
+.um__dropdown__option {width:100%; height:100%;}
 .um__dropdown__option:hover {background:#f0f3f7;}
 .um__dropdown__option__chooded {color:#409eff; font-weight:900;}
 .um__dropdown__scrollClassName {width:5px; height:0; border-radius:3px; background:#e1e6ec; position:absolute; right:1px; top:0; z-index:100;} /*滚动条样式*/

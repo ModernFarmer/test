@@ -1,6 +1,6 @@
 <template>
 <div class="dropdown_view">
-	<um-dropdown :list="list2" clearable closeSearchClear searchable option="value.a" view="id.a" v-model="dropdownValue" @change="abc"></um-dropdown>
+	<um-dropdown :list="list" enabled="value.a|cc" clearable closeSearchClear searchable option="value.a" view="id.a" v-model="dropdownValue" @change="abc"></um-dropdown>
 </div>
 </template>
 
@@ -18,6 +18,7 @@
 // disabled: 如果有该属性, 则插件禁用
 // selected: 初始被选中的选项在list中的索引   [number]
 // maxHeight: 下拉框体的最大高度, 默认'220px'   [string]   *必须带单位, 只支持 px, em, rem
+// enabled: 选项禁选规则  [string]   如果含有该属性, 则启用禁选过滤, 该值将会以'|'拆分成, 拆分后如果有2部分, 则第一部分为选项值属性描述, 第二部分为判断选项是否禁选的值; 拆分后如果只有1部分, 则该部分为选项值属性描述. 比如:enabled="value.a|T", 这里以json表示选项的值, 则当jaon.value.a==='T'时, 选项可选; 再比如:enabled="value.a", 则当json.value.a===true时, 选项可选
 
 
 
@@ -26,9 +27,7 @@
 export default {
 	data(){
 		return {
-			list:[1,2,3,4,5,6,7],
-            list1:[{id:1, value:11},{id:2, value:22},{id:3, value:33},{id:4, value:44},{id:5, value:55},{id:6, value:66}],
-            list2:[{id:{a:'id_a'}, value:{a:'aa'}},{id:{a:'id_b'}, value:{a:'bb'}},{id:{a:'id_c'}, value:{a:'cc'}},{id:{a:'id_d'}, value:{a:'dd'}},{id:{a:'id_e'}, value:{a:'ee'}},{id:{a:'id_f'}, value:{a:'ff'}},{id:{a:'id_gg'}, value:{a:'gg'}},{id:{a:'id_hh'}, value:{a:'hh'}},{id:{a:'id_ii'}, value:{a:'ii'}},{id:{a:'id_jj'}, value:{a:'jj'}},{id:{a:'id_kk'}, value:{a:'kk'}},{id:{a:'id_ll'}, value:{a:'ll'}}],
+            list:[{id:{a:'id_a'}, value:{a:'aa'}},{id:{a:'id_b'}, value:{a:'bb'}},{id:{a:'id_c'}, value:{a:'cc'}},{id:{a:'id_d'}, value:{a:'dd'}},{id:{a:'id_e'}, value:{a:'ee'}},{id:{a:'id_f'}, value:{a:'ff'}},{id:{a:'id_gg'}, value:{a:'gg'}},{id:{a:'id_hh'}, value:{a:'hh'}},{id:{a:'id_ii'}, value:{a:'ii'}},{id:{a:'id_jj'}, value:{a:'jj'}},{id:{a:'id_kk'}, value:{a:'kk'}},{id:{a:'id_ll'}, value:{a:'ll'}}],
             dropdownValue:''
 		}
 	},
@@ -38,9 +37,7 @@ export default {
 		}
 	},
 	mounted:function(){
-		setTimeout(()=>{
-			this.list2[0].id.a='sdfsdfsdf';
-		}, 3000);
+		
 	}
 }
 </script>
