@@ -159,6 +159,9 @@ function ___constructor_PullDown(obj, movingObj){             //下拉内容过�
     this.maxHeight=obj.maxHeight || null;
     this.scrollClassName=obj.scrollClassName || 'UM_PullDown_scrollClassName';
 
+    this.zTop=(this.caption.el.offsetHeight-1)+'px';
+    this.originTop=this.down.getStyle('top');
+
     this.top_p=0;
     this.bottom_p=0;
 
@@ -194,7 +197,7 @@ ___constructor_PullDown.prototype._m_todo=function(){
         this.selectHidden=false;
 
         this.down.css({height:this.down.getStyle('height')}, function(){
-            this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
+            this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, top:this.zTop, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
             this.now=false;
         }.bind(this));
     }.bind(this)).BD('mousedown', function(){
@@ -266,7 +269,7 @@ ___constructor_PullDown.prototype._m_todo=function(){
     if(this.now===true){  // 设置初始状态为显示时的下拉框体样式
         this.down.css({opacity:1, height:'auto'});
     }else if(this.now===false){  // 设置初始状态为隐藏时的下拉框体样式
-        this.down.css({opacity:0, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
+        this.down.css({opacity:0, top:this.zTop, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
     }
     this.caption.css({cursor:'pointer'});  // 设置标题的cursor样式
 
@@ -288,14 +291,14 @@ ___constructor_PullDown.prototype._m_todo=function(){
             if(window[this.id+'_mainCaption'])clearTimeout(window[this.id+'_mainCaption']);
             if(this.now===false){
                 this.now=true;
-                this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:1, height:this._m_height(), paddingTop:this.top_p, paddingBottom:this.bottom_p}, function(){
+                this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:1, top:this.originTop, height:this._m_height(), paddingTop:this.top_p, paddingBottom:this.bottom_p}, function(){
                     window[this.id+'_mainCaption']=setTimeout(function(){
                         if(document.querySelector(this.downStr) && this.now)this.down.css({height:'auto'});
                     }.bind(this), this.speed*1000);
                 }.bind(this));
             }else{
                 this.now=false;
-                this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
+                this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, top:this.zTop, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
             };
         }.bind(this));
     }.bind(this)).BD('mouseup', function(){
@@ -309,7 +312,7 @@ ___constructor_PullDown.prototype._m_todo=function(){
                 return;
             }
             this.down.css({height:this.down.getStyle('height')}, function(){  // 为了使动画正常过渡, 需要设置height(当height的值为auto时, 改变height值不会显示动效)
-                this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
+                this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, top:this.zTop, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
                 this.now=false;
             }.bind(this));
         }
@@ -346,7 +349,7 @@ ___constructor_PullDown.prototype.unfold=function(){
         }
         this.down.css({height:this.down.getStyle('height')}, function(){
             if(window[this.id+'_outButton'])clearTimeout(window[this.id+'_outButton']);
-            this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:1, height:this._m_height(), paddingTop:this.top_p, paddingBottom:this.bottom_p});
+            this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:1, top:this.originTop, height:this._m_height(), paddingTop:this.top_p, paddingBottom:this.bottom_p});
             this.now=true;
             window[this.id+'_outButton']=setTimeout(function(){
                 this.down.css({height:'auto'});
@@ -362,7 +365,7 @@ ___constructor_PullDown.prototype.fold=function(){
             this.root.MSobj.adaptive(500);
         }
         this.down.css({height:this.down.getStyle('height')}, function(){
-            this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
+            this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, top:this.zTop, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
             this.now=false;
         }.bind(this));
     }

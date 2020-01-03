@@ -1,10 +1,14 @@
 <template>
 <div class="dropdown_view">
 	<um-dropdown :list="list" enabled="value.a|cc" clearable closeSearchClear searchable option="value.a" view="id.a" v-model="dropdownValue" @change="abc"></um-dropdown>
+	<!-- <br>
+	<br> -->
+	<um-input style="display:inline-block"></um-input>
 </div>
 </template>
 
 <script>
+//  ----------------- dropdown --------------------------
 // list: 下拉插件的列表数据  必须  [array]
 // option: 如果下拉列表数据数组的值是json, 而且你要下拉选项展示的是这些json内某个字段的值, 比如list是这样一个数组:[{a:{value:'ohyear~'}, b:'bbb'},{a:{value:'ohyear_1~'}, b:'bbb_1'}], 你想要下拉选项展示的是list[i].a.value的值, 那么你可以设置option为'a.value'; 如果不设置option, 那么下拉选项展示的是list[i]   [string]
 // view: 同option, 它表示的是展示在下拉插件头里面的值, 如果不设置, 则展示list[i]    [string]
@@ -15,13 +19,16 @@
 // placeholder: 当未选择任何选项时所展示的灰色字体    [string]
 // searchable: 如果有该属性, 则可以本地搜索下拉选项
 // closeSearchClear: 关闭本地搜索的清除功能; 当插件有searchable属性时, 如果收起下拉框, 默认会清楚搜索框内的搜索关键字, 如果有closeSearchClear属性, 则不会清除
-// disabled: 如果有该属性, 则插件禁用
+// disabled: 如果有该属性, 且该属性的值是''、'true'、true时, 则插件禁用
 // selected: 初始被选中的选项在list中的索引   [number]
 // maxHeight: 下拉框体的最大高度, 默认'220px'   [string]   *必须带单位, 只支持 px, em, rem
-// enabled: 选项禁选规则  [string]   如果含有该属性, 则启用禁选过滤, 该值将会以'|'拆分成, 拆分后如果有2部分, 则第一部分为选项值属性描述, 第二部分为判断选项是否禁选的值; 拆分后如果只有1部分, 则该部分为选项值属性描述. 比如:enabled="value.a|T", 这里以json表示选项的值, 则当jaon.value.a==='T'时, 选项可选; 再比如:enabled="value.a", 则当json.value.a===true时, 选项可选
+// enabled: 选项禁选规则  [string]   如果含有该属性, 则启用禁选过滤, 该值将会以'|'拆分, 拆分后如果有2部分, 则第一部分为选项值属性描述, 第二部分为判断选项是否禁选的值; 拆分后如果只有1部分, 则该部分为选项值属性描述. 比如:enabled="value.a|T", 这里以json表示选项的值, 则当jaon.value.a==='T'时, 选项可选; 再比如:enabled="value.a", 则当json.value.a===true时, 选项可选
 
 
 
+
+//  ----------------- dropdown --------------------------
+// disabled: 如果有该属性, 且该属性的值是''、'true'、true时, 则插件禁用
 
 
 export default {
