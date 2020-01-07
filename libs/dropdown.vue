@@ -235,7 +235,7 @@ export default {
 .um__dropdown__container_down {width:calc(100% + 2px); overflow:hidden; padding:5px 0; background:white; border-radius:3px; border:1px solid #e4e7ed; box-shadow:0 0 5px #e4e7ed; position:absolute; left:-2px; top:calc(100% + 5px);}
 .um__dropdown__search {width:100%; height:40px; position:relative;}
 .um__dropdown__searchInput {width:calc(100% - 54px); height:24px; padding-left:5px; padding-right:24px; outline-color:#ceddef; background:transparent; border:1px solid #e4e7ed; border-radius:3px; position:absolute; left:10px; top:7px;}
-.um__dropdown__searchIcon {width:24px; height:24px; line-height:24px; color:#c0c4cc; font-size:12px; text-align:center; position:absolute; left:calc(100% - 39px); top:9px; z-index:5;}
+.um__dropdown__searchIcon {width:24px; height:24px; line-height:24px; color:#c0c4cc; font-size:12px; text-align:center; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; position:absolute; left:calc(100% - 39px); top:9px; z-index:5;}
 .um__dropdown__option__placeholder {width:calc(100% - 10px); line-height:28px; font-size:14px; padding-left:10px; cursor:pointer; color:#c0c4cc;}
 .um__dropdown__option__placeholder:hover {background:#f0f3f7;}
 .um__dropdown__option_box {width:100%; line-height:26px; font-size:14px; cursor:pointer; position:relative;}

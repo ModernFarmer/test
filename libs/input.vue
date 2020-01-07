@@ -1,26 +1,54 @@
 <template>
 <div class="um__input__class">
 	<div class="um__input__disabled" v-if="isCover"></div>   <!-- 禁用遮罩 -->
-	<input type="text" :class="{um__input__input:true, um__input__input_on:!isBlur && !first, um__input__input_off:isBlur && !first}" @blur="toBlur" @focus="toFocus" @focus.once="toUnfirst">
+	<div class="icon um__input__Icon" :style="{[iconObj.position]:'1px', cursor:haveIconClick?'pointer':'default'}" v-if="icon" v-html="iconObj.value" @click="toClickIcon"></div>
+	<input type="text" :class="{um__input__input_iconRight:iconObj.position!=='left', um__input__input_iconLeft:iconObj.position==='left', um__input__input_on:!isBlur && !first, um__input__input_off:isBlur && !first}" @blur="toBlur" @focus="toFocus" @focus.once="toUnfirst" v-bind="$attrs" v-on="inputEvent">
 </div>
 </template>
 
 <script>
 export default {
-	props:['icon', 'disabled'],
+	// this._$UMOBJECT$_
+	props:['icon', 'disabled', 'rulesGroup', 'rules'],
 	data(){
 		return {
 			first:true, // 是否首次加载
 			isBlur:true, // 是否失去焦点状态
+			isAlarm:false, // 是否标红
 		}
 	},
 	computed:{
+		id:function(){
+			return '_um_input_'+Math.ceil(Math.random()*100000000);
+		},
+		inputEvent:function(){ // 所有组件上绑定的事件
+			return Object.assign({}, this.$listeners, {
+				input:function(event) {
+					this.$emit('input', event.target.value);
+				}.bind(this)
+			});
+		},
 		isCover:function(){ // 是否显示禁用遮罩
 			if(this.disabled=='' || this.disabled=='true' || this.disabled===true){
 				return true;
 			}else{
 				return false;
 			};
+		},
+		iconObj:function(){ // icon的值和位置
+			if(this.icon){
+				let arr=this.icon.split('|');
+				if(arr.length>1){
+					return {value:arr[0],position:arr[1]};
+				}else{
+					return {value:arr[0],position:'right'}
+				};
+			}else{
+				return {value:'',position:'right'};
+			};
+		},
+		haveIconClick:function(){ // 组件是否含有icon的点击事件, 用于判断鼠标移入icon的时候是否要变换鼠标样式
+			return 'clickIcon' in this.$listeners;
 		}
 	},
 	methods:{
@@ -32,9 +60,15 @@ export default {
 		},
 		toFocus(){
 			this.isBlur=false;
+		},
+		toClickIcon(){
+			this.$emit('clickIcon', this.$attrs.value);
 		}
 	},
-	mounted:function(){
+	created:function(){
+		if(this.rulesGroup && this.rules)this._$UMOBJECT$_.rulesGroup[this.rulesGroup]=this.rules;
+	},
+	beforeDestroy:function(){
 		
 	}
 }
@@ -43,9 +77,10 @@ export default {
 <style>
 .um__input__class {width:180px; height:26px; color:#606266; border:1px solid #c0c4cc; border-radius:3px; background:white; display:inline-block; position:relative; animation:UM_BORDERFRAME_OUT .5s forwards; -webkit-animation:UM_BORDERFRAME_OUT .5s forwards; -o-animation:UM_BORDERFRAME_OUT .5s forwards; -moz-animation:UM_BORDERFRAME_OUT .5s forwards; -ms-animation:UM_BORDERFRAME_OUT .5s forwards;}
 .um__input__class:hover {animation:UM_BORDERFRAME_HOVER .5s forwards; -webkit-animation:UM_BORDERFRAME_HOVER .5s forwards; -o-animation:UM_BORDERFRAME_HOVER .5s forwards; -moz-animation:UM_BORDERFRAME_HOVER .5s forwards; -ms-animation:UM_BORDERFRAME_HOVER .5s forwards;}
-.um__input__input {width:calc(100% - 10px); height:calc(100% - 2px); padding-left:5px; padding-right:5px; outline:none; color:#606266; border:1px solid transparent; border-radius:3px; background:transparent; position:absolute; left:-1px; top:-1px;}
+.um__input__input_iconRight {width:calc(100% - 34px); height:calc(100% - 2px); padding-left:5px; padding-right:29px; outline:none; color:#606266; border:1px solid transparent; border-radius:3px; background:transparent; position:absolute; left:-1px; top:-1px;}
+.um__input__input_iconLeft {width:calc(100% - 34px); height:calc(100% - 2px); padding-left:29px; padding-right:5px; outline:none; color:#606266; border:1px solid transparent; border-radius:3px; background:transparent; position:absolute; left:-1px; top:-1px;}
 .um__input__input_on {animation:UM_BORDERFRAME_CHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_CHOOSED .5s forwards;}
 .um__input__input_off {animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards;}
 .um__input__disabled {width:calc(100% + 2px); height:calc(100% + 2px); background:rgba(0,0,0,.1); cursor:not-allowed; border-radius:3px; position:absolute; left:-1px; top:-1px; z-index:10;}
-
+.um__input__Icon {width:24px; height:24px; line-height:24px; color:#c0c4cc; font-size:12px; text-align:center; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; position:absolute; top:1px; z-index:5;}
 </style>

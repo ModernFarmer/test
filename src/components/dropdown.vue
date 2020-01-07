@@ -3,7 +3,7 @@
 	<um-dropdown :list="list" enabled="value.a|cc" clearable closeSearchClear searchable option="value.a" view="id.a" v-model="dropdownValue" @change="abc"></um-dropdown>
 	<!-- <br>
 	<br> -->
-	<um-input style="display:inline-block"></um-input>
+	<um-input icon="&#xe651;|left" rulesGroup v-model="inputValue" @clickIcon="toClick"></um-input>{{inputValue}}
 </div>
 </template>
 
@@ -20,31 +20,41 @@
 // searchable: 如果有该属性, 则可以本地搜索下拉选项
 // closeSearchClear: 关闭本地搜索的清除功能; 当插件有searchable属性时, 如果收起下拉框, 默认会清楚搜索框内的搜索关键字, 如果有closeSearchClear属性, 则不会清除
 // disabled: 如果有该属性, 且该属性的值是''、'true'、true时, 则插件禁用
-// selected: 初始被选中的选项在list中的索引   [number]
+// selected: 初始被选中的选项在list中的索引   [number]  *由于插件v-model返回的可能是一个对象, 所以如果有初始选项, 那你需要自己去获得初始选项的索引并把它赋值到selected属性上...
 // maxHeight: 下拉框体的最大高度, 默认'220px'   [string]   *必须带单位, 只支持 px, em, rem
 // enabled: 选项禁选规则  [string]   如果含有该属性, 则启用禁选过滤, 该值将会以'|'拆分, 拆分后如果有2部分, 则第一部分为选项值属性描述, 第二部分为判断选项是否禁选的值; 拆分后如果只有1部分, 则该部分为选项值属性描述. 比如:enabled="value.a|T", 这里以json表示选项的值, 则当jaon.value.a==='T'时, 选项可选; 再比如:enabled="value.a", 则当json.value.a===true时, 选项可选
 
 
 
 
-//  ----------------- dropdown --------------------------
+//  ----------------- input --------------------------
 // disabled: 如果有该属性, 且该属性的值是''、'true'、true时, 则插件禁用
+// icon: 输入框图标  [string]   如果含有该属性, 则启用输入框图标, 该值将会以'|'拆分, 拆分后如果有2部分, 则第一部分为图标的Unicode代码, 第二部分为图标的位置; 拆分后如果只有1部分, 则该部分为图标的Unicode代码. 比如:icon="&#xe651;|left", 这里以json表示选项的值, 则输入框内展示Unicode代码为'&#xe651;'的图标, 图标的位置在左边  *位置只支持'left'和'right', 分别代表左边和右边, 默认为'right'
+// @clickIcon: 当点击icon时调用的函数, 该函数自带回调参数: input框内绑定的值     [方法名]
 
 
 export default {
 	data(){
 		return {
             list:[{id:{a:'id_a'}, value:{a:'aa'}},{id:{a:'id_b'}, value:{a:'bb'}},{id:{a:'id_c'}, value:{a:'cc'}},{id:{a:'id_d'}, value:{a:'dd'}},{id:{a:'id_e'}, value:{a:'ee'}},{id:{a:'id_f'}, value:{a:'ff'}},{id:{a:'id_gg'}, value:{a:'gg'}},{id:{a:'id_hh'}, value:{a:'hh'}},{id:{a:'id_ii'}, value:{a:'ii'}},{id:{a:'id_jj'}, value:{a:'jj'}},{id:{a:'id_kk'}, value:{a:'kk'}},{id:{a:'id_ll'}, value:{a:'ll'}}],
-            dropdownValue:''
+            dropdownValue:'',
+
+            inputValue:'1234',
 		}
 	},
 	methods:{
 		abc(data, index){
 			console.log(data, index)
+		},
+		toClick(val){
+			console.log(val);
+		},
+		bbb(){
+			console.log('bbb')
 		}
 	},
 	mounted:function(){
-		
+		console.log(this._$UMOBJECT$_)
 	}
 }
 </script>
