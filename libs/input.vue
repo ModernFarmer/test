@@ -2,7 +2,7 @@
 <div class="um__input__class">
 	<div class="um__input__disabled" v-if="isCover"></div>   <!-- 禁用遮罩 -->
 	<div class="icon um__input__Icon" :style="{[iconObj.position]:'1px', cursor:haveIconClick?'pointer':'default'}" v-if="icon" v-html="iconObj.value" @click="toClickIcon"></div>
-	<input type="text" :class="{um__input__input_iconRight:iconObj.position!=='left', um__input__input_iconLeft:iconObj.position==='left', um__input__input_on:!isBlur && !first && !isAlarm, um__input__input_off:isBlur && !first && !isAlarm, um__input__input_alarm:isAlarm}" @blur="toBlur" @focus="toFocus" @focus.once="toUnfirst" v-bind="$attrs" v-on="inputEvent">
+	<input type="text" :class="{um__input__input_iconRight:iconObj.position!=='left', um__input__input_iconLeft:iconObj.position==='left', um__input__input_on:!isBlur && !first && !isAlarm && !alarmBefore, um__input__input_alarm_on:!isBlur && !first && !isAlarm && alarmBefore, um__input__input_off:isBlur && !first && !isAlarm && !alarmBefore, um__input__input_alarm:isAlarm && !blurBefore, um__input__input_blur_alarm:isAlarm && blurBefore}" @blur="toBlur" @focus="toFocus" @focus.once="toUnfirst" v-bind="$attrs" v-on="inputEvent">
 	<div class="um__input__input_textAlarm">{{'不能为空!'}}</div>
 </div>
 </template>
@@ -14,6 +14,7 @@ export default {
 	data(){
 		return {
 			first:true, // 是否首次加载
+			blurBefore:true, // 标红之前的获取焦点状态, 用于优化展示动画
 			alarmBefore:false, // 失去或获取焦点之前的标红状态, 用于优化展示动画
 			isBlur:true, // 是否失去焦点状态
 			isAlarm:false, // 是否标红
@@ -54,26 +55,34 @@ export default {
 		}
 	},
 	methods:{
-		toUnfirst(){
+		toUnfirst(){ // 取消首次加载状态
 			this.first=false;
 		},
-		toBlur(){
-			this.isAlarm=true;
+		toBlur(){ // 失去焦点
+			this.blurBefore=this.isBlur;
 			this.isBlur=true;
 		},
-		toFocus(){
-			this.isAlarm=false;
+		toFocus(){ // 获取焦点
+			this.blurBefore=this.isBlur;
 			this.isBlur=false;
 		},
-		toClickIcon(){
+		toClickIcon(){ // 点击icon时触发的函数
 			this.$emit('clickIcon', this.$attrs.value);
+		},
+		toRed(){ // 框体标红
+			this.alarmBefore=this.isAlarm;
+			this.isAlarm=true;
+		},
+		toNomal(){ // 取消框体标红
+			this.alarmBefore=this.isAlarm;
+			this.isAlarm=false;
 		}
 	},
 	created:function(){
 		if(this.rulesGroup && this.rules)this._$UMOBJECT$_.rulesGroup[this.rulesGroup]=this.rules;
 	},
 	beforeDestroy:function(){
-		
+
 	}
 }
 </script>
@@ -84,8 +93,10 @@ export default {
 .um__input__input_iconRight {width:calc(100% - 34px); height:calc(100% - 2px); padding-left:5px; padding-right:29px; outline:none; color:#606266; border:1px solid transparent; border-radius:3px; background:transparent; position:absolute; left:-1px; top:-1px;}
 .um__input__input_iconLeft {width:calc(100% - 34px); height:calc(100% - 2px); padding-left:29px; padding-right:5px; outline:none; color:#606266; border:1px solid transparent; border-radius:3px; background:transparent; position:absolute; left:-1px; top:-1px;}
 .um__input__input_on {animation:UM_BORDERFRAME_CHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_CHOOSED .5s forwards;}
+.um__input__input_alarm_on {animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards;}
 .um__input__input_off {animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards;}
 .um__input__input_alarm {animation:UM_BORDERFRAME_ALARM .5s forwards; -webkit-animation:UM_BORDERFRAME_ALARM .5s forwards; -o-animation:UM_BORDERFRAME_ALARM .5s forwards; -moz-animation:UM_BORDERFRAME_ALARM .5s forwards; -ms-animation:UM_BORDERFRAME_ALARM .5s forwards;}
+.um__input__input_blur_alarm {animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -webkit-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -o-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -moz-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -ms-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards;}
 .um__input__disabled {width:calc(100% + 2px); height:calc(100% + 2px); background:rgba(0,0,0,.1); cursor:not-allowed; border-radius:3px; position:absolute; left:-1px; top:-1px; z-index:10;}
 .um__input__Icon {width:24px; height:24px; line-height:24px; color:#c0c4cc; font-size:12px; text-align:center; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; position:absolute; top:1px; z-index:5;}
 .um__input__input_textAlarm {width:calc(100% - 5px); line-height:20px; font-size:10px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:red; position:absolute; left:5px; top:100%;}

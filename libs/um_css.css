@@ -84,7 +84,7 @@
 	from {border:1px solid #c0c4cc;}
 	to {border:1px solid #A3A3A3;}
 }
-/* 选中框体时边框的颜色 -- dropdown input */
+/* 当框体初始未标红时选中框体时边框的颜色 -- dropdown input */
 @keyframes UM_BORDERFRAME_CHOOSED {
 	from {border:1px solid transparent;}
 	to {border:1px solid #3F79F1;}
@@ -105,25 +105,25 @@
 	from {border:1px solid transparent;}
 	to {border:1px solid #3F79F1;}
 }
-/* 选中框体时边框的颜色-从标红状态到选中状态 -- input */
-@keyframes UM_BORDERFRAME_F_UNCHOOSED {
-	from {border:1px solid #c0c4cc;}
+/* 当框体初始标红时选中框体时边框的颜色 -- dropdown input */
+@keyframes UM_BORDERFRAME_ALARM_CHOOSED {
+	from {border:1px solid red;}
 	to {border:1px solid #3F79F1;}
 }
-@-webkit-keyframes UM_BORDERFRAME_F_UNCHOOSED {
-	from {border:1px solid #c0c4cc;}
+@-webkit-keyframes UM_BORDERFRAME_ALARM_CHOOSED {
+	from {border:1px solid red;}
 	to {border:1px solid #3F79F1;}
 }
-@-o-keyframes UM_BORDERFRAME_F_UNCHOOSED {
-	from {border:1px solid #c0c4cc;}
+@-o-keyframes UM_BORDERFRAME_ALARM_CHOOSED {
+	from {border:1px solid red;}
 	to {border:1px solid #3F79F1;}
 }
-@-moz-keyframes UM_BORDERFRAME_F_UNCHOOSED {
-	from {border:1px solid #c0c4cc;}
+@-moz-keyframes UM_BORDERFRAME_ALARM_CHOOSED {
+	from {border:1px solid red;}
 	to {border:1px solid #3F79F1;}
 }
-@-ms-keyframes UM_BORDERFRAME_F_UNCHOOSED {
-	from {border:1px solid #c0c4cc;}
+@-ms-keyframes UM_BORDERFRAME_ALARM_CHOOSED {
+	from {border:1px solid red;}
 	to {border:1px solid #3F79F1;}
 }
 /* 取消选中框体时边框的颜色 -- dropdown input */
@@ -147,24 +147,45 @@
 	from {border:1px solid #3F79F1;}
 	to {border:1px solid transparent;}
 }
-/* 边框标红 -- dropdown input */
+/* 当初始焦点状态为获取焦点状态时框体标红 -- dropdown input */
 @keyframes UM_BORDERFRAME_ALARM {
-	from {border:1px solid #c0c4cc;}
+	from {border:1px solid #3F79F1;}
 	to {border:1px solid red;}
 }
 @-webkit-keyframes UM_BORDERFRAME_ALARM {
-	from {border:1px solid #c0c4cc;}
+	from {border:1px solid #3F79F1;}
 	to {border:1px solid red;}
 }
 @-o-keyframes UM_BORDERFRAME_ALARM {
-	from {border:1px solid #c0c4cc;}
+	from {border:1px solid #3F79F1;}
 	to {border:1px solid red;}
 }
 @-moz-keyframes UM_BORDERFRAME_ALARM {
-	from {border:1px solid #c0c4cc;}
+	from {border:1px solid #3F79F1;}
 	to {border:1px solid red;}
 }
 @-ms-keyframes UM_BORDERFRAME_ALARM {
-	from {border:1px solid #c0c4cc;}
+	from {border:1px solid #3F79F1;}
+	to {border:1px solid red;}
+}
+/* 当初始焦点状态为失去焦点状态时框体标红 -- input */
+@keyframes UM_BORDERFRAME_BLUR_ALARM {
+	from {border:1px solid transparent;}
+	to {border:1px solid red;}
+}
+@-webkit-keyframes UM_BORDERFRAME_BLUR_ALARM {
+	from {border:1px solid transparent;}
+	to {border:1px solid red;}
+}
+@-o-keyframes UM_BORDERFRAME_BLUR_ALARM {
+	from {border:1px solid transparent;}
+	to {border:1px solid red;}
+}
+@-moz-keyframes UM_BORDERFRAME_BLUR_ALARM {
+	from {border:1px solid transparent;}
+	to {border:1px solid red;}
+}
+@-ms-keyframes UM_BORDERFRAME_BLUR_ALARM {
+	from {border:1px solid transparent;}
 	to {border:1px solid red;}
 }
