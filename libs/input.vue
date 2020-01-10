@@ -20,12 +20,6 @@ export default {
 			isAlarm:false, // 是否标红
 		}
 	},
-	watch:{
-		/*'rules.__verify':function(obj){
-			if(!this.word)return;
-			console.log(this.rules[this.word])
-		}*/
-	},
 	computed:{
 		id:function(){
 			return '_um_input_'+Math.ceil(Math.random()*100000000);
@@ -85,10 +79,12 @@ export default {
 		}
 	},
 	mounted:function(){
-		/*this.$watch('rules.__verify', function(){
-			// if(!this.word)return;
+		this.$watch(function(){
+			return this.rules[__verify];
+		}, function(){
+			if(!this.word)return;
 			console.log(this.rules[this.word])
-		});*/
+		});
 	},
 	beforeDestroy:function(){
 

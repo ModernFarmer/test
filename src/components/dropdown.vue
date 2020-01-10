@@ -58,13 +58,8 @@ export default {
 	},
 	mounted:function(){
 		return;
-			let num=0;
 		setInterval(()=>{
-			num++
-			// this.$set(this.inputRulesObj, '__verify', num);
-			if(!('verify' in this.inputRulesObj))this.$set(this.inputRulesObj, '__verify', 0);
-			this.inputRulesObj.__verify++;
-			console.log(123)
+			this.$set(this.inputRulesObj, __verify, this.inputRulesObj[__verify]?this.inputRulesObj[__verify]+1:1);
 		}, 2000);
 	}
 }
