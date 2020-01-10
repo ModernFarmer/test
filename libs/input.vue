@@ -9,8 +9,8 @@
 
 <script>
 export default {
-	// this._$UMOBJECT$_
-	props:['icon', 'disabled', 'rulesGroup', 'rules'],
+	// this._$UMSTORE
+	props:['icon', 'disabled', 'rules', 'word'],
 	data(){
 		return {
 			first:true, // 是否首次加载
@@ -19,6 +19,12 @@ export default {
 			isBlur:true, // 是否失去焦点状态
 			isAlarm:false, // 是否标红
 		}
+	},
+	watch:{
+		/*'rules.__verify':function(obj){
+			if(!this.word)return;
+			console.log(this.rules[this.word])
+		}*/
 	},
 	computed:{
 		id:function(){
@@ -78,8 +84,11 @@ export default {
 			this.isAlarm=false;
 		}
 	},
-	created:function(){
-		if(this.rulesGroup && this.rules)this._$UMOBJECT$_.rulesGroup[this.rulesGroup]=this.rules;
+	mounted:function(){
+		/*this.$watch('rules.__verify', function(){
+			// if(!this.word)return;
+			console.log(this.rules[this.word])
+		});*/
 	},
 	beforeDestroy:function(){
 

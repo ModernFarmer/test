@@ -3,7 +3,7 @@
 	<um-dropdown :list="list" enabled="value.a|cc" clearable closeSearchClear searchable option="value.a" view="id.a" v-model="dropdownValue" @change="abc"></um-dropdown>
 	<!-- <br>
 	<br> -->
-	<um-input icon="&#xe651;|left" rulesGroup v-model="inputValue" @clickIcon="toClick"></um-input>{{inputValue}}
+	<um-input icon="&#xe651;|left" :rules="inputRulesObj" word="inputValue" v-model="inputValue" @clickIcon="toClick"></um-input>{{inputValue}}
 </div>
 </template>
 
@@ -40,6 +40,9 @@ export default {
             dropdownValue:'',
 
             inputValue:'1234',
+            inputRulesObj:{
+            	inputValue:['required', 'isMail']
+            }
 		}
 	},
 	methods:{
@@ -54,7 +57,15 @@ export default {
 		}
 	},
 	mounted:function(){
-		console.log(this._$UMOBJECT$_)
+		return;
+			let num=0;
+		setInterval(()=>{
+			num++
+			// this.$set(this.inputRulesObj, '__verify', num);
+			if(!('verify' in this.inputRulesObj))this.$set(this.inputRulesObj, '__verify', 0);
+			this.inputRulesObj.__verify++;
+			console.log(123)
+		}, 2000);
 	}
 }
 </script>
