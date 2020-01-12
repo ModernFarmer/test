@@ -189,3 +189,45 @@
 	from {border:1px solid transparent;}
 	to {border:1px solid red;}
 }
+/* 显示验证标红提示文字 -- dropdown input */
+@keyframes UM_BORDERFRAME_SHOWALARMTEXT {
+	from {opacity:0;}
+	to {opacity:1;}
+}
+@-webkit-keyframes UM_BORDERFRAME_SHOWALARMTEXT {
+	from {opacity:0;}
+	to {opacity:1;}
+}
+@-o-keyframes UM_BORDERFRAME_SHOWALARMTEXT {
+	from {opacity:0;}
+	to {opacity:1;}
+}
+@-moz-keyframes UM_BORDERFRAME_SHOWALARMTEXT {
+	from {opacity:0;}
+	to {opacity:1;}
+}
+@-ms-keyframes UM_BORDERFRAME_SHOWALARMTEXT {
+	from {opacity:0;}
+	to {opacity:1;}
+}
+/* 隐藏验证标红提示文字 -- dropdown input */
+@keyframes UM_BORDERFRAME_HIDEALARMTEXT {
+	from {opacity:1;}
+	to {opacity:0;}
+}
+@-webkit-keyframes UM_BORDERFRAME_HIDEALARMTEXT {
+	from {opacity:1;}
+	to {opacity:0;}
+}
+@-o-keyframes UM_BORDERFRAME_HIDEALARMTEXT {
+	from {opacity:1;}
+	to {opacity:0;}
+}
+@-moz-keyframes UM_BORDERFRAME_HIDEALARMTEXT {
+	from {opacity:1;}
+	to {opacity:0;}
+}
+@-ms-keyframes UM_BORDERFRAME_HIDEALARMTEXT {
+	from {opacity:1;}
+	to {opacity:0;}
+}

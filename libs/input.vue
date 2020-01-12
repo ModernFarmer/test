@@ -2,15 +2,15 @@
 <div class="um__input__class">
 	<div class="um__input__disabled" v-if="isCover"></div>   <!-- 禁用遮罩 -->
 	<div class="icon um__input__Icon" :style="{[iconObj.position]:'1px', cursor:haveIconClick?'pointer':'default'}" v-if="icon" v-html="iconObj.value" @click="toClickIcon"></div>
-	<input type="text" :class="{um__input__input_iconRight:iconObj.position!=='left', um__input__input_iconLeft:iconObj.position==='left', um__input__input_on:!isBlur && !first && !isAlarm && !alarmBefore, um__input__input_alarm_on:!isBlur && !first && !isAlarm && alarmBefore, um__input__input_off:isBlur && !first && !isAlarm && !alarmBefore, um__input__input_alarm:isAlarm && !blurBefore, um__input__input_blur_alarm:isAlarm && blurBefore}" @blur="toBlur" @focus="toFocus" @focus.once="toUnfirst" v-bind="$attrs" v-on="inputEvent">
-	<div class="um__input__input_textAlarm">{{'不能为空!'}}</div>
+	<input :id="id" type="text" :class="{um__input__input_iconRight:iconObj.position!=='left', um__input__input_iconLeft:iconObj.position==='left', um__input__input_on:!isBlur && !first && !isAlarm && !alarmBefore, um__input__input_alarm_on:!isBlur && !first && !isAlarm && alarmBefore, um__input__input_off:isBlur && !first && !isAlarm && !alarmBefore, um__input__input_alarm:isAlarm && !blurBefore, um__input__input_blur_alarm:isAlarm && blurBefore}" @blur="toBlur" @focus="toFocus" @focus.once="toUnfirst" v-bind="$attrs" v-on="inputEvent">
+	<div :class="{um__input__input_textAlarm:true, um__input__input_text_showAnimation:isAlarm, um__input__input_text_hideAnimation:!isAlarm && !first}">{{alarmWord}}</div>
 </div>
 </template>
 
 <script>
 export default {
 	// this._$UMSTORE
-	props:['icon', 'disabled', 'rules', 'word'],
+	props:['icon', 'disabled', 'rules', 'keyword'],
 	data(){
 		return {
 			first:true, // 是否首次加载
@@ -18,6 +18,7 @@ export default {
 			alarmBefore:false, // 失去或获取焦点之前的标红状态, 用于优化展示动画
 			isBlur:true, // 是否失去焦点状态
 			isAlarm:false, // 是否标红
+			alarmWord:'' // 验证失败的说明文字
 		}
 	},
 	computed:{
@@ -26,7 +27,7 @@ export default {
 		},
 		inputEvent:function(){ // 所有组件上绑定的事件
 			return Object.assign({}, this.$listeners, {
-				input:function(event) {
+				input:function(event){
 					this.$emit('input', event.target.value);
 				}.bind(this)
 			});
@@ -52,6 +53,9 @@ export default {
 		},
 		haveIconClick:function(){ // 组件是否含有icon的点击事件, 用于判断鼠标移入icon的时候是否要变换鼠标样式
 			return 'clickIcon' in this.$listeners;
+		},
+		verifying:function(){
+			return this.rules!==undefined && this.keyword!==undefined && this.rules[this.keyword]!==undefined;
 		}
 	},
 	methods:{
@@ -61,10 +65,16 @@ export default {
 		toBlur(){ // 失去焦点
 			this.blurBefore=this.isBlur;
 			this.isBlur=true;
+			if(this.verifying){
+				this.toVerifySimple();
+			}else{
+				this.toNomal();
+			};
 		},
 		toFocus(){ // 获取焦点
 			this.blurBefore=this.isBlur;
 			this.isBlur=false;
+			this.toNomal();
 		},
 		toClickIcon(){ // 点击icon时触发的函数
 			this.$emit('clickIcon', this.$attrs.value);
@@ -76,18 +86,37 @@ export default {
 		toNomal(){ // 取消框体标红
 			this.alarmBefore=this.isAlarm;
 			this.isAlarm=false;
+		},
+		toVerifySimple(){
+			let success=true;
+			for(let i=0; i<this.rules[this.keyword].length; i++){
+				let res=this._$UMSTORE.rules[this.rules[this.keyword][i].split('|')[0]](eval(this.id).value);
+				if(!res){
+					success=false;
+					this.alarmWord=this.rules[this.keyword][i].split('|')[1];
+					break;
+				}
+			};
+			if(success){
+				this.toNomal();
+			}else{
+				this.toRed();
+			};
 		}
 	},
 	mounted:function(){
-		this.$watch(function(){
-			return this.rules[__verify];
-		}, function(){
-			if(!this.word)return;
-			console.log(this.rules[this.word])
-		});
-	},
-	beforeDestroy:function(){
-
+		if(this.verifying){
+			this.$watch(function(){
+				return this.rules[__verify];
+			}, function(){
+				if(this.rules[__verifyResult][this.keyword].success){
+					this.toNomal();
+				}else{
+					this.alarmWord=this.rules[__verifyResult][this.keyword].value;
+					this.toRed();
+				};
+			});
+		}
 	}
 }
 </script>
@@ -105,4 +134,6 @@ export default {
 .um__input__disabled {width:calc(100% + 2px); height:calc(100% + 2px); background:rgba(0,0,0,.1); cursor:not-allowed; border-radius:3px; position:absolute; left:-1px; top:-1px; z-index:10;}
 .um__input__Icon {width:24px; height:24px; line-height:24px; color:#c0c4cc; font-size:12px; text-align:center; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; position:absolute; top:1px; z-index:5;}
 .um__input__input_textAlarm {width:calc(100% - 5px); line-height:20px; font-size:10px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:red; position:absolute; left:5px; top:100%;}
+.um__input__input_text_showAnimation {animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards; -webkit-animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards; -o-animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards; -moz-animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards; -ms-animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards;}
+.um__input__input_text_hideAnimation {animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards; -webkit-animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards; -o-animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards; -moz-animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards; -ms-animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards;}
 </style>

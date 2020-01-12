@@ -153,12 +153,7 @@ export default {
 		},
 		toFilterOption(item, pointer){
 			if(pointer){
-				let result='item';
-				let arr=pointer.split('.');
-				arr.forEach(val=>{
-					result+=`['${val}']`;
-				});
-				return eval(result);
+				return eval('item.'+pointer);
 			}else{
 				return item;
 			};

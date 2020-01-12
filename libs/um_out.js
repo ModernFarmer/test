@@ -2,7 +2,7 @@ import Dropdown from './dropdown.vue'
 import Input from './input.vue'
 
 window.__verify=Symbol('verify');
-
+window.__verifyResult=Symbol('verifyResult');
 
 let umJson={
 	rulesGroup:{},
@@ -26,9 +26,41 @@ let umJson={
 	},
 };
 
-let setRule=function(name, fn){
-	if(name in this._$UMSTORE.rules)console.log(`umWarn: ---> 验证规则 ${name} 已被覆写 !`);
+let setRule=function(name, fn){ // 添加验证规则 返回vue对象本身  nanme:规则名称,如果该名称的规则已存在,则覆写该名称的规则; fn:规则方法
+	if(name in this._$UMSTORE.rules)console.log(`Um-Warn: ---> 验证规则 ${name} 已被覆写 !`);
 	this._$UMSTORE.rules[name]=fn;
+	return this;
+};
+
+let verify=function(obj){ // 验证的方法  obj:需要验证的对象
+	if(!_isJson(obj)){
+		console.log(`Um-Warn: ---> 验证对象必须是一个 json !`);
+		return false;
+	}
+	obj[__verifyResult]={};
+	for(let key in obj){
+		for(let i=0; i<obj[key].length; i++){
+			let success=eval(`this._$UMSTORE.rules.${obj[key][i].split('|')[0]}(${'this.'+key})`);
+			if(success){
+				obj[__verifyResult][key]={success};
+			}else{
+				obj[__verifyResult][key]={
+					success,
+					value:obj[key][i].split('|')[1]?obj[key][i].split('|')[1]:''
+				};
+				break;
+			};
+		};
+	};
+	this.$set(obj, __verify, obj[__verify]?obj[__verify]+1:1); // 触发需要验证插件的监听机制
+	let result=true;
+	for(let key in obj[__verifyResult]){
+		if(!obj[__verifyResult][key].success){
+			result=false;
+			break;
+		}
+	};
+	return result;
 };
 
 export default {
@@ -37,6 +69,7 @@ export default {
 		Vue.component('um-input', Input);
 
 		Vue.prototype._$UMSTORE=umJson;
-		Vue.prototype.setRule=setRule;
+		Vue.prototype._setRule=setRule;
+		Vue.prototype._verify=verify;
 	}
 }
