@@ -40,15 +40,28 @@ let verify=function(obj){ // 验证的方法  obj:需要验证的对象
 	obj[__verifyResult]={};
 	for(let key in obj){
 		for(let i=0; i<obj[key].length; i++){
-			let success=eval(`this._$UMSTORE.rules.${obj[key][i].split('|')[0]}(${'this.'+key})`);
-			if(success){
-				obj[__verifyResult][key]={success};
-			}else{
-				obj[__verifyResult][key]={
-					success,
-					value:obj[key][i].split('|')[1]?obj[key][i].split('|')[1]:''
+			if(typeof eval(`this.${key}`)!=='string'){
+				if(eval(`this.${key}`)===null){
+					obj[__verifyResult][key]={
+						success:false,
+						value:obj[key][i].split('|')[1]?obj[key][i].split('|')[1]:''
+					};
+					break;
+				}else{
+					obj[__verifyResult][key]={success:true};
+					break;
 				};
-				break;
+			}else{
+				let success=eval(`this._$UMSTORE.rules.${obj[key][i].split('|')[0]}(this.${key})`);
+				if(success){
+					obj[__verifyResult][key]={success};
+				}else{
+					obj[__verifyResult][key]={
+						success,
+						value:obj[key][i].split('|')[1]?obj[key][i].split('|')[1]:''
+					};
+					break;
+				};
 			};
 		};
 	};

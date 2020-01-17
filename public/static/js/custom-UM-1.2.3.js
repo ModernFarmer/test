@@ -144,7 +144,7 @@ function _MovingScroll(obj){
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function ___constructor_PullDown(obj, movingObj){             //下拉内容过渡插件-构造函数
+function ___constructor_PullDown(obj, movingObj, fn){             //下拉内容过渡插件-构造函数
     this.captionStr=obj.caption;
     this.downStr=obj.down;
     this.id='UM_PullDown_'+Math.ceil(Math.random()*100000000);
@@ -158,6 +158,8 @@ function ___constructor_PullDown(obj, movingObj){             //下拉内容过�
     this.root=obj.root || null;
     this.maxHeight=obj.maxHeight || null;
     this.scrollClassName=obj.scrollClassName || 'UM_PullDown_scrollClassName';
+
+    this.fn=fn;
 
     this.zTop=(this.caption.el.offsetHeight-1)+'px';
     this.originTop=this.down.getStyle('top');
@@ -300,6 +302,8 @@ ___constructor_PullDown.prototype._m_todo=function(){
                 this.now=false;
                 this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, top:this.zTop, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
             };
+            if(this.fn)this.fn();
+            delete this.fn;
         }.bind(this));
     }.bind(this)).BD('mouseup', function(){
         if(this.root)this.root.downHidden=true;
@@ -379,8 +383,8 @@ ___constructor_PullDown.prototype.reBind=function(){  // 可以重新给选项�
     }
 };
 
-function _PullDown(obj, movingObj){             //下拉内容过渡插件
-    return new ___constructor_PullDown(obj, movingObj);
+function _PullDown(obj, movingObj, fn){             //下拉内容过渡插件
+    return new ___constructor_PullDown(obj, movingObj, fn);
 };
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------

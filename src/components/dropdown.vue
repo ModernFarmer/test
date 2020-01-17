@@ -1,6 +1,6 @@
 <template>
 <div class="dropdown_view">
-	<um-dropdown :list="list" enabled="value.a|cc" clearable closeSearchClear searchable option="value.a" view="id.a" v-model="dropdownValue" @change="abc"></um-dropdown>
+	<um-dropdown :list="list" :rules="inputRulesObj" keyword="dropdownValue" enabled="value.a|cc" clearable closeSearchClear searchable option="value.a" view="id.a" v-model="dropdownValue" @change="abc"></um-dropdown>
 	<!-- <br>
 	<br> -->
 	<um-input icon="&#xe651;|left" :rules="inputRulesObj" keyword="obj.inputValue" v-model="obj.inputValue" @clickIcon="toClick"></um-input>{{obj.inputValue}}
@@ -32,7 +32,8 @@
 // icon: 输入框图标  [string]   如果含有该属性, 则启用输入框图标, 该值将会以'|'拆分, 拆分后如果有2部分, 则第一部分为图标的Unicode代码, 第二部分为图标的位置; 拆分后如果只有1部分, 则该部分为图标的Unicode代码. 比如:icon="&#xe651;|left", 这里以json表示选项的值, 则输入框内展示Unicode代码为'&#xe651;'的图标, 图标的位置在左边  *位置只支持'left'和'right', 分别代表左边和右边, 默认为'right'
 // @clickIcon: 当点击icon时调用的函数, 该函数自带回调参数: input框内绑定的值     [方法名]
 // keyword: 验证关键字 [string] 该关键字是以属性路径的形式来展现, 具体请看'rules'属性的说明  **只支持以点分隔的路径, 不支持方括号分隔的属性路径, 如:支持attr1.attr2,不支持attr1[attr2]
-// rules: 验证规则对象 [json] 对象格式为: {keyword: array, keyword: array, ...}, 其中keyword为验证关键字, array为验证'规则名称|验证失败提示语'. 比如:{'form.obj.phone': ['required|电话不能为空!', 'isPhone|电话号码格式错误!', 'form.obj.name': ['required|姓名不能为空!']}, 插件将会验证 this.form.obj.phone字段和 this.form.obj.name字段, 以 this.form.obj.phone为例, 插件会根据'form.obj.phone'的键值(是一个数组)的每一个值的顺序来验证this.form.obj.phone字段. 比如:'required|电话不能为空!'规则验证, 插件会先以'|'分割该字符串, 得到规则名称和验证失败提示语, 然后会验证'required'规则, 如果验证通过, 则进入下一个规则(如果有的话)的验证; 如果验证失败, 则直接停止验证(不会继续下一个规则的验证), 然后将页面上input框体标红且显示验证失败提示语, 如果未设置提示语(如: ['required', 'isPhone|']), 则只是input框体标红, 不显示提示语
+// rules: 验证规则对象 [json] 对象格式为: {keyword: array, keyword: array, ...}, 其中keyword为验证关键字, array为验证'规则名称|验证失败提示语'. 比如:{'form.obj.phone': ['required|电话不能为空!', 'isPhone|电话号码格式错误!', 'form.obj.name': ['required|姓名不能为空!']}, 插件将会验证 this.form.obj.phone字段和 this.form.obj.name字段, 以 this.form.obj.phone为例, 插件会根据'form.obj.phone'的键值(是一个数组)的每一个值的顺序来验证this.form.obj.phone字段. 比如:'required|电话不能为空!'规则验证, 插件会先以'|'分割该字符串, 得到规则名称和验证失败提示语, 然后会验证'required'规则, 如果验证通过, 则进入下一个规则(如果有的话)的验证; 如果验证失败, 则直接停止验证(不会继续下一个规则的验证), 然后将页面上input框体标红且显示验证失败提示语, 如果未设置提示语(如: ['required', 'isPhone|']), 则只是input框体标红, 不显示提示语  *规则验证耦合性强, 会验证对象里面所有的关键字, 所以不需要的验证关键字不要写入验证规则对象, 否则会判定为验证未通过
+// toVerifySimple(): vue子组件对象上的单个验证方法  [function]  *可以在父组件上通过this.$refs[子组件ref名称]来主动调用单体验证
 
 
 export default {
@@ -45,7 +46,8 @@ export default {
             	inputValue:''
             },
             inputRulesObj:{
-            	'obj.inputValue':['required|不能为空(测试)', 'isMail|邮箱格式错误!']
+            	'obj.inputValue':['required|不能为空(测试)', 'isMail|邮箱格式错误!'],
+            	'dropdownValue':['required|不能为空(下拉框测试)']
             }
 		}
 	},
@@ -61,9 +63,9 @@ export default {
 		}
 	},
 	mounted:function(){
-		setTimeout(()=>{
+		/*setTimeout(()=>{
 			this._verify(this.inputRulesObj);
-		}, 2000);
+		}, 2000);*/
 	}
 }
 </script>

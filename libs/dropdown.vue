@@ -1,7 +1,7 @@
 <template>
 <div class="um__dropdown__class">
 	<div class="um__dropdown__disabled" v-if="isCover"></div>   <!-- 禁用遮罩 -->
-	<div :class="{um__dropdown__input:true, um__dropdown__input_on:pullDownObj && pullDownObj.now, um__dropdown__input_off:pullDownObj && !pullDownObj.now && !first}" :id="'caption'+num" @click="toJudge" @click.once="toUnfirst">
+	<div :class="{um__dropdown__input:true, um__dropdown__input_on:pullDownObj && pullDownObj.now && !alarmBefore, um__dropdown__input_off:pullDownObj && !pullDownObj.now && !alarmBefore && !first}" :id="'caption'+num" @click="toJudge">
 		<div :class="{um__dropdown__show:true, um__dropdown__show__placeholder:empty}">{{text}}</div>
 		<div :class="{icon:true, um__dropdown__icon:true, um__dropdown__icon_down:now===false && !first, um__dropdown__icon_up:now===true}">&#xe629;</div>
 	</div>
@@ -19,12 +19,13 @@
 			</div>
 		</div>
 	</div>
+	<div :class="{um__dropdown_textAlarm:true, um__dropdown__text_showAnimation:isAlarm, um__dropdown__text_hideAnimation:!isAlarm && !first}">{{alarmWord}}</div>
 </div>
 </template>
 
 <script>
 export default {
-	props:['list', 'searchable', 'closeSearchClear', 'selected', 'model', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'placeholder', 'enabled'],
+	props:['list', 'searchable', 'closeSearchClear', 'selected', 'model', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'placeholder', 'enabled', 'rules', 'keyword'],
 	data(){
 		return {
 			first:true, // 是否首次加载
@@ -36,7 +37,10 @@ export default {
 			empty:true, // caption展示是否为空
 			unfoldUp:false, // 是否向上展开
 			searchKey:'', // 搜索关键字
-			downHeight:220 // 最大下拉框高度
+			downHeight:220, // 最大下拉框高度
+			isAlarm:false, // 是否标红
+			alarmBefore:false, // 失去或获取焦点之前的标红状态, 用于优化展示动画
+			alarmWord:'' // 验证失败的说明文字
 		}
 	},
 	computed:{
@@ -80,6 +84,9 @@ export default {
 
 				return {attr:result, value};
 			};
+		},
+		verifying:function(){
+			return this.rules!==undefined && this.keyword!==undefined && this.rules[this.keyword]!==undefined;
 		}
 	},
 	watch:{
@@ -170,6 +177,30 @@ export default {
 			}else{
 				return eval(`item${this.enabledRule.attr}`)===(this.enabledRule.value?this.enabledRule.value:true);
 			};
+		},
+		toNomal(){ // 取消框体标红
+			this.alarmBefore=this.isAlarm;
+			this.isAlarm=false;
+		},
+		toRed(){ // 框体标红
+			this.alarmBefore=this.isAlarm;
+			this.isAlarm=true;
+		},
+		toVerifySimple(){
+			let success=true;
+			for(let i=0; i<this.rules[this.keyword].length; i++){
+				let res=this._$UMSTORE.rules[this.rules[this.keyword][i].split('|')[0]](eval(this.id).value);
+				if(!res){
+					success=false;
+					this.alarmWord=this.rules[this.keyword][i].split('|')[1];
+					break;
+				}
+			};
+			if(success){
+				this.toNomal();
+			}else{
+				this.toRed();
+			};
 		}
 	},
 	mounted:function(){
@@ -187,7 +218,7 @@ export default {
 			    caption:`#caption${this.num}`,
 			    down:`#down${this.num}`,
 			    speed:.2
-			}, this.movingScrollObj);
+			}, this.movingScrollObj, this.toUnfirst);
 			if(/px$/.test(maxHeight)){
 				this.downHeight=Math.ceil(maxHeight.replace(/px$/, ''));
 			}else if(/rem$/.test(maxHeight)){
@@ -212,6 +243,18 @@ export default {
 			this.$emit('input', null);
 			this.text=this.placeholder?this.placeholder:'请选择 ...';
 		};
+		if(this.verifying){
+			this.$watch(function(){
+				return this.rules[__verify];
+			}, function(){
+				if(this.rules[__verifyResult][this.keyword].success){
+					this.toNomal();
+				}else{
+					this.alarmWord=this.rules[__verifyResult][this.keyword].value;
+					this.toRed();
+				};
+			});
+		}
 	}
 }
 </script>
@@ -242,4 +285,7 @@ export default {
 .um__dropdown__contentbox {width:100%; overflow:hidden; position:relative;}
 .um__dropdown__icon_down {animation:UM_DROPDOWN_DOWN .5s forwards; -webkit-animation:UM_DROPDOWN_DOWN .5s forwards; -o-animation:UM_DROPDOWN_DOWN .5s forwards; -moz-animation:UM_DROPDOWN_DOWN .5s forwards; -ms-animation:UM_DROPDOWN_DOWN .5s forwards;}
 .um__dropdown__icon_up {animation:UM_DROPDOWN_UP .5s forwards; -webkit-animation:UM_DROPDOWN_UP .5s forwards; -o-animation:UM_DROPDOWN_UP .5s forwards; -moz-animation:UM_DROPDOWN_UP .5s forwards; -ms-animation:UM_DROPDOWN_UP .5s forwards;}
+.um__dropdown_textAlarm {width:calc(100% - 5px); line-height:20px; font-size:10px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:red; position:absolute; left:5px; top:100%;}
+.um__dropdown__text_showAnimation {animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards; -webkit-animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards; -o-animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards; -moz-animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards; -ms-animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards;}
+.um__dropdown__text_hideAnimation {animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards; -webkit-animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards; -o-animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards; -moz-animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards; -ms-animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards;}
 </style>

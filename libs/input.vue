@@ -88,6 +88,7 @@ export default {
 			this.isAlarm=false;
 		},
 		toVerifySimple(){
+			if(!this.verifying)return;
 			let success=true;
 			for(let i=0; i<this.rules[this.keyword].length; i++){
 				let res=this._$UMSTORE.rules[this.rules[this.keyword][i].split('|')[0]](eval(this.id).value);
