@@ -302,8 +302,7 @@ ___constructor_PullDown.prototype._m_todo=function(){
                 this.now=false;
                 this.down.transition(this.speed+'s linear').transformOrigin('CENTER TOP').css({opacity:0, top:this.zTop, height:0, paddingTop:0, paddingBottom:0, marginTop:0, marginBottom:0});
             };
-            if(this.fn)this.fn();
-            delete this.fn;
+            if(this.fn)this.fn(this);
         }.bind(this));
     }.bind(this)).BD('mouseup', function(){
         if(this.root)this.root.downHidden=true;

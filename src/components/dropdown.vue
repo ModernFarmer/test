@@ -1,6 +1,6 @@
 <template>
 <div class="dropdown_view">
-	<um-dropdown :list="list" :rules="inputRulesObj" keyword="dropdownValue" enabled="value.a|cc" clearable closeSearchClear searchable option="value.a" view="id.a" v-model="dropdownValue" @change="abc"></um-dropdown>
+	<um-dropdown :list="list" :rules="inputRulesObj" keyword="dropdownValue" enabled="value.a|cc" clearable closeSearchClear searchable option="value.a" view="id.a" v-model="dropdownValue" model="value.a" @change="abc"></um-dropdown>
 	<!-- <br>
 	<br> -->
 	<um-input icon="&#xe651;|left" :rules="inputRulesObj" keyword="obj.inputValue" v-model="obj.inputValue" @clickIcon="toClick"></um-input>{{obj.inputValue}}

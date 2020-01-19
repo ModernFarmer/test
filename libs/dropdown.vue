@@ -40,7 +40,8 @@ export default {
 			downHeight:220, // 最大下拉框高度
 			isAlarm:false, // 是否标红
 			alarmBefore:false, // 失去或获取焦点之前的标红状态, 用于优化展示动画
-			alarmWord:'' // 验证失败的说明文字
+			alarmWord:'', // 验证失败的说明文字
+			verifyContent:null // 被验证的数据
 		}
 	},
 	computed:{
@@ -101,9 +102,6 @@ export default {
 		}
 	},
 	methods:{
-		toUnfirst(){
-			this.first=false;
-		},
 		toSearch(){
 			if(window[`dropD_${this.num}`]){
 				this.movingScrollObj.adaptive(500, false);
@@ -147,7 +145,8 @@ export default {
 			this.index_now=index;
 			this.empty=false;
 			this.text=this.toFilterOption(val, this.view);
-			this.$emit('input', this.toFilterOption(val, this.model));
+			this.verifyContent=this.toFilterOption(val, this.model);
+			this.$emit('input', this.verifyContent);
 			this.$emit('change', val, index);
 		},
 		toClearSelecter(){
@@ -187,13 +186,20 @@ export default {
 			this.isAlarm=true;
 		},
 		toVerifySimple(){
+			if(!this.verifying)return;
 			let success=true;
 			for(let i=0; i<this.rules[this.keyword].length; i++){
-				let res=this._$UMSTORE.rules[this.rules[this.keyword][i].split('|')[0]](eval(this.id).value);
-				if(!res){
+				if(!this.verifyContent){
 					success=false;
 					this.alarmWord=this.rules[this.keyword][i].split('|')[1];
 					break;
+				}else if(typeof this.verifyContent==='string'){
+					let res=this._$UMSTORE.rules[this.rules[this.keyword][i].split('|')[0]](this.verifyContent);
+					if(!res){
+						success=false;
+						this.alarmWord=this.rules[this.keyword][i].split('|')[1];
+						break;
+					}
 				}
 			};
 			if(success){
@@ -218,7 +224,25 @@ export default {
 			    caption:`#caption${this.num}`,
 			    down:`#down${this.num}`,
 			    speed:.2
-			}, this.movingScrollObj, this.toUnfirst);
+			}, this.movingScrollObj, function(dropdownObj){
+				this.first=false;
+				delete dropdownObj.fn;
+			}.bind(this));
+			if(this.verifying){
+				this.$watch(function(){
+					return this.rules[__verify];
+				}, function(){
+					if(this.rules[__verifyResult][this.keyword].success){
+						this.toNomal();
+					}else{
+						this.alarmWord=this.rules[__verifyResult][this.keyword].value;
+						this.toRed();
+					};
+				});
+				this.$watch('pullDownObj.now', function(val){
+					if(val===false)this.toVerifySimple();
+				});
+			}
 			if(/px$/.test(maxHeight)){
 				this.downHeight=Math.ceil(maxHeight.replace(/px$/, ''));
 			}else if(/rem$/.test(maxHeight)){
@@ -243,18 +267,6 @@ export default {
 			this.$emit('input', null);
 			this.text=this.placeholder?this.placeholder:'请选择 ...';
 		};
-		if(this.verifying){
-			this.$watch(function(){
-				return this.rules[__verify];
-			}, function(){
-				if(this.rules[__verifyResult][this.keyword].success){
-					this.toNomal();
-				}else{
-					this.alarmWord=this.rules[__verifyResult][this.keyword].value;
-					this.toRed();
-				};
-			});
-		}
 	}
 }
 </script>
