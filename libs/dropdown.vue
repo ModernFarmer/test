@@ -1,7 +1,7 @@
 <template>
 <div class="um__dropdown__class">
 	<div class="um__dropdown__disabled" v-if="isCover"></div>   <!-- 禁用遮罩 -->
-	<div :class="{um__dropdown__input:true, um__dropdown__input_on:pullDownObj && pullDownObj.now && !alarmBefore, um__dropdown__input_off:pullDownObj && !pullDownObj.now && !alarmBefore && !first}" :id="'caption'+num" @click="toJudge">
+	<div :class="{um__dropdown__input:true, um__dropdown__input_on:pullDownObj && pullDownObj.now && !alarmBefore, um__dropdown__input_off:pullDownObj && !pullDownObj.now && !alarmBefore && !first, um__dropdown__input_alarm_on:pullDownObj && pullDownObj.now && !first && alarmBefore, um__dropdown__input_blur_alarm:isAlarm}" :id="'caption'+num" @click="toJudge">
 		<div :class="{um__dropdown__show:true, um__dropdown__show__placeholder:empty}">{{text}}</div>
 		<div :class="{icon:true, um__dropdown__icon:true, um__dropdown__icon_down:now===false && !first, um__dropdown__icon_up:now===true}">&#xe629;</div>
 	</div>
@@ -39,7 +39,8 @@ export default {
 			searchKey:'', // 搜索关键字
 			downHeight:220, // 最大下拉框高度
 			isAlarm:false, // 是否标红
-			alarmBefore:false, // 失去或获取焦点之前的标红状态, 用于优化展示动画
+			nowBefore:false, // 验证之前的下拉状态, 用于优化展示动画
+			alarmBefore:false, // 验证之前的标红状态, 用于优化展示动画
 			alarmWord:'', // 验证失败的说明文字
 			verifyContent:null // 被验证的数据
 		}
@@ -154,6 +155,7 @@ export default {
 			this.index_now=null;
 			this.empty=true;
 			this.text=this.placeholder?this.placeholder:'请选择 ...';
+			this.verifyContent=null;
 			this.$emit('input', null);
 			this.$emit('change', null, null);
 		},
@@ -186,6 +188,7 @@ export default {
 			this.isAlarm=true;
 		},
 		toVerifySimple(){
+				console.log(this.verifyContent)
 			if(!this.verifying)return;
 			let success=true;
 			for(let i=0; i<this.rules[this.keyword].length; i++){
@@ -210,6 +213,9 @@ export default {
 		}
 	},
 	mounted:function(){
+		/*setInterval(()=>{
+			console.log(this.alarmBefore)
+		}, 1000)*/
 		this.$nextTick(function(){
 			let maxHeight=this.maxHeight || '220px';
 			maxHeight=maxHeight.replace(/\s+/g, '');
@@ -239,7 +245,8 @@ export default {
 						this.toRed();
 					};
 				});
-				this.$watch('pullDownObj.now', function(val){
+				this.$watch('pullDownObj.now', function(val, old){
+					this.nowBefore=old;
 					if(val===false)this.toVerifySimple();
 				});
 			}
@@ -276,6 +283,8 @@ export default {
 .um__dropdown__class:hover {animation:UM_BORDERFRAME_HOVER .5s forwards; -webkit-animation:UM_BORDERFRAME_HOVER .5s forwards; -o-animation:UM_BORDERFRAME_HOVER .5s forwards; -moz-animation:UM_BORDERFRAME_HOVER .5s forwards; -ms-animation:UM_BORDERFRAME_HOVER .5s forwards;}
 .um__dropdown__input_on {animation:UM_BORDERFRAME_CHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_CHOOSED .5s forwards;}
 .um__dropdown__input_off {animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards;}
+.um__dropdown__input_alarm_on {animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards;}
+.um__dropdown__input_blur_alarm {animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -webkit-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -o-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -moz-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -ms-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards;}
 .um__dropdown__disabled {width:calc(100% + 2px); height:calc(100% + 2px); background:rgba(0,0,0,.1); cursor:not-allowed; border-radius:3px; position:absolute; left:-1px; top:-1px; z-index:10;}
 .um__dropdown__input {width:calc(100% - 5px); height:100%; font-size:14px; line-height:26px; background:transparent; padding-left:5px; border-radius:3px; border:1px solid transparent; position:absolute; left:-1px; top:-1px;}
 .um__dropdown__show {width:calc(100% - 26px); height:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
