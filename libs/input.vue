@@ -2,7 +2,15 @@
 <div class="um__input__class">
 	<div class="um__input__disabled" v-if="isCover"></div>   <!-- 禁用遮罩 -->
 	<div class="icon um__input__Icon" :style="{[iconObj.position]:'1px', cursor:haveIconClick?'pointer':'default'}" v-if="icon" v-html="iconObj.value" @click="toClickIcon"></div>
-	<input :id="id" type="text" :class="{um__input__input_iconRight:iconObj.position!=='left', um__input__input_iconLeft:iconObj.position==='left', um__input__input_on:!isBlur && !first && !isAlarm && !alarmBefore, um__input__input_alarm_on:!isBlur && !first && !isAlarm && alarmBefore, um__input__input_off:isBlur && !first && !isAlarm && !alarmBefore, um__input__input_alarm:isAlarm && !blurBefore, um__input__input_blur_alarm:isAlarm && blurBefore}" @blur="toBlur" @focus="toFocus" @focus.once="toUnfirst" v-bind="$attrs" v-on="inputEvent">
+	<input :id="id" type="text" 
+	:class="{um__input__input_iconRight:iconObj.position!=='left', 
+			um__input__input_iconLeft:iconObj.position==='left', 
+			um__input__input_on:!isBlur && !isAlarm && !alarmBefore, 
+			um__input__input_alarm_on:!isBlur && !isAlarm && alarmBefore, 
+			um__input__input_off:isBlur && !first && !isAlarm && !alarmBefore, 
+			um__input__input_alarm:isAlarm && !blurBefore, 
+			um__input__input_blur_alarm:isAlarm && blurBefore}" 
+	@blur="toBlur" @focus="toFocus" @focus.once="toUnfirst" v-bind="$attrs" v-on="inputEvent">
 	<div :class="{um__input__input_textAlarm:true, um__input__input_text_showAnimation:isAlarm, um__input__input_text_hideAnimation:!isAlarm && !first}">{{alarmWord}}</div>
 </div>
 </template>

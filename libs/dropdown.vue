@@ -1,7 +1,13 @@
 <template>
 <div class="um__dropdown__class">
 	<div class="um__dropdown__disabled" v-if="isCover"></div>   <!-- 禁用遮罩 -->
-	<div :class="{um__dropdown__input:true, um__dropdown__input_on:pullDownObj && pullDownObj.now && !alarmBefore, um__dropdown__input_off:pullDownObj && !pullDownObj.now && !alarmBefore && !first, um__dropdown__input_alarm_on:pullDownObj && pullDownObj.now && !first && alarmBefore, um__dropdown__input_blur_alarm:isAlarm}" :id="'caption'+num" @click="toJudge">
+	<div :class="{um__dropdown__input:true, 
+		um__dropdown__input_on:pullDownObj && pullDownObj.now && !alarmBefore, 
+		um__dropdown__input_alarm_on:pullDownObj && pullDownObj.now && alarmBefore && !isAlarm, 
+		um__dropdown__input_off:pullDownObj && !pullDownObj.now && !alarmBefore && !first && !isAlarm, 
+		um__dropdown__input_alarm:isAlarm && !nowBefore, 
+		um__dropdown__input_blur_alarm:isAlarm && nowBefore}" 
+		:id="'caption'+num" @click="toJudge">
 		<div :class="{um__dropdown__show:true, um__dropdown__show__placeholder:empty}">{{text}}</div>
 		<div :class="{icon:true, um__dropdown__icon:true, um__dropdown__icon_down:now===false && !first, um__dropdown__icon_up:now===true}">&#xe629;</div>
 	</div>
@@ -188,7 +194,6 @@ export default {
 			this.isAlarm=true;
 		},
 		toVerifySimple(){
-				console.log(this.verifyContent)
 			if(!this.verifying)return;
 			let success=true;
 			for(let i=0; i<this.rules[this.keyword].length; i++){
@@ -213,9 +218,6 @@ export default {
 		}
 	},
 	mounted:function(){
-		/*setInterval(()=>{
-			console.log(this.alarmBefore)
-		}, 1000)*/
 		this.$nextTick(function(){
 			let maxHeight=this.maxHeight || '220px';
 			maxHeight=maxHeight.replace(/\s+/g, '');
@@ -247,7 +249,11 @@ export default {
 				});
 				this.$watch('pullDownObj.now', function(val, old){
 					this.nowBefore=old;
-					if(val===false)this.toVerifySimple();
+					if(val===false){
+						this.toVerifySimple();
+					}else{
+						this.toNomal();
+					};
 				});
 			}
 			if(/px$/.test(maxHeight)){
@@ -283,6 +289,7 @@ export default {
 .um__dropdown__class:hover {animation:UM_BORDERFRAME_HOVER .5s forwards; -webkit-animation:UM_BORDERFRAME_HOVER .5s forwards; -o-animation:UM_BORDERFRAME_HOVER .5s forwards; -moz-animation:UM_BORDERFRAME_HOVER .5s forwards; -ms-animation:UM_BORDERFRAME_HOVER .5s forwards;}
 .um__dropdown__input_on {animation:UM_BORDERFRAME_CHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_CHOOSED .5s forwards;}
 .um__dropdown__input_off {animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards;}
+.um__dropdown__input_alarm {animation:UM_BORDERFRAME_ALARM .5s forwards; -webkit-animation:UM_BORDERFRAME_ALARM .5s forwards; -o-animation:UM_BORDERFRAME_ALARM .5s forwards; -moz-animation:UM_BORDERFRAME_ALARM .5s forwards; -ms-animation:UM_BORDERFRAME_ALARM .5s forwards;}
 .um__dropdown__input_alarm_on {animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards;}
 .um__dropdown__input_blur_alarm {animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -webkit-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -o-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -moz-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -ms-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards;}
 .um__dropdown__disabled {width:calc(100% + 2px); height:calc(100% + 2px); background:rgba(0,0,0,.1); cursor:not-allowed; border-radius:3px; position:absolute; left:-1px; top:-1px; z-index:10;}
