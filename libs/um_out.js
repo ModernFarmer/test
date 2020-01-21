@@ -1,11 +1,11 @@
 import Dropdown from './dropdown.vue'
 import Input from './input.vue'
+import Page from './page.vue'
 
 window.__verify=Symbol('verify');
 window.__verifyResult=Symbol('verifyResult');
 
 let umJson={
-	rulesGroup:{},
 	rules:{
 		required(val){ // 是否为非空
 			if(val===null || val===undefined)return false;
@@ -80,6 +80,7 @@ export default {
 	install:function(Vue){
 		Vue.component('um-dropdown', Dropdown);
 		Vue.component('um-input', Input);
+		Vue.component('um-page', Page);
 
 		Vue.prototype._$UMSTORE=umJson;
 		Vue.prototype._setRule=setRule;

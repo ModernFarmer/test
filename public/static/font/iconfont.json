@@ -18,6 +18,20 @@
       "font_class": "xiala-",
       "unicode": "e629",
       "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "12818645",
+      "name": "arrow-left",
+      "font_class": "arrow-left",
+      "unicode": "e7e3",
+      "unicode_decimal": 59363
+    },
+    {
+      "icon_id": "12818649",
+      "name": "arrow-right",
+      "font_class": "arrow-right",
+      "unicode": "e7e4",
+      "unicode_decimal": 59364
     }
   ]
 }

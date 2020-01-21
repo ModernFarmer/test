@@ -12,6 +12,7 @@
 			um__input__input_blur_alarm:isAlarm && blurBefore}" 
 	@blur="toBlur" @focus="toFocus" @focus.once="toUnfirst" v-bind="$attrs" v-on="inputEvent">
 	<div :class="{um__input__input_textAlarm:true, um__input__input_text_showAnimation:isAlarm, um__input__input_text_hideAnimation:!isAlarm && !first}">{{alarmWord}}</div>
+	<span style="line-height:24px; opacity:0">0</span>   <!-- 对齐用; 本组件内其它元素都是绝对定位, 组件本身的display是inline-block, 如果不加一个合适line-height的文字内容则无法和有文字内容的其它inline-block元素对齐 -->
 </div>
 </template>
 

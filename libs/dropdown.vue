@@ -26,6 +26,7 @@
 		</div>
 	</div>
 	<div :class="{um__dropdown_textAlarm:true, um__dropdown__text_showAnimation:isAlarm, um__dropdown__text_hideAnimation:!isAlarm && !first}">{{alarmWord}}</div>
+	<span style="line-height:24px; opacity:0">0</span>   <!-- 对齐用; 本组件内其它元素都是绝对定位, 组件本身的display是inline-block, 如果不加一个合适line-height的文字内容则无法和有文字内容的其它inline-block元素对齐 -->
 </div>
 </template>
 
