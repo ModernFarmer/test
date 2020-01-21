@@ -5,8 +5,8 @@
 		um__dropdown__input_on:pullDownObj && pullDownObj.now && !alarmBefore, 
 		um__dropdown__input_alarm_on:pullDownObj && pullDownObj.now && alarmBefore && !isAlarm, 
 		um__dropdown__input_off:pullDownObj && !pullDownObj.now && !alarmBefore && !first && !isAlarm, 
-		um__dropdown__input_alarm:isAlarm && !nowBefore, 
-		um__dropdown__input_blur_alarm:isAlarm && nowBefore}" 
+		um__dropdown__input_alarm:isAlarm && nowBefore, 
+		um__dropdown__input_blur_alarm:isAlarm && !nowBefore}" 
 		:id="'caption'+num" @click="toJudge">
 		<div :class="{um__dropdown__show:true, um__dropdown__show__placeholder:empty}">{{text}}</div>
 		<div :class="{icon:true, um__dropdown__icon:true, um__dropdown__icon_down:now===false && !first, um__dropdown__icon_up:now===true}">&#xe629;</div>
