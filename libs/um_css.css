@@ -231,45 +231,45 @@
 	from {opacity:1;}
 	to {opacity:0;}
 }
-/* 鼠标离开边框颜色 -- page */
+/* 鼠标离开边框颜色 或 未选中页码的颜色 -- page */
 @keyframes UM_MOUSELEAVE {
 	from {border:1px solid #3F79F1; color:#3F79F1;}
-	to {border:1px solid #A3A3A3; color:#A3A3A3;}
+	to {border:1px solid #A3A3A3; color:#606266;}
 }
 @-webkit-keyframes UM_MOUSELEAVE {
 	from {border:1px solid #3F79F1; color:#3F79F1;}
-	to {border:1px solid #A3A3A3; color:#A3A3A3;}
+	to {border:1px solid #A3A3A3; color:#606266;}
 }
 @-o-keyframes UM_MOUSELEAVE {
 	from {border:1px solid #3F79F1; color:#3F79F1;}
-	to {border:1px solid #A3A3A3; color:#A3A3A3;}
+	to {border:1px solid #A3A3A3; color:#606266;}
 }
 @-moz-keyframes UM_MOUSELEAVE {
 	from {border:1px solid #3F79F1; color:#3F79F1;}
-	to {border:1px solid #A3A3A3; color:#A3A3A3;}
+	to {border:1px solid #A3A3A3; color:#606266;}
 }
 @-ms-keyframes UM_MOUSELEAVE {
 	from {border:1px solid #3F79F1; color:#3F79F1;}
-	to {border:1px solid #A3A3A3; color:#A3A3A3;}
+	to {border:1px solid #A3A3A3; color:#606266;}
 }
-/* 鼠标进入边框颜色 -- page */
+/* 鼠标进入边框颜色 或 选中页码的颜色 -- page */
 @keyframes UM_MOUSEENTER {
-	from {border:1px solid #A3A3A3; color:#A3A3A3;}
+	from {border:1px solid #A3A3A3; color:#606266;}
 	to {border:1px solid #3F79F1; color:#3F79F1;}
 }
 @-webkit-keyframes UM_MOUSEENTER {
-	from {border:1px solid #A3A3A3; color:#A3A3A3;}
+	from {border:1px solid #A3A3A3; color:#606266;}
 	to {border:1px solid #3F79F1; color:#3F79F1;}
 }
 @-o-keyframes UM_MOUSEENTER {
-	from {border:1px solid #A3A3A3; color:#A3A3A3;}
+	from {border:1px solid #A3A3A3; color:#606266;}
 	to {border:1px solid #3F79F1; color:#3F79F1;}
 }
 @-moz-keyframes UM_MOUSEENTER {
-	from {border:1px solid #A3A3A3; color:#A3A3A3;}
+	from {border:1px solid #A3A3A3; color:#606266;}
 	to {border:1px solid #3F79F1; color:#3F79F1;}
 }
 @-ms-keyframes UM_MOUSEENTER {
-	from {border:1px solid #A3A3A3; color:#A3A3A3;}
+	from {border:1px solid #A3A3A3; color:#606266;}
 	to {border:1px solid #3F79F1; color:#3F79F1;}
 }

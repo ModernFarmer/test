@@ -1,16 +1,17 @@
 <template>
-<div class="um__input__class">
+<div :class="{um__input__class:true, um__input__animationAble:!first}">
 	<div class="um__input__disabled" v-if="isCover"></div>   <!-- 禁用遮罩 -->
 	<div class="icon um__input__Icon" :style="{[iconObj.position]:'1px', cursor:haveIconClick?'pointer':'default'}" v-if="icon" v-html="iconObj.value" @click="toClickIcon"></div>
 	<input :id="id" type="text" 
-	:class="{um__input__input_iconRight:iconObj.position!=='left', 
-			um__input__input_iconLeft:iconObj.position==='left', 
-			um__input__input_on:!isBlur && !isAlarm && !alarmBefore, 
-			um__input__input_alarm_on:!isBlur && !isAlarm && alarmBefore, 
-			um__input__input_off:isBlur && !first && !isAlarm && !alarmBefore, 
-			um__input__input_alarm:isAlarm && !blurBefore, 
-			um__input__input_blur_alarm:isAlarm && blurBefore}" 
-	@blur="toBlur" @focus="toFocus" @focus.once="toUnfirst" v-bind="$attrs" v-on="inputEvent">
+		:class="{um__input__input_noIcon:iconObj.noIcon===true, 
+				um__input__input_iconRight:iconObj.position!=='left' && iconObj.noIcon===false, 
+				um__input__input_iconLeft:iconObj.position==='left' && iconObj.noIcon===false, 
+				um__input__input_on:!isBlur && !isAlarm && !alarmBefore, 
+				um__input__input_alarm_on:!isBlur && !isAlarm && alarmBefore, 
+				um__input__input_off:isBlur && !first && !isAlarm && !alarmBefore, 
+				um__input__input_alarm:isAlarm && !blurBefore, 
+				um__input__input_blur_alarm:isAlarm && blurBefore}" 
+				@blur="toBlur" @focus="toFocus" @focus.once="toUnfirst" v-bind="$attrs" v-on="inputEvent">
 	<div :class="{um__input__input_textAlarm:true, um__input__input_text_showAnimation:isAlarm, um__input__input_text_hideAnimation:!isAlarm && !first}">{{alarmWord}}</div>
 	<span style="line-height:24px; opacity:0">0</span>   <!-- 对齐用; 本组件内其它元素都是绝对定位, 组件本身的display是inline-block, 如果不加一个合适line-height的文字内容则无法和有文字内容的其它inline-block元素对齐 -->
 </div>
@@ -52,12 +53,12 @@ export default {
 			if(this.icon){
 				let arr=this.icon.split('|');
 				if(arr.length>1){
-					return {value:arr[0],position:arr[1]};
+					return {value:arr[0], position:arr[1], noIcon:false};
 				}else{
-					return {value:arr[0],position:'right'}
+					return {value:arr[0], position:'right', noIcon:false}
 				};
 			}else{
-				return {value:'',position:'right'};
+				return {value:'',position:'right', noIcon:true};
 			};
 		},
 		haveIconClick:function(){ // 组件是否含有icon的点击事件, 用于判断鼠标移入icon的时候是否要变换鼠标样式
@@ -132,8 +133,10 @@ export default {
 </script>
 
 <style>
-.um__input__class {width:180px; height:26px; color:#606266; border:1px solid #c0c4cc; border-radius:3px; background:white; display:inline-block; position:relative; animation:UM_BORDERFRAME_OUT .5s forwards; -webkit-animation:UM_BORDERFRAME_OUT .5s forwards; -o-animation:UM_BORDERFRAME_OUT .5s forwards; -moz-animation:UM_BORDERFRAME_OUT .5s forwards; -ms-animation:UM_BORDERFRAME_OUT .5s forwards;}
-.um__input__class:hover {animation:UM_BORDERFRAME_HOVER .5s forwards; -webkit-animation:UM_BORDERFRAME_HOVER .5s forwards; -o-animation:UM_BORDERFRAME_HOVER .5s forwards; -moz-animation:UM_BORDERFRAME_HOVER .5s forwards; -ms-animation:UM_BORDERFRAME_HOVER .5s forwards;}
+.um__input__class {width:180px; height:26px; color:#606266; border:1px solid #c0c4cc; border-radius:3px; background:white; display:inline-block; position:relative;}
+.um__input__animationAble {animation:UM_BORDERFRAME_OUT .5s forwards; -webkit-animation:UM_BORDERFRAME_OUT .5s forwards; -o-animation:UM_BORDERFRAME_OUT .5s forwards; -moz-animation:UM_BORDERFRAME_OUT .5s forwards; -ms-animation:UM_BORDERFRAME_OUT .5s forwards;}
+.um__input__animationAble:hover {animation:UM_BORDERFRAME_HOVER .5s forwards; -webkit-animation:UM_BORDERFRAME_HOVER .5s forwards; -o-animation:UM_BORDERFRAME_HOVER .5s forwards; -moz-animation:UM_BORDERFRAME_HOVER .5s forwards; -ms-animation:UM_BORDERFRAME_HOVER .5s forwards;}
+.um__input__input_noIcon {width:calc(100% - 10px); height:calc(100% - 2px); padding-left:5px; padding-right:5px; outline:none; color:#606266; border:1px solid transparent; border-radius:3px; background:transparent; position:absolute; left:-1px; top:-1px;}
 .um__input__input_iconRight {width:calc(100% - 34px); height:calc(100% - 2px); padding-left:5px; padding-right:29px; outline:none; color:#606266; border:1px solid transparent; border-radius:3px; background:transparent; position:absolute; left:-1px; top:-1px;}
 .um__input__input_iconLeft {width:calc(100% - 34px); height:calc(100% - 2px); padding-left:29px; padding-right:5px; outline:none; color:#606266; border:1px solid transparent; border-radius:3px; background:transparent; position:absolute; left:-1px; top:-1px;}
 .um__input__input_on {animation:UM_BORDERFRAME_CHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_CHOOSED .5s forwards;}

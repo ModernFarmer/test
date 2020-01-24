@@ -1,5 +1,5 @@
 <template>
-<div class="um__dropdown__class">
+<div :class="{um__dropdown__class:true, um__dropdown__animationAble:!first_frame}" @mouseenter.once="first_frame=false">
 	<div class="um__dropdown__disabled" v-if="isCover"></div>   <!-- 禁用遮罩 -->
 	<div :class="{um__dropdown__input:true, 
 		um__dropdown__input_on:pullDownObj && pullDownObj.now && !alarmBefore, 
@@ -35,7 +35,8 @@ export default {
 	props:['list', 'searchable', 'closeSearchClear', 'selected', 'model', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'placeholder', 'enabled', 'rules', 'keyword'],
 	data(){
 		return {
-			first:true, // 是否首次加载
+			first_frame:true, // 左箭头是否首次加载, 用于优化展示动画
+			first:true, // 下拉插件否首次加载, 用于优化展示动画
 			showList:[...this.list], // 展示用数据
 			pullDownObj:null, // 下拉插件对象
 			movingScrollObj:null, // 自定义滚动条插件对象
@@ -286,8 +287,9 @@ export default {
 </script>
 
 <style>
-.um__dropdown__class {width:180px; height:26px; color:#606266; border:1px solid #c0c4cc; border-radius:3px; background:white; display:inline-block; position:relative; animation:UM_BORDERFRAME_OUT .5s forwards; -webkit-animation:UM_BORDERFRAME_OUT .5s forwards; -o-animation:UM_BORDERFRAME_OUT .5s forwards; -moz-animation:UM_BORDERFRAME_OUT .5s forwards; -ms-animation:UM_BORDERFRAME_OUT .5s forwards;}
-.um__dropdown__class:hover {animation:UM_BORDERFRAME_HOVER .5s forwards; -webkit-animation:UM_BORDERFRAME_HOVER .5s forwards; -o-animation:UM_BORDERFRAME_HOVER .5s forwards; -moz-animation:UM_BORDERFRAME_HOVER .5s forwards; -ms-animation:UM_BORDERFRAME_HOVER .5s forwards;}
+.um__dropdown__class {width:180px; height:26px; color:#606266; border:1px solid #c0c4cc; border-radius:3px; background:white; display:inline-block; position:relative;}
+.um__dropdown__animationAble {animation:UM_BORDERFRAME_OUT .5s forwards; -webkit-animation:UM_BORDERFRAME_OUT .5s forwards; -o-animation:UM_BORDERFRAME_OUT .5s forwards; -moz-animation:UM_BORDERFRAME_OUT .5s forwards; -ms-animation:UM_BORDERFRAME_OUT .5s forwards;}
+.um__dropdown__animationAble:hover {animation:UM_BORDERFRAME_HOVER .5s forwards; -webkit-animation:UM_BORDERFRAME_HOVER .5s forwards; -o-animation:UM_BORDERFRAME_HOVER .5s forwards; -moz-animation:UM_BORDERFRAME_HOVER .5s forwards; -ms-animation:UM_BORDERFRAME_HOVER .5s forwards;}
 .um__dropdown__input_on {animation:UM_BORDERFRAME_CHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_CHOOSED .5s forwards;}
 .um__dropdown__input_off {animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_UNCHOOSED .5s forwards;}
 .um__dropdown__input_alarm {animation:UM_BORDERFRAME_ALARM .5s forwards; -webkit-animation:UM_BORDERFRAME_ALARM .5s forwards; -o-animation:UM_BORDERFRAME_ALARM .5s forwards; -moz-animation:UM_BORDERFRAME_ALARM .5s forwards; -ms-animation:UM_BORDERFRAME_ALARM .5s forwards;}
