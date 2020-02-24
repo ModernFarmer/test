@@ -35,7 +35,7 @@ function _preventDefault(event){
 }    //---------调用   _preventDefault(event)  取消默认事件（必须在事件函数内传递一个事件对象event）
 
 function _stopPropagation(event){
-	if(event.cancelBubble){
+	if('cancelBubble' in event){
 		event.cancelBubble=true;
 	}else {
 		event.stopPropagation();
@@ -761,10 +761,10 @@ ___UM_getDom.prototype.BD=function(eventName, fn, option){          //原型: .B
 
 ___UM_getDom.prototype.unBD=function(eventName, fn){      //原型: .unBD()方法    给一个元素解除绑定事件
 	if(!this.el.length || this.arguments[0]===document || this.arguments[0]===window){
-		if(this.el.attachEvent){
-			this.el.detachEvent('on'+eventName,fn);
-		}else{
+		if(this.el.removeEventListener){
 			this.el.removeEventListener(eventName,fn,false);
+		}else if(this.el.detachEvent){
+			this.el.detachEvent('on'+eventName,fn);
 		};
 	}else{
 		throw 'UM库 .unBD() 方法错误: .unBD()方法只能给一个元素[解除绑定事件], 当前未指定元素的索引值!';

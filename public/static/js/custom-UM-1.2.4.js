@@ -37,6 +37,7 @@ ___constructor_MovingScroll.prototype._m_todo=function(){
         if(_top==0)return;
         var h_content=this._m_h_content();
         var h_box=this._m_h_box();
+        _top=isNaN(_top)?0:_top;
         if(h_content<h_box)return;
         var h_scroll=this._m_h_scroll();
         var top_contentBox=_top + this.speed;
@@ -48,6 +49,7 @@ ___constructor_MovingScroll.prototype._m_todo=function(){
         var _top=parseFloat(this.contentBox.getStyle('top'));
         var h_content=this._m_h_content();
         var h_box=this._m_h_box();
+        _top=isNaN(_top)?0:_top;
         if(_top==-(h_content-h_box))return;
         if(h_content<h_box)return;
         var h_scroll=this._m_h_scroll();
@@ -190,7 +192,7 @@ ___constructor_PullDown.prototype._m_todo=function(){
         return this.down.getStyle('paddingBottom');
     }.bind(this))();
 
-    let _cj={overflow:'hidden'};
+    var _cj={overflow:'hidden'};
     if(this.maxHeight && !this.haveMSobj)_cj.maxHeight=this.maxHeight;
     this.down.css(_cj).BD('click', function(){
         _stopPropagation(event);

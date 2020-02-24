@@ -1,12 +1,19 @@
 import Dropdown from './dropdown.vue'
 import Input from './input.vue'
 import Page from './page.vue'
+import Button from './button.vue'
+import Switch from './switch.vue'
+import Message from './message.vue'
+import Modal from './modal.vue'
+import Loading from './loading.vue'
+import Checkbox from './checkbox.vue'
+import Radio from './radio.vue'
 
 window.__verify=Symbol('verify');
 window.__verifyResult=Symbol('verifyResult');
 
 let umJson={
-	rules:{
+	rules:{ // 校验规则
 		required(val){ // 是否为非空
 			if(val===null || val===undefined)return false;
 			return !((val+'').replace(/\s+/g, '')==='');
@@ -24,6 +31,8 @@ let umJson={
 			return true; // --------------------------
 		}
 	},
+	isModuleEvent_dropdown:false, // 是否dropdown组件触发的事件, 用于判断dropdown组件是否监听v-model绑定值的改变
+	isModuleEvent_checkbox:false // 是否checkbox组件触发的事件, 用于判断checkbox组件是否监听result的改变
 };
 
 let setRule=function(name, fn){ // 添加验证规则 返回vue对象本身  nanme:规则名称,如果该名称的规则已存在,则覆写该名称的规则; fn:规则方法
@@ -81,9 +90,54 @@ export default {
 		Vue.component('um-dropdown', Dropdown);
 		Vue.component('um-input', Input);
 		Vue.component('um-page', Page);
+		Vue.component('um-button', Button);
+		Vue.component('um-switch', Switch);
+		Vue.component('um-modal', Modal);
+		Vue.component('um-checkbox', Checkbox);
+		Vue.component('um-radio', Radio);
+
+		let MSG=Vue.extend(Message);
 
 		Vue.prototype._$UMSTORE=umJson;
 		Vue.prototype._setRule=setRule;
 		Vue.prototype._verify=verify;
+		Vue.prototype.$Message=function(arg){
+			let dom=document.createElement('div');
+			um__message__container_id.appendChild(dom);
+			let json={};
+			if(typeof arg==='string'){
+				json={value:arg};
+			}else if(_isJson(arg)){
+				json=arg;
+			}else{
+				return;
+			};
+			new MSG({
+				el:dom,
+				propsData:json
+			});
+		};
+		Vue.prototype.$Loading={
+			run(){
+				um__loading__container_id.style.opacity=1;
+				um__loading__container_id.style.zIndex=99999999;
+			},
+			stop(){
+				um__loading__container_id.style.opacity=0;
+				um__loading__container_id.style.zIndex=-2;
+			}
+		};
+
+		let dom_message=document.createElement('div');
+		dom_message.id='um__message__container_id';
+		let dom_loading=document.createElement('div');
+		dom_loading.id='um__loading__container_id';
+		document.body.appendChild(dom_message); // 添加全局message组件的外框元素节点
+		document.body.appendChild(dom_loading); // 添加全局loading组件的外框元素节点
+
+		let LD=Vue.extend(Loading);
+		let dom_replace_loading=document.createElement('div');
+		um__loading__container_id.appendChild(dom_replace_loading);
+		new LD({el:dom_replace_loading});
 	}
 }

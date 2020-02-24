@@ -1,3 +1,7 @@
+html,body {width:100%; height:100%; padding:0; margin:0;}
+#um__message__container_id {max-width:35%; display:inline-block; text-align:center; transform:translate(-50%, 0); -webkit-transform:translate(-50%, 0); -o-transform:translate(-50%, 0); -moz-transform:translate(-50%, 0); -ms-transform:translate(-50%, 0); position:absolute; left:50%; top:15%; z-index:-1;}
+#um__loading__container_id {width:100%; height:100%; background:rgba(0,0,0,.05); opacity:0; position:absolute; left:0; top:0; z-index:-1;}
+
 /* 动画的keyframes样式 */
 
 /* 箭头icon逆时针旋转180度 -- dropdown */
@@ -42,7 +46,7 @@
 	from {transform:rotate(0deg);}
 	to {transform:rotate(-180deg);}
 }
-/* 鼠标移出宽体改变边框颜色 -- dropdown input */
+/* 鼠标移出框体改变边框颜色 -- dropdown input */
 @keyframes UM_BORDERFRAME_OUT {
 	from {border:1px solid #A3A3A3;}
 	to {border:1px solid #c0c4cc;}
@@ -63,7 +67,7 @@
 	from {border:1px solid #A3A3A3;}
 	to {border:1px solid #c0c4cc;}
 }
-/* 鼠标移入宽体改变边框颜色 -- dropdown input */
+/* 鼠标移入框体改变边框颜色 -- dropdown input */
 @keyframes UM_BORDERFRAME_HOVER {
 	from {border:1px solid #c0c4cc;}
 	to {border:1px solid #A3A3A3;}
@@ -272,4 +276,602 @@
 @-ms-keyframes UM_MOUSEENTER {
 	from {border:1px solid #A3A3A3; color:#606266;}
 	to {border:1px solid #3F79F1; color:#3F79F1;}
+}
+/* 鼠标进入按钮颜色-样式1 -- button */
+@keyframes UM_BUTTON_ENTER_1 {
+	from {color:#606266; border:1px solid #c0c4cc;}
+	to {color:#3F79F1; border:1px solid #3F79F1;}
+}
+@-webkit-keyframes UM_BUTTON_ENTER_1 {
+	from {color:#606266; border:1px solid #c0c4cc;}
+	to {color:#3F79F1; border:1px solid #3F79F1;}
+}
+@-o-keyframes UM_BUTTON_ENTER_1 {
+	from {color:#606266; border:1px solid #c0c4cc;}
+	to {color:#3F79F1; border:1px solid #3F79F1;}
+}
+@-moz-keyframes UM_BUTTON_ENTER_1 {
+	from {color:#606266; border:1px solid #c0c4cc;}
+	to {color:#3F79F1; border:1px solid #3F79F1;}
+}
+@-ms-keyframes UM_BUTTON_ENTER_1 {
+	from {color:#606266; border:1px solid #c0c4cc;}
+	to {color:#3F79F1; border:1px solid #3F79F1;}
+}
+/* 鼠标离开按钮颜色-样式1 -- button */
+@keyframes UM_BUTTON_LEAVE_1 {
+	from {color:#3F79F1; border:1px solid #3F79F1;}
+	to {color:#606266; border:1px solid #c0c4cc;}
+}
+@-webkit-keyframes UM_BUTTON_LEAVE_1 {
+	from {color:#3F79F1; border:1px solid #3F79F1;}
+	to {color:#606266; border:1px solid #c0c4cc;}
+}
+@-o-keyframes UM_BUTTON_LEAVE_1 {
+	from {color:#3F79F1; border:1px solid #3F79F1;}
+	to {color:#606266; border:1px solid #c0c4cc;}
+}
+@-moz-keyframes UM_BUTTON_LEAVE_1 {
+	from {color:#3F79F1; border:1px solid #3F79F1;}
+	to {color:#606266; border:1px solid #c0c4cc;}
+}
+@-ms-keyframes UM_BUTTON_LEAVE_1 {
+	from {color:#3F79F1; border:1px solid #3F79F1;}
+	to {color:#606266; border:1px solid #c0c4cc;}
+}
+/* 鼠标进入按钮颜色-样式2 -- button */
+@keyframes UM_BUTTON_ENTER_2 {
+	from {border:1px solid #3F79F1; background:#3F79F1;}
+	to {border:1px solid #1457e1; background:#1457e1;}
+}
+@-webkit-keyframes UM_BUTTON_ENTER_2 {
+	from {border:1px solid #3F79F1; background:#3F79F1;}
+	to {border:1px solid #1457e1; background:#1457e1;}
+}
+@-o-keyframes UM_BUTTON_ENTER_2 {
+	from {border:1px solid #3F79F1; background:#3F79F1;}
+	to {border:1px solid #1457e1; background:#1457e1;}
+}
+@-moz-keyframes UM_BUTTON_ENTER_2 {
+	from {border:1px solid #3F79F1; background:#3F79F1;}
+	to {border:1px solid #1457e1; background:#1457e1;}
+}
+@-ms-keyframes UM_BUTTON_ENTER_2 {
+	from {border:1px solid #3F79F1; background:#3F79F1;}
+	to {border:1px solid #1457e1; background:#1457e1;}
+}
+/* 鼠标离开按钮颜色-样式2 -- button */
+@keyframes UM_BUTTON_LEAVE_2 {
+	from {border:1px solid #1457e1; background:#1457e1;}
+	to {border:1px solid #3F79F1; background:#3F79F1;}
+}
+@-webkit-keyframes UM_BUTTON_LEAVE_2 {
+	from {border:1px solid #1457e1; background:#1457e1;}
+	to {border:1px solid #3F79F1; background:#3F79F1;}
+}
+@-o-keyframes UM_BUTTON_LEAVE_2 {
+	from {border:1px solid #1457e1; background:#1457e1;}
+	to {border:1px solid #3F79F1; background:#3F79F1;}
+}
+@-moz-keyframes UM_BUTTON_LEAVE_2 {
+	from {border:1px solid #1457e1; background:#1457e1;}
+	to {border:1px solid #3F79F1; background:#3F79F1;}
+}
+@-ms-keyframes UM_BUTTON_LEAVE_2 {
+	from {border:1px solid #1457e1; background:#1457e1;}
+	to {border:1px solid #3F79F1; background:#3F79F1;}
+}
+/* 鼠标进入按钮颜色-样式3 -- button */
+@keyframes UM_BUTTON_ENTER_3 {
+	from {color:#898c91; border:1px solid #c0c4cc;}
+	to {color:#606266; border:1px solid #898c91;}
+}
+@-webkit-keyframes UM_BUTTON_ENTER_3 {
+	from {color:#898c91; border:1px solid #c0c4cc;}
+	to {color:#606266; border:1px solid #898c91;}
+}
+@-o-keyframes UM_BUTTON_ENTER_3 {
+	from {color:#898c91; border:1px solid #c0c4cc;}
+	to {color:#606266; border:1px solid #898c91;}
+}
+@-moz-keyframes UM_BUTTON_ENTER_3 {
+	from {color:#898c91; border:1px solid #c0c4cc;}
+	to {color:#606266; border:1px solid #898c91;}
+}
+@-ms-keyframes UM_BUTTON_ENTER_3 {
+	from {color:#898c91; border:1px solid #c0c4cc;}
+	to {color:#606266; border:1px solid #898c91;}
+}
+/* 鼠标离开按钮颜色-样式3 -- button */
+@keyframes UM_BUTTON_LEAVE_3 {
+	from {color:#606266; border:1px solid #898c91;}
+	to {color:#898c91; border:1px solid #c0c4cc;}
+}
+@-webkit-keyframes UM_BUTTON_LEAVE_3 {
+	from {color:#606266; border:1px solid #898c91;}
+	to {color:#898c91; border:1px solid #c0c4cc;}
+}
+@-o-keyframes UM_BUTTON_LEAVE_3 {
+	from {color:#606266; border:1px solid #898c91;}
+	to {color:#898c91; border:1px solid #c0c4cc;}
+}
+@-moz-keyframes UM_BUTTON_LEAVE_3 {
+	from {color:#606266; border:1px solid #898c91;}
+	to {color:#898c91; border:1px solid #c0c4cc;}
+}
+@-ms-keyframes UM_BUTTON_LEAVE_3 {
+	from {color:#606266; border:1px solid #898c91;}
+	to {color:#898c91; border:1px solid #c0c4cc;}
+}
+/* 鼠标进入按钮颜色-样式4 -- button */
+@keyframes UM_BUTTON_ENTER_4 {
+	from {color:#3F79F1;}
+	to {color:#a3c0fb;}
+}
+@-webkit-keyframes UM_BUTTON_ENTER_4 {
+	from {color:#3F79F1;}
+	to {color:#a3c0fb;}
+}
+@-o-keyframes UM_BUTTON_ENTER_4 {
+	from {color:#3F79F1;}
+	to {color:#a3c0fb;}
+}
+@-moz-keyframes UM_BUTTON_ENTER_4 {
+	from {color:#3F79F1;}
+	to {color:#a3c0fb;}
+}
+@-ms-keyframes UM_BUTTON_ENTER_4 {
+	from {color:#3F79F1;}
+	to {color:#a3c0fb;}
+}
+/* 鼠标离开按钮颜色-样式4 -- button */
+@keyframes UM_BUTTON_LEAVE_4 {
+	from {color:#a3c0fb;}
+	to {color:#3F79F1;}
+}
+@-webkit-keyframes UM_BUTTON_LEAVE_4 {
+	from {color:#a3c0fb;}
+	to {color:#3F79F1;}
+}
+@-o-keyframes UM_BUTTON_LEAVE_4 {
+	from {color:#a3c0fb;}
+	to {color:#3F79F1;}
+}
+@-moz-keyframes UM_BUTTON_LEAVE_4 {
+	from {color:#a3c0fb;}
+	to {color:#3F79F1;}
+}
+@-ms-keyframes UM_BUTTON_LEAVE_4 {
+	from {color:#a3c0fb;}
+	to {color:#3F79F1;}
+}
+/* 鼠标进入按钮颜色-样式5 -- button */
+@keyframes UM_BUTTON_ENTER_5 {
+	from {background:#41c0f9; border:1px solid #41c0f9;}
+	to {background:#6fd0fb; border:1px solid #6fd0fb;}
+}
+@-webkit-keyframes UM_BUTTON_ENTER_5 {
+	from {background:#41c0f9; border:1px solid #41c0f9;}
+	to {background:#6fd0fb; border:1px solid #6fd0fb;}
+}
+@-o-keyframes UM_BUTTON_ENTER_5 {
+	from {background:#41c0f9; border:1px solid #41c0f9;}
+	to {background:#6fd0fb; border:1px solid #6fd0fb;}
+}
+@-moz-keyframes UM_BUTTON_ENTER_5 {
+	from {background:#41c0f9; border:1px solid #41c0f9;}
+	to {background:#6fd0fb; border:1px solid #6fd0fb;}
+}
+@-ms-keyframes UM_BUTTON_ENTER_5 {
+	from {background:#41c0f9; border:1px solid #41c0f9;}
+	to {background:#6fd0fb; border:1px solid #6fd0fb;}
+}
+/* 鼠标离开按钮颜色-样式5 -- button */
+@keyframes UM_BUTTON_LEAVE_5 {
+	from {background:#6fd0fb; border:1px solid #6fd0fb;}
+	to {background:#41c0f9; border:1px solid #41c0f9;}
+}
+@-webkit-keyframes UM_BUTTON_LEAVE_5 {
+	from {background:#6fd0fb; border:1px solid #6fd0fb;}
+	to {background:#41c0f9; border:1px solid #41c0f9;}
+}
+@-o-keyframes UM_BUTTON_LEAVE_5 {
+	from {background:#6fd0fb; border:1px solid #6fd0fb;}
+	to {background:#41c0f9; border:1px solid #41c0f9;}
+}
+@-moz-keyframes UM_BUTTON_LEAVE_5 {
+	from {background:#6fd0fb; border:1px solid #6fd0fb;}
+	to {background:#41c0f9; border:1px solid #41c0f9;}
+}
+@-ms-keyframes UM_BUTTON_LEAVE_5 {
+	from {background:#6fd0fb; border:1px solid #6fd0fb;}
+	to {background:#41c0f9; border:1px solid #41c0f9;}
+}
+/* 鼠标进入按钮颜色-样式6 -- button */
+@keyframes UM_BUTTON_ENTER_6 {
+	from {background:#00cc1d; border:1px solid #00cc1d;}
+	to {background:#29e544; border:1px solid #29e544;}
+}
+@-webkit-keyframes UM_BUTTON_ENTER_6 {
+	from {background:#00cc1d; border:1px solid #00cc1d;}
+	to {background:#29e544; border:1px solid #29e544;}
+}
+@-o-keyframes UM_BUTTON_ENTER_6 {
+	from {background:#00cc1d; border:1px solid #00cc1d;}
+	to {background:#29e544; border:1px solid #29e544;}
+}
+@-moz-keyframes UM_BUTTON_ENTER_6 {
+	from {background:#00cc1d; border:1px solid #00cc1d;}
+	to {background:#29e544; border:1px solid #29e544;}
+}
+@-ms-keyframes UM_BUTTON_ENTER_6 {
+	from {background:#00cc1d; border:1px solid #00cc1d;}
+	to {background:#29e544; border:1px solid #29e544;}
+}
+/* 鼠标离开按钮颜色-样式6 -- button */
+@keyframes UM_BUTTON_LEAVE_6 {
+	from {background:#29e544; border:1px solid #29e544;}
+	to {background:#00cc1d; border:1px solid #00cc1d;}
+}
+@-webkit-keyframes UM_BUTTON_LEAVE_6 {
+	from {background:#29e544; border:1px solid #29e544;}
+	to {background:#00cc1d; border:1px solid #00cc1d;}
+}
+@-o-keyframes UM_BUTTON_LEAVE_6 {
+	from {background:#29e544; border:1px solid #29e544;}
+	to {background:#00cc1d; border:1px solid #00cc1d;}
+}
+@-moz-keyframes UM_BUTTON_LEAVE_6 {
+	from {background:#29e544; border:1px solid #29e544;}
+	to {background:#00cc1d; border:1px solid #00cc1d;}
+}
+@-ms-keyframes UM_BUTTON_LEAVE_6 {
+	from {background:#29e544; border:1px solid #29e544;}
+	to {background:#00cc1d; border:1px solid #00cc1d;}
+}
+/* 鼠标进入按钮颜色-样式7 -- button */
+@keyframes UM_BUTTON_ENTER_7 {
+	from {background:#ff9900; border:1px solid #ff9900;}
+	to {background:#ffaf37; border:1px solid #ffaf37;}
+}
+@-webkit-keyframes UM_BUTTON_ENTER_7 {
+	from {background:#ff9900; border:1px solid #ff9900;}
+	to {background:#ffaf37; border:1px solid #ffaf37;}
+}
+@-o-keyframes UM_BUTTON_ENTER_7 {
+	from {background:#ff9900; border:1px solid #ff9900;}
+	to {background:#ffaf37; border:1px solid #ffaf37;}
+}
+@-moz-keyframes UM_BUTTON_ENTER_7 {
+	from {background:#ff9900; border:1px solid #ff9900;}
+	to {background:#ffaf37; border:1px solid #ffaf37;}
+}
+@-ms-keyframes UM_BUTTON_ENTER_7 {
+	from {background:#ff9900; border:1px solid #ff9900;}
+	to {background:#ffaf37; border:1px solid #ffaf37;}
+}
+/* 鼠标离开按钮颜色-样式7 -- button */
+@keyframes UM_BUTTON_LEAVE_7 {
+	from {background:#ffaf37; border:1px solid #ffaf37;}
+	to {background:#ff9900; border:1px solid #ff9900;}
+}
+@-webkit-keyframes UM_BUTTON_LEAVE_7 {
+	from {background:#ffaf37; border:1px solid #ffaf37;}
+	to {background:#ff9900; border:1px solid #ff9900;}
+}
+@-o-keyframes UM_BUTTON_LEAVE_7 {
+	from {background:#ffaf37; border:1px solid #ffaf37;}
+	to {background:#ff9900; border:1px solid #ff9900;}
+}
+@-moz-keyframes UM_BUTTON_LEAVE_7 {
+	from {background:#ffaf37; border:1px solid #ffaf37;}
+	to {background:#ff9900; border:1px solid #ff9900;}
+}
+@-ms-keyframes UM_BUTTON_LEAVE_7 {
+	from {background:#ffaf37; border:1px solid #ffaf37;}
+	to {background:#ff9900; border:1px solid #ff9900;}
+}
+/* 鼠标进入按钮颜色-样式8 -- button */
+@keyframes UM_BUTTON_ENTER_8 {
+	from {background:#ff3300; border:1px solid #ff3300;}
+	to {background:#ff5e36; border:1px solid #ff5e36;}
+}
+@-webkit-keyframes UM_BUTTON_ENTER_8 {
+	from {background:#ff3300; border:1px solid #ff3300;}
+	to {background:#ff5e36; border:1px solid #ff5e36;}
+}
+@-o-keyframes UM_BUTTON_ENTER_8 {
+	from {background:#ff3300; border:1px solid #ff3300;}
+	to {background:#ff5e36; border:1px solid #ff5e36;}
+}
+@-moz-keyframes UM_BUTTON_ENTER_8 {
+	from {background:#ff3300; border:1px solid #ff3300;}
+	to {background:#ff5e36; border:1px solid #ff5e36;}
+}
+@-ms-keyframes UM_BUTTON_ENTER_8 {
+	from {background:#ff3300; border:1px solid #ff3300;}
+	to {background:#ff5e36; border:1px solid #ff5e36;}
+}
+/* 鼠标离开按钮颜色-样式8 -- button */
+@keyframes UM_BUTTON_LEAVE_8 {
+	from {background:#ff5e36; border:1px solid #ff5e36;}
+	to {background:#ff3300; border:1px solid #ff3300;}
+}
+@-webkit-keyframes UM_BUTTON_LEAVE_8 {
+	from {background:#ff5e36; border:1px solid #ff5e36;}
+	to {background:#ff3300; border:1px solid #ff3300;}
+}
+@-o-keyframes UM_BUTTON_LEAVE_8 {
+	from {background:#ff5e36; border:1px solid #ff5e36;}
+	to {background:#ff3300; border:1px solid #ff3300;}
+}
+@-moz-keyframes UM_BUTTON_LEAVE_8 {
+	from {background:#ff5e36; border:1px solid #ff5e36;}
+	to {background:#ff3300; border:1px solid #ff3300;}
+}
+@-ms-keyframes UM_BUTTON_LEAVE_8 {
+	from {background:#ff5e36; border:1px solid #ff5e36;}
+	to {background:#ff3300; border:1px solid #ff3300;}
+}
+/* 鼠标进入按钮颜色-样式9 -- button */
+@keyframes UM_BUTTON_ENTER_9 {
+	from {color:#898c91;}
+	to {color:red;}
+}
+@-webkit-keyframes UM_BUTTON_ENTER_9 {
+	from {color:#898c91;}
+	to {color:red;}
+}
+@-o-keyframes UM_BUTTON_ENTER_9 {
+	from {color:#898c91;}
+	to {color:red;}
+}
+@-moz-keyframes UM_BUTTON_ENTER_9 {
+	from {color:#898c91;}
+	to {color:red;}
+}
+@-ms-keyframes UM_BUTTON_ENTER_9 {
+	from {color:#898c91;}
+	to {color:red;}
+}
+/* 鼠标离开按钮颜色-样式9 -- button */
+@keyframes UM_BUTTON_LEAVE_9 {
+	from {color:red;}
+	to {color:#898c91;}
+}
+@-webkit-keyframes UM_BUTTON_LEAVE_9 {
+	from {color:red;}
+	to {color:#898c91;}
+}
+@-o-keyframes UM_BUTTON_LEAVE_9 {
+	from {color:red;}
+	to {color:#898c91;}
+}
+@-moz-keyframes UM_BUTTON_LEAVE_9 {
+	from {color:red;}
+	to {color:#898c91;}
+}
+@-ms-keyframes UM_BUTTON_LEAVE_9 {
+	from {color:red;}
+	to {color:#898c91;}
+}
+/* 开关状态为开时的背景样式 -- switch */
+@keyframes UM_SWITCH_ON {
+	from {background:#cccccc;}
+	to {background:#3F79F1;}
+}
+@-webkit-keyframes UM_SWITCH_ON {
+	from {background:#cccccc;}
+	to {background:#3F79F1;}
+}
+@-o-keyframes UM_SWITCH_ON {
+	from {background:#cccccc;}
+	to {background:#3F79F1;}
+}
+@-moz-keyframes UM_SWITCH_ON {
+	from {background:#cccccc;}
+	to {background:#3F79F1;}
+}
+@-ms-keyframes UM_SWITCH_ON {
+	from {background:#cccccc;}
+	to {background:#3F79F1;}
+}
+/* 开关状态为关时的背景样式 -- switch */
+@keyframes UM_SWITCH_OFF {
+	from {background:#3F79F1;}
+	to {background:#cccccc;}
+}
+@-webkit-keyframes UM_SWITCH_OFF {
+	from {background:#3F79F1;}
+	to {background:#cccccc;}
+}
+@-o-keyframes UM_SWITCH_OFF {
+	from {background:#3F79F1;}
+	to {background:#cccccc;}
+}
+@-moz-keyframes UM_SWITCH_OFF {
+	from {background:#3F79F1;}
+	to {background:#cccccc;}
+}
+@-ms-keyframes UM_SWITCH_OFF {
+	from {background:#3F79F1;}
+	to {background:#cccccc;}
+}
+/* 开关状态为开时的按钮样式 -- switch */
+@keyframes UM_SWITCH_BTN_ON {
+	from {left:2px; transform:translate(0, 0); -webkit-transform:translate(0, 0); -o-transform:translate(0, 0); -moz-transform:translate(0, 0); -ms-transform:translate(0, 0);}
+	to {left:calc(100% - 2px); transform:translate(-100%, 0); -webkit-transform:translate(-100%, 0); -o-transform:translate(-100%, 0); -moz-transform:translate(-100%, 0); -ms-transform:translate(-100%, 0);}
+}
+@-webkit-keyframes UM_SWITCH_BTN_ON {
+	from {left:2px; transform:translate(0, 0); -webkit-transform:translate(0, 0); -o-transform:translate(0, 0); -moz-transform:translate(0, 0); -ms-transform:translate(0, 0);}
+	to {left:calc(100% - 2px); transform:translate(-100%, 0); -webkit-transform:translate(-100%, 0); -o-transform:translate(-100%, 0); -moz-transform:translate(-100%, 0); -ms-transform:translate(-100%, 0);}
+}
+@-o-keyframes UM_SWITCH_BTN_ON {
+	from {left:2px; transform:translate(0, 0); -webkit-transform:translate(0, 0); -o-transform:translate(0, 0); -moz-transform:translate(0, 0); -ms-transform:translate(0, 0);}
+	to {left:calc(100% - 2px); transform:translate(-100%, 0); -webkit-transform:translate(-100%, 0); -o-transform:translate(-100%, 0); -moz-transform:translate(-100%, 0); -ms-transform:translate(-100%, 0);}
+}
+@-moz-keyframes UM_SWITCH_BTN_ON {
+	from {left:2px; transform:translate(0, 0); -webkit-transform:translate(0, 0); -o-transform:translate(0, 0); -moz-transform:translate(0, 0); -ms-transform:translate(0, 0);}
+	to {left:calc(100% - 2px); transform:translate(-100%, 0); -webkit-transform:translate(-100%, 0); -o-transform:translate(-100%, 0); -moz-transform:translate(-100%, 0); -ms-transform:translate(-100%, 0);}
+}
+@-ms-keyframes UM_SWITCH_BTN_ON {
+	from {left:2px; transform:translate(0, 0); -webkit-transform:translate(0, 0); -o-transform:translate(0, 0); -moz-transform:translate(0, 0); -ms-transform:translate(0, 0);}
+	to {left:calc(100% - 2px); transform:translate(-100%, 0); -webkit-transform:translate(-100%, 0); -o-transform:translate(-100%, 0); -moz-transform:translate(-100%, 0); -ms-transform:translate(-100%, 0);}
+}
+/* 开关状态为关时的按钮样式 -- switch */
+@keyframes UM_SWITCH_BTN_OFF {
+	from {left:calc(100% - 2px); transform:translate(-100%, 0); -webkit-transform:translate(-100%, 0); -o-transform:translate(-100%, 0); -moz-transform:translate(-100%, 0); -ms-transform:translate(-100%, 0);}
+	to {left:2px; transform:translate(0, 0); -webkit-transform:translate(0, 0); -o-transform:translate(0, 0); -moz-transform:translate(0, 0); -ms-transform:translate(0, 0);}
+}
+@-webkit-keyframes UM_SWITCH_BTN_OFF {
+	from {left:calc(100% - 2px); transform:translate(-100%, 0); -webkit-transform:translate(-100%, 0); -o-transform:translate(-100%, 0); -moz-transform:translate(-100%, 0); -ms-transform:translate(-100%, 0);}
+	to {left:2px; transform:translate(0, 0); -webkit-transform:translate(0, 0); -o-transform:translate(0, 0); -moz-transform:translate(0, 0); -ms-transform:translate(0, 0);}
+}
+@-o-keyframes UM_SWITCH_BTN_OFF {
+	from {left:calc(100% - 2px); transform:translate(-100%, 0); -webkit-transform:translate(-100%, 0); -o-transform:translate(-100%, 0); -moz-transform:translate(-100%, 0); -ms-transform:translate(-100%, 0);}
+	to {left:2px; transform:translate(0, 0); -webkit-transform:translate(0, 0); -o-transform:translate(0, 0); -moz-transform:translate(0, 0); -ms-transform:translate(0, 0);}
+}
+@-moz-keyframes UM_SWITCH_BTN_OFF {
+	from {left:calc(100% - 2px); transform:translate(-100%, 0); -webkit-transform:translate(-100%, 0); -o-transform:translate(-100%, 0); -moz-transform:translate(-100%, 0); -ms-transform:translate(-100%, 0);}
+	to {left:2px; transform:translate(0, 0); -webkit-transform:translate(0, 0); -o-transform:translate(0, 0); -moz-transform:translate(0, 0); -ms-transform:translate(0, 0);}
+}
+@-ms-keyframes UM_SWITCH_BTN_OFF {
+	from {left:calc(100% - 2px); transform:translate(-100%, 0); -webkit-transform:translate(-100%, 0); -o-transform:translate(-100%, 0); -moz-transform:translate(-100%, 0); -ms-transform:translate(-100%, 0);}
+	to {left:2px; transform:translate(0, 0); -webkit-transform:translate(0, 0); -o-transform:translate(0, 0); -moz-transform:translate(0, 0); -ms-transform:translate(0, 0);}
+}
+/* 透明度为0时的样式 -- switch、modal、checkbox、radio */
+@keyframes UM_SWITCH_OPACITY0 {
+	from {opacity:1;}
+	to {opacity:0;}
+}
+@-webkit-keyframes UM_SWITCH_OPACITY0 {
+	from {opacity:1;}
+	to {opacity:0;}
+}
+@-o-keyframes UM_SWITCH_OPACITY0 {
+	from {opacity:1;}
+	to {opacity:0;}
+}
+@-moz-keyframes UM_SWITCH_OPACITY0 {
+	from {opacity:1;}
+	to {opacity:0;}
+}
+@-ms-keyframes UM_SWITCH_OPACITY0 {
+	from {opacity:1;}
+	to {opacity:0;}
+}
+/* 透明度为1时的样式 -- switch、modal、checkbox、radio */
+@keyframes UM_SWITCH_OPACITY1 {
+	from {opacity:0;}
+	to {opacity:1;}
+}
+@-webkit-keyframes UM_SWITCH_OPACITY1 {
+	from {opacity:0;}
+	to {opacity:1;}
+}
+@-o-keyframes UM_SWITCH_OPACITY1 {
+	from {opacity:0;}
+	to {opacity:1;}
+}
+@-moz-keyframes UM_SWITCH_OPACITY1 {
+	from {opacity:0;}
+	to {opacity:1;}
+}
+@-ms-keyframes UM_SWITCH_OPACITY1 {
+	from {opacity:0;}
+	to {opacity:1;}
+}
+/* 消息弹框入场动画 -- message */
+@keyframes UM_MESSAGE {
+	from {opacity:0;}
+	15% {opacity:1;}
+	80% {opacity:1;}
+	to {opacity:0;}
+}
+ @-webkit-keyframes UM_MESSAGE {
+	from {opacity:0;}
+	15% {opacity:1;}
+	80% {opacity:1;}
+	to {opacity:0;}
+}
+@-o-keyframes UM_MESSAGE {
+	from {opacity:0;}
+	15% {opacity:1;}
+	80% {opacity:1;}
+	to {opacity:0;}
+}
+@-moz-keyframes UM_MESSAGE {
+	from {opacity:0;}
+	15% {opacity:1;}
+	80% {opacity:1;}
+	to {opacity:0;}
+}
+@-ms-keyframes UM_MESSAGE {
+	from {opacity:0;}
+	15% {opacity:1;}
+	80% {opacity:1;}
+	to {opacity:0;}
+}
+/* loading动画 -- loading */
+@keyframes UM_LOADING {
+	from {transform:rotate(0deg); -webkit-transform:rotate(0deg); -o-transform:rotate(0deg); -moz-transform:rotate(0deg); -ms-transform:rotate(0deg);}
+	to {transform:rotate(360deg); -webkit-transform:rotate(360deg); -o-transform:rotate(360deg); -moz-transform:rotate(360deg); -ms-transform:rotate(360deg);}
+}
+ @-webkit-keyframes UM_LOADING {
+	from {transform:rotate(0deg); -webkit-transform:rotate(0deg); -o-transform:rotate(0deg); -moz-transform:rotate(0deg); -ms-transform:rotate(0deg);}
+	to {transform:rotate(360deg); -webkit-transform:rotate(360deg); -o-transform:rotate(360deg); -moz-transform:rotate(360deg); -ms-transform:rotate(360deg);}
+}
+@-o-keyframes UM_LOADING {
+	from {transform:rotate(0deg); -webkit-transform:rotate(0deg); -o-transform:rotate(0deg); -moz-transform:rotate(0deg); -ms-transform:rotate(0deg);}
+	to {transform:rotate(360deg); -webkit-transform:rotate(360deg); -o-transform:rotate(360deg); -moz-transform:rotate(360deg); -ms-transform:rotate(360deg);}
+}
+@-moz-keyframes UM_LOADING {
+	from {transform:rotate(0deg); -webkit-transform:rotate(0deg); -o-transform:rotate(0deg); -moz-transform:rotate(0deg); -ms-transform:rotate(0deg);}
+	to {transform:rotate(360deg); -webkit-transform:rotate(360deg); -o-transform:rotate(360deg); -moz-transform:rotate(360deg); -ms-transform:rotate(360deg);}
+}
+@-ms-keyframes UM_LOADING {
+	from {transform:rotate(0deg); -webkit-transform:rotate(0deg); -o-transform:rotate(0deg); -moz-transform:rotate(0deg); -ms-transform:rotate(0deg);}
+	to {transform:rotate(360deg); -webkit-transform:rotate(360deg); -o-transform:rotate(360deg); -moz-transform:rotate(360deg); -ms-transform:rotate(360deg);}
+}
+/* 鼠标移出框体改变边框颜色 -- checkbox、radio */
+@keyframes UM_SELECT_OUT {
+	from {border:1px solid #3F79F1;}
+	to {border:1px solid #c0c4cc;}
+}
+@-webkit-keyframes UM_SELECT_OUT {
+	from {border:1px solid #3F79F1;}
+	to {border:1px solid #c0c4cc;}
+}
+@-o-keyframes UM_SELECT_OUT {
+	from {border:1px solid #3F79F1;}
+	to {border:1px solid #c0c4cc;}
+}
+@-moz-keyframes UM_SELECT_OUT {
+	from {border:1px solid #3F79F1;}
+	to {border:1px solid #c0c4cc;}
+}
+@-ms-keyframes UM_SELECT_OUT {
+	from {border:1px solid #3F79F1;}
+	to {border:1px solid #c0c4cc;}
+}
+/* 鼠标移入框体改变边框颜色 -- checkbox、radio */
+@keyframes UM_SELECT_HOVER {
+	from {border:1px solid #c0c4cc;}
+	to {border:1px solid #3F79F1;}
+}
+@-webkit-keyframes UM_SELECT_HOVER {
+	from {border:1px solid #c0c4cc;}
+	to {border:1px solid #3F79F1;}
+}
+@-o-keyframes UM_SELECT_HOVER {
+	from {border:1px solid #c0c4cc;}
+	to {border:1px solid #3F79F1;}
+}
+@-moz-keyframes UM_SELECT_HOVER {
+	from {border:1px solid #c0c4cc;}
+	to {border:1px solid #3F79F1;}
+}
+@-ms-keyframes UM_SELECT_HOVER {
+	from {border:1px solid #c0c4cc;}
+	to {border:1px solid #3F79F1;}
 }

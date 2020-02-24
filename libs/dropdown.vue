@@ -1,7 +1,8 @@
 <template>
-<div :class="{um__dropdown__class:true, um__dropdown__animationAble:!first_frame}" @mouseenter.once="first_frame=false">
+<div :class="{um__dropdown__class:true, [`um__dropdown__size_${plugSize}`]:true, um__dropdown__animationAble:!first_frame}" @mouseenter.once="first_frame=false">
 	<div class="um__dropdown__disabled" v-if="isCover"></div>   <!-- 禁用遮罩 -->
 	<div :class="{um__dropdown__input:true, 
+		[`um__dropdown_lineH_${plugSize}`]:true,
 		um__dropdown__input_on:pullDownObj && pullDownObj.now && !alarmBefore, 
 		um__dropdown__input_alarm_on:pullDownObj && pullDownObj.now && alarmBefore && !isAlarm, 
 		um__dropdown__input_off:pullDownObj && !pullDownObj.now && !alarmBefore && !first && !isAlarm, 
@@ -26,13 +27,13 @@
 		</div>
 	</div>
 	<div :class="{um__dropdown_textAlarm:true, um__dropdown__text_showAnimation:isAlarm, um__dropdown__text_hideAnimation:!isAlarm && !first}">{{alarmWord}}</div>
-	<span style="line-height:24px; opacity:0">0</span>   <!-- 对齐用; 本组件内其它元素都是绝对定位, 组件本身的display是inline-block, 如果不加一个合适line-height的文字内容则无法和有文字内容的其它inline-block元素对齐 -->
+	<span :class="`um__dropdown_align_${plugSize}`">0</span>   <!-- 对齐用; 本组件内其它元素都是绝对定位, 组件本身的display是inline-block, 如果不加一个合适line-height的文字内容则无法和有文字内容的其它inline-block元素对齐 -->
 </div>
 </template>
 
 <script>
 export default {
-	props:['list', 'searchable', 'closeSearchClear', 'selected', 'model', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'placeholder', 'enabled', 'rules', 'keyword'],
+	props:['list', 'searchable', 'closeSearchClear', 'model', 'maxHeight', 'view', 'option', 'disabled', 'clearable', 'placeholder', 'enabled', 'rules', 'validateField', 'size', 'value', 'keyword'],
 	data(){
 		return {
 			first_frame:true, // 左箭头是否首次加载, 用于优化展示动画
@@ -50,7 +51,8 @@ export default {
 			nowBefore:false, // 验证之前的下拉状态, 用于优化展示动画
 			alarmBefore:false, // 验证之前的标红状态, 用于优化展示动画
 			alarmWord:'', // 验证失败的说明文字
-			verifyContent:null // 被验证的数据
+			verifyContent:null, // 被验证的数据
+			sizeArr:['default', 'big', 'small'] // 大小规格size数组, 用于检测size是否正确
 		}
 	},
 	computed:{
@@ -61,7 +63,7 @@ export default {
 			return this.pullDownObj?this.pullDownObj.now:'origin';
 		},
 		isCover:function(){
-			if(this.disabled=='' || this.disabled=='true' || this.disabled===true){
+			if(this.disabled==='' || this.disabled==='true' || this.disabled===true){
 				return true;
 			}else{
 				return false;
@@ -96,7 +98,18 @@ export default {
 			};
 		},
 		verifying:function(){
-			return this.rules!==undefined && this.keyword!==undefined && this.rules[this.keyword]!==undefined;
+			return this.rules!==undefined && this.validateField!==undefined && this.rules[this.validateField]!==undefined;
+		},
+		plugSize:function(){
+			if(this.size===undefined){
+				return 'default';
+			}else{
+				if(this.sizeArr.indexOf((this.size+'').replace(/\s+/g, ''))===-1){
+					return 'default';
+				}else{
+					return (this.size+'').replace(/\s+/g, '');
+				};
+			};
 		}
 	},
 	watch:{
@@ -108,6 +121,75 @@ export default {
 			this.$nextTick(function(){
 				this.pullDownObj.reBind();
 			});
+		},
+		value:function(item){
+			if(this._$UMSTORE.isModuleEvent_dropdown || !item)return;
+			let modelPath=this.model;
+			if(typeof modelPath==='string' && modelPath.replace(/\s+/g, '').length>0){
+				modelPath='.'+modelPath;
+			}else{
+				modelPath='';
+			};
+			if(typeof item==='string' || typeof item==='number'){
+				let ok=false;
+				for(let i=0; i<this.showList.length; i++){
+					let k=i;
+					if(eval(`this.showList[k]${modelPath}`)===item){
+						this.index_now=i;
+						this.empty=false;
+						this.text=this.toFilterOption(this.showList[k], this.view);
+						this.verifyContent=this.toFilterOption(this.showList[k], this.model);
+						ok=true;
+						break;
+					}
+				};
+				if(!ok){
+					this.index_now=null;
+					this.empty=true;
+					this.verifyContent=null;
+					this.text=this.placeholder?this.placeholder:'请选择 ...';
+					this.$emit('input', null);
+				}
+			}else{
+				if(typeof this.keyword!=='string' || this.keyword.replace(/\s+/g, '').length===0){
+					this.index_now=null;
+					this.empty=true;
+					this.verifyContent=null;
+					this.text=this.placeholder?this.placeholder:'请选择 ...';
+					this.$emit('input', null);
+					return;
+				}else{
+					let keyPath='.'+this.keyword.replace(/\s+/g, '');
+					let realPath='';
+
+					if(modelPath!==''){
+						let re=new RegExp(`^${modelPath.replace('.', '\\.')}`);
+						realPath=keyPath.replace(re, '');
+					}else{
+						realPath=keyPath;
+					};
+
+					let ok=false;
+					for(let i=0; i<this.showList.length; i++){
+						let _i=i;
+						if(eval(`this.showList[_i]${keyPath}`)===eval(`item${realPath}`)){
+							this.index_now=_i;
+							this.empty=false;
+							this.text=this.toFilterOption(this.showList[_i], this.view);
+							this.verifyContent=this.toFilterOption(this.showList[_i], this.model);
+							ok=true;
+							break;
+						}
+					};
+					if(!ok){
+						this.index_now=null;
+						this.empty=true;
+						this.verifyContent=null;
+						this.text=this.placeholder?this.placeholder:'请选择 ...';
+						this.$emit('input', null);
+					}
+				};
+			};
 		}
 	},
 	methods:{
@@ -151,12 +233,14 @@ export default {
 		},
 		toSelect(val, index){
 			if(this.index_now===index)return;
+			this._$UMSTORE.isModuleEvent_dropdown=true;
 			this.index_now=index;
 			this.empty=false;
 			this.text=this.toFilterOption(val, this.view);
 			this.verifyContent=this.toFilterOption(val, this.model);
 			this.$emit('input', this.verifyContent);
 			this.$emit('change', val, index);
+			setTimeout(()=>{this._$UMSTORE.isModuleEvent_dropdown=false;});
 		},
 		toClearSelecter(){
 			if(this.empty)return;
@@ -182,7 +266,7 @@ export default {
 		},
 		_rule(item){
 			if(!this.enabledRule){
-				return false;
+				return true;
 			}else{
 				return eval(`item${this.enabledRule.attr}`)===(this.enabledRule.value?this.enabledRule.value:true);
 			};
@@ -198,16 +282,16 @@ export default {
 		toVerifySimple(){
 			if(!this.verifying)return;
 			let success=true;
-			for(let i=0; i<this.rules[this.keyword].length; i++){
+			for(let i=0; i<this.rules[this.validateField].length; i++){
 				if(!this.verifyContent){
 					success=false;
-					this.alarmWord=this.rules[this.keyword][i].split('|')[1];
+					this.alarmWord=this.rules[this.validateField][i].split('|')[1];
 					break;
 				}else if(typeof this.verifyContent==='string'){
-					let res=this._$UMSTORE.rules[this.rules[this.keyword][i].split('|')[0]](this.verifyContent);
+					let res=this._$UMSTORE.rules[this.rules[this.validateField][i].split('|')[0]](this.verifyContent);
 					if(!res){
 						success=false;
-						this.alarmWord=this.rules[this.keyword][i].split('|')[1];
+						this.alarmWord=this.rules[this.validateField][i].split('|')[1];
 						break;
 					}
 				}
@@ -242,10 +326,10 @@ export default {
 				this.$watch(function(){
 					return this.rules[__verify];
 				}, function(){
-					if(this.rules[__verifyResult][this.keyword].success){
+					if(this.rules[__verifyResult][this.validateField].success){
 						this.toNomal();
 					}else{
-						this.alarmWord=this.rules[__verifyResult][this.keyword].value;
+						this.alarmWord=this.rules[__verifyResult][this.validateField].value;
 						this.toRed();
 					};
 				});
@@ -265,29 +349,19 @@ export default {
 			}else if(/em$/.test(maxHeight)){
 				this.downHeight=Math.ceil(_(eval(`caption${this.num}`).parentNode).getStyle('fontSize').replace(/px$/, ''))*Number(maxHeight.replace(/em$/, ''))
 			}else{
-				throw `um-dropdown插件的maxHeight属性只支持三种单位: 'px', 'em', 'rem'`;
+				throw `um-dropdown组件的maxHeight属性只支持三种单位: 'px', 'em', 'rem'`;
 			};
 		});
-		if(this.selected!==undefined){
-			let index=Math.ceil(this.selected);
-			if(index==this.selected){
-				this.$emit('input', this.toFilterOption(this.list[index], this.model));
-				this.text=this.toFilterOption(this.list[index], this.view);
-				this.index_now=index;
-			}else{
-				this.$emit('input', null);
-				this.text=this.placeholder?this.placeholder:'请选择 ...';
-			};
-		}else{
-			this.$emit('input', null);
-			this.text=this.placeholder?this.placeholder:'请选择 ...';
-		};
 	}
 }
 </script>
 
 <style>
-.um__dropdown__class {width:180px; height:26px; color:#606266; border:1px solid #c0c4cc; border-radius:3px; background:white; display:inline-block; position:relative;}
+.um__dropdown__class {width:180px; color:#606266; border:1px solid #c0c4cc; border-radius:3px; background:white; display:inline-block; position:relative;}
+.um__dropdown__size_default {height:26px;}
+.um__dropdown__size_big {height:32px;}
+.um__dropdown__size_small {height:20px;}
+
 .um__dropdown__animationAble {animation:UM_BORDERFRAME_OUT .5s forwards; -webkit-animation:UM_BORDERFRAME_OUT .5s forwards; -o-animation:UM_BORDERFRAME_OUT .5s forwards; -moz-animation:UM_BORDERFRAME_OUT .5s forwards; -ms-animation:UM_BORDERFRAME_OUT .5s forwards;}
 .um__dropdown__animationAble:hover {animation:UM_BORDERFRAME_HOVER .5s forwards; -webkit-animation:UM_BORDERFRAME_HOVER .5s forwards; -o-animation:UM_BORDERFRAME_HOVER .5s forwards; -moz-animation:UM_BORDERFRAME_HOVER .5s forwards; -ms-animation:UM_BORDERFRAME_HOVER .5s forwards;}
 .um__dropdown__input_on {animation:UM_BORDERFRAME_CHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_CHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_CHOOSED .5s forwards;}
@@ -296,10 +370,15 @@ export default {
 .um__dropdown__input_alarm_on {animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards;}
 .um__dropdown__input_blur_alarm {animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -webkit-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -o-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -moz-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -ms-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards;}
 .um__dropdown__disabled {width:calc(100% + 2px); height:calc(100% + 2px); background:rgba(0,0,0,.1); cursor:not-allowed; border-radius:3px; position:absolute; left:-1px; top:-1px; z-index:10;}
-.um__dropdown__input {width:calc(100% - 5px); height:100%; font-size:14px; line-height:26px; background:transparent; padding-left:5px; border-radius:3px; border:1px solid transparent; position:absolute; left:-1px; top:-1px;}
+.um__dropdown__input {width:calc(100% - 5px); height:100%; font-size:14px; background:transparent; padding-left:5px; border-radius:3px; border:1px solid transparent; position:absolute; left:-1px; top:-1px;}
+.um__dropdown_lineH_default {line-height:26px; font-size:12px;}
+.um__dropdown_lineH_big {line-height:32px; font-size:14px;}
+.um__dropdown_lineH_small {line-height:20px; font-size:10px;}
+
 .um__dropdown__show {width:calc(100% - 26px); height:100%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
 .um__dropdown__show__placeholder {color:#c0c4cc;}
-.um__dropdown__icon {width:26px; height:26px; line-height:26px; color:#c0c4cc; text-align:center; position:absolute; right:2px; top:0; z-index:5;}
+.um__dropdown__icon {width:26px; color:#c0c4cc; text-align:center; position:absolute; right:2px; top:0; z-index:5;}
+
 .um__dropdown__container_up {width:calc(100% - 2px); overflow:hidden; padding:5px 0; background:white; border-radius:3px; border:1px solid #e4e7ed; box-shadow:0 0 5px #e4e7ed; position:absolute; left:0; bottom:calc(100% + 5px);}
 .um__dropdown__container_down {width:calc(100% + 2px); overflow:hidden; padding:5px 0; background:white; border-radius:3px; border:1px solid #e4e7ed; box-shadow:0 0 5px #e4e7ed; position:absolute; left:-2px; top:calc(100% + 5px);}
 .um__dropdown__search {width:100%; height:40px; position:relative;}
@@ -308,7 +387,7 @@ export default {
 .um__dropdown__option__placeholder {width:calc(100% - 10px); line-height:28px; font-size:14px; padding-left:10px; cursor:pointer; color:#c0c4cc;}
 .um__dropdown__option__placeholder:hover {background:#f0f3f7;}
 .um__dropdown__option_box {width:100%; line-height:26px; font-size:14px; cursor:pointer; position:relative;}
-.um__dropdown__option__cover {width:calc(100% - 10px); height:100%; padding-left:10px; background:transparent; cursor:not-allowed; position:absolute; left:0; top:0; z-index:100}
+.um__dropdown__option__cover {width:calc(100% - 10px); height:100%; padding-left:10px; background:rgba(255,255,255,.7); cursor:not-allowed; position:absolute; left:0; top:0; z-index:90}
 .um__dropdown__option {width:calc(100% - 10px); height:100%; padding-left:10px;}
 .um__dropdown__option:hover {background:#f0f3f7;}
 .um__dropdown__option__chooded {color:#409eff; font-weight:900;}
@@ -316,7 +395,11 @@ export default {
 .um__dropdown__contentbox {width:100%; overflow:hidden; position:relative;}
 .um__dropdown__icon_down {animation:UM_DROPDOWN_DOWN .5s forwards; -webkit-animation:UM_DROPDOWN_DOWN .5s forwards; -o-animation:UM_DROPDOWN_DOWN .5s forwards; -moz-animation:UM_DROPDOWN_DOWN .5s forwards; -ms-animation:UM_DROPDOWN_DOWN .5s forwards;}
 .um__dropdown__icon_up {animation:UM_DROPDOWN_UP .5s forwards; -webkit-animation:UM_DROPDOWN_UP .5s forwards; -o-animation:UM_DROPDOWN_UP .5s forwards; -moz-animation:UM_DROPDOWN_UP .5s forwards; -ms-animation:UM_DROPDOWN_UP .5s forwards;}
-.um__dropdown_textAlarm {width:calc(100% - 5px); line-height:20px; font-size:10px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:red; position:absolute; left:5px; top:100%;}
+.um__dropdown_textAlarm {width:calc(100% - 5px); line-height:18px; font-size:10px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:red; position:absolute; left:5px; top:100%;}
 .um__dropdown__text_showAnimation {animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards; -webkit-animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards; -o-animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards; -moz-animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards; -ms-animation:UM_BORDERFRAME_SHOWALARMTEXT .5s forwards;}
 .um__dropdown__text_hideAnimation {animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards; -webkit-animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards; -o-animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards; -moz-animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards; -ms-animation:UM_BORDERFRAME_HIDEALARMTEXT .5s forwards;}
+
+.um__dropdown_align_default {line-height:26px; opacity:0}
+.um__dropdown_align_big {line-height:32px; opacity:0}
+.um__dropdown_align_small {line-height:20px; opacity:0}
 </style>
