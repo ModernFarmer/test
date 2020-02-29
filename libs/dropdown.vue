@@ -114,13 +114,22 @@ export default {
 	},
 	watch:{
 		list:function(arr){ // 当列表发生变化时, 自适应滚动条长度 *列表发生变化不包括列表的某一内容发生变化, 如: list[0].name=value
-			if(this.pullDownObj.now)this.movingScrollObj.adaptive(500);
-			this.searchKey='';
-			this.showList=[...arr];
-			this.toClearSelecter();
-			this.$nextTick(function(){
-				this.pullDownObj.reBind();
-			});
+			let _watchFn=()=>{
+				if(this.pullDownObj){
+					if(this.pullDownObj.now)this.movingScrollObj.adaptive(500);
+					this.searchKey='';
+					this.showList=[...arr];
+					this.toClearSelecter();
+					this.$nextTick(function(){
+						this.pullDownObj.reBind();
+					});
+				}else{
+					setTimeout(()=>{
+						_watchFn();
+					}, 50);
+				};
+			};
+			_watchFn();
 		},
 		value:function(item){
 			if(this._$UMSTORE.isModuleEvent_dropdown || !item)return;
