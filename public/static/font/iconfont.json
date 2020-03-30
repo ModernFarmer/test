@@ -6,6 +6,20 @@
   "description": "umui组件库图标",
   "glyphs": [
     {
+      "icon_id": "5327601",
+      "name": "减号3",
+      "font_class": "jianhao",
+      "unicode": "e725",
+      "unicode_decimal": 59173
+    },
+    {
+      "icon_id": "7735978",
+      "name": "circle",
+      "font_class": "circle",
+      "unicode": "e8dd",
+      "unicode_decimal": 59613
+    },
+    {
       "icon_id": "128918",
       "name": "file-picture",
       "font_class": "filepicture",
@@ -48,13 +62,6 @@
       "unicode_decimal": 58982
     },
     {
-      "icon_id": "900144",
-      "name": "搜索",
-      "font_class": "sousuo",
-      "unicode": "e651",
-      "unicode_decimal": 58961
-    },
-    {
       "icon_id": "924356",
       "name": "file-remove",
       "font_class": "fileremove",
@@ -62,25 +69,11 @@
       "unicode_decimal": 59602
     },
     {
-      "icon_id": "1016758",
-      "name": "checkbox",
-      "font_class": "checkbox",
-      "unicode": "e65d",
-      "unicode_decimal": 58973
-    },
-    {
       "icon_id": "1261653",
       "name": "file-sound-o",
       "font_class": "file-sound-o",
       "unicode": "e67b",
       "unicode_decimal": 59003
-    },
-    {
-      "icon_id": "6112385",
-      "name": "下拉",
-      "font_class": "xiala-",
-      "unicode": "e629",
-      "unicode_decimal": 58921
     },
     {
       "icon_id": "6867516",
@@ -132,25 +125,11 @@
       "unicode_decimal": 59183
     },
     {
-      "icon_id": "7735978",
-      "name": "circle",
-      "font_class": "circle",
-      "unicode": "e8dd",
-      "unicode_decimal": 59613
-    },
-    {
       "icon_id": "9566870",
       "name": "file-forbid-line",
       "font_class": "file-forbid-line",
       "unicode": "e8c2",
       "unicode_decimal": 59586
-    },
-    {
-      "icon_id": "10273624",
-      "name": "loading",
-      "font_class": "loading",
-      "unicode": "e891",
-      "unicode_decimal": 59537
     },
     {
       "icon_id": "10917271",
@@ -202,6 +181,20 @@
       "unicode_decimal": 59164
     },
     {
+      "icon_id": "1016758",
+      "name": "checkbox",
+      "font_class": "checkbox",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "10273624",
+      "name": "loading",
+      "font_class": "loading",
+      "unicode": "e891",
+      "unicode_decimal": 59537
+    },
+    {
       "icon_id": "12818645",
       "name": "arrow-left",
       "font_class": "arrow-left",
@@ -214,6 +207,20 @@
       "font_class": "arrow-right",
       "unicode": "e7e4",
       "unicode_decimal": 59364
+    },
+    {
+      "icon_id": "900144",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "6112385",
+      "name": "下拉",
+      "font_class": "xiala-",
+      "unicode": "e629",
+      "unicode_decimal": 58921
     }
   ]
 }

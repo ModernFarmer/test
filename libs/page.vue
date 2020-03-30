@@ -26,9 +26,9 @@
 
 	<div :class="{icon:true, um__page__arrowSimple_simple:true, [`um__page__arrowLineH_${plugSize}`]:now!==maxPage, um__page__arrowRight:!first_right && now!==maxPage && showAnimation, um__page__arrow_disabled_simple:now===maxPage, [`um__page__arrow_disabled_lineH_${plugSize}`]:now===maxPage}" style="margin-left:5px" @mouseenter="toAbleShow" @mouseenter.once="first_right=false" @click="toPageDown"><span class="um__page__displacement">&#xe7e4;</span></div>  <!-- 下一页 -->
 
-	<div :class="`um__page__simpleFnBox um__page__fnBox_${plugSize}`" v-show="sizeable!==undefined"><span class="um__page__displacement">每页&nbsp;</span><um-input class="um__page_fn_umInput" :size="plugSize" ref="um__page__inputIn1" v-model="sizeShow" @blur="toBlurSize"></um-input><span class="um__page__displacement">&nbsp;条</span></div>
+	<div :class="`um__page__simpleFnBox um__page__fnBox_${plugSize}`" v-show="sizeable!==undefined"><span class="um__page__displacement">每页&nbsp;</span><b-input class="um__page_fn_umInput" :size="plugSize" ref="um__page__inputIn1" v-model="sizeShow" @blur="toBlurSize"></b-input><span class="um__page__displacement">&nbsp;条</span></div>
 
-	<div :class="`um__page__simpleFnBox um__page__fnBox_${plugSize}`" v-show="skipable!==undefined"><span class="um__page__displacement">跳转到&nbsp;</span><um-input class="um__page_fn_umInput" :size="plugSize" ref="um__page__inputIn2" v-model="nowShow" @blur="toBlurSkip"></um-input><span class="um__page__displacement">&nbsp;页</span></div>
+	<div :class="`um__page__simpleFnBox um__page__fnBox_${plugSize}`" v-show="skipable!==undefined"><span class="um__page__displacement">跳转到&nbsp;</span><b-input class="um__page_fn_umInput" :size="plugSize" ref="um__page__inputIn2" v-model="nowShow" @blur="toBlurSkip"></b-input><span class="um__page__displacement">&nbsp;页</span></div>
 </div>
 </template>
 

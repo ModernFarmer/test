@@ -1,73 +1,78 @@
 <template>
 <div class="dropdown_view">
-	<um-dropdown style="z-index:100" disabled :list="list" :rules="inputRulesObj" validateField="dropdownValue1" enabled="value.a|cc" clearable closeSearchClear searchable option="id.a" view="id.a" v-model="dropdownValue1" model="value.product.name" @change="abc"></um-dropdown>{{dropdownValue1}}&nbsp;
-	<um-dropdown style="z-index:100" size="big" :list="list" :rules="inputRulesObj" validateField="dropdownValue2" enabled="value.a|cc" clearable closeSearchClear searchable option="id.a" view="id.a" v-model="dropdownValue2" model="value.product.name" @change="abc"></um-dropdown>{{dropdownValue2}}&nbsp;
-	<um-dropdown style="z-index:100" size="small" :list="list" :rules="inputRulesObj" validateField="dropdownValue3" enabled="value.a|cc" clearable closeSearchClear searchable option="value.product.name" view="value.product.id" v-model="dropdownValue3" model="value.product" keyword="value.product.name" @change="abc"></um-dropdown>{{dropdownValue3}}
+	<b-dropdown style="z-index:100" disabled :list="list" :rules="inputRulesObj" validateField="dropdownValue1" enabled="value.a|cc" clearable closeSearchClear searchable option="id.a" view="id.a" v-model="dropdownValue1" model="value.product.name" @change="abc"></b-dropdown>{{dropdownValue1}}&nbsp;
+	<b-dropdown style="z-index:100" size="big" :list="list" :rules="inputRulesObj" validateField="dropdownValue2" enabled="value.a|cc" clearable closeSearchClear searchable option="id.a" view="id.a" v-model="dropdownValue2" model="value.product.name" @change="abc"></b-dropdown>{{dropdownValue2}}&nbsp;
+	<b-dropdown style="z-index:100" size="small" :list="list" :rules="inputRulesObj" validateField="dropdownValue3" enabled="value.a|cc" clearable closeSearchClear searchable option="value.product.name" view="value.product.id" v-model="dropdownValue3" model="value.product" keyword="value.product.name" @change="abc"></b-dropdown>{{dropdownValue3}}
 
 	<br><br><br>
 
-	<um-input icon="&#xe651;|left" :rules="inputRulesObj" validateField="obj.inputValue" v-model="obj.inputValue" @clickIcon="toClick"></um-input>&nbsp;
-	<um-input size="big" disabled icon="&#xe651;|left" :rules="inputRulesObj" validateField="obj.inputValue" v-model="obj.inputValue" @clickIcon="toClick"></um-input>&nbsp;
-	<um-input size="small" icon="&#xe651;|left" :rules="inputRulesObj" validateField="obj.inputValue" v-model="obj.inputValue" @clickIcon="toClick"></um-input>
+	<b-input icon="&#xe651;|left" :rules="inputRulesObj" validateField="obj.inputValue" v-model="obj.inputValue" @clickIcon="toClick"></b-input>&nbsp;
+	<b-input size="big" disabled icon="&#xe651;|left" :rules="inputRulesObj" validateField="obj.inputValue" v-model="obj.inputValue" @clickIcon="toClick"></b-input>&nbsp;
+	<b-input size="small" icon="&#xe651;|left" :rules="inputRulesObj" validateField="obj.inputValue" v-model="obj.inputValue" @clickIcon="toClick"></b-input>
 
 	<br><br><br>
 
-	<um-page total="1000" pageSize="10" sizeable skipable @change="pageChange" @sizeChange="sizeChange"></um-page><br><br>
-	<um-page total="1000" pageSize="10" size="big" sizeable skipable @change="pageChange" @sizeChange="sizeChange"></um-page><br><br>
-	<um-page total="1000" pageSize="10" size="small" sizeable skipable @change="pageChange" @sizeChange="sizeChange"></um-page>
+	<b-page total="1000" pageSize="10" sizeable skipable @change="pageChange" @sizeChange="sizeChange"></b-page><br><br>
+	<b-page total="1000" pageSize="10" size="big" sizeable skipable @change="pageChange" @sizeChange="sizeChange"></b-page><br><br>
+	<b-page total="1000" pageSize="10" size="small" sizeable skipable @change="pageChange" @sizeChange="sizeChange"></b-page>
 
 	<br><br><br>
 
-	<um-button @click="buttonClick('default | type1')">default | type1</um-button>&nbsp;
-	<um-button type="2" @click="buttonClick('type2')">type2</um-button>&nbsp;
-	<um-button type="3" @click="buttonClick('type3')">type3</um-button>&nbsp;
-	<um-button type="4" @click="buttonClick('type4')">type4</um-button>&nbsp;
-	<um-button type="5" @click="buttonClick('type5')">type5</um-button>&nbsp;
-	<um-button type="6" @click="buttonClick('type6')">type6</um-button>&nbsp;
-	<um-button type="7" @click="buttonClick('type7')">type7</um-button>&nbsp;
-	<um-button type="8" @click="buttonClick('type8')">type8</um-button>&nbsp;
-	<um-button type="8|big" @click="buttonClick('type8|big')">type8|big</um-button>&nbsp;
-	<um-button type="8|small" @click="buttonClick('type8|small')">type8|small</um-button>&nbsp;
-	<um-button disabled type="8|small" @click="buttonClick('type8|small')">type8|small</um-button>&nbsp;
-	<um-button type="9" @click="buttonClick('type9')">type9</um-button>&nbsp;
-	<um-button circle @click="buttonClick('type1-circle')">&#xe651;</um-button>&nbsp;
-	<um-button circle type="2|big" @click="buttonClick('type2|big-circle')">&#xe651;</um-button>&nbsp;
-	<um-button circle type="6|small" @click="buttonClick('type6|small-circle')">&#xe651;</um-button>
+	<b-button @click="buttonClick('default | type1')">default | type1</b-button>&nbsp;
+	<b-button type="2" @click="buttonClick('type2')">type2</b-button>&nbsp;
+	<b-button type="3" @click="buttonClick('type3')">type3</b-button>&nbsp;
+	<b-button type="4" @click="buttonClick('type4')">type4</b-button>&nbsp;
+	<b-button type="5" @click="buttonClick('type5')">type5</b-button>&nbsp;
+	<b-button type="6" @click="buttonClick('type6')">type6</b-button>&nbsp;
+	<b-button type="7" @click="buttonClick('type7')">type7</b-button>&nbsp;
+	<b-button type="8" @click="buttonClick('type8')">type8</b-button>&nbsp;
+	<b-button type="8|big" @click="buttonClick('type8|big')">type8|big</b-button>&nbsp;
+	<b-button type="8|small" @click="buttonClick('type8|small')">type8|small</b-button>&nbsp;
+	<b-button disabled type="8|small" @click="buttonClick('type8|small')">type8|small</b-button>&nbsp;
+	<b-button type="9" @click="buttonClick('type9')">type9</b-button>&nbsp;
+	<b-button circle @click="buttonClick('type1-circle')">&#xe651;</b-button>&nbsp;
+	<b-button circle type="2|big" @click="buttonClick('type2|big-circle')">&#xe651;</b-button>&nbsp;
+	<b-button circle type="6|small" @click="buttonClick('type6|small-circle')">&#xe651;</b-button>
 
 	<br><br><br>
 
 	第一个组件绑定值: <span style="color:salmon; margin-right:20px">{{switchValue}}</span>
-	<um-switch text="on|off" @change="switchEvent" v-model="switchValue" model="T|F"></um-switch>&nbsp;
-	<um-switch text="开|关" @change="switchEvent" size="big"></um-switch>&nbsp;
-	<um-switch text="开放中|关闭" @change="switchEvent" size="small"></um-switch>&nbsp;
-	<um-switch disabled></um-switch>
+	<b-switch text="on|off" @change="switchEvent" v-model="switchValue" model="T|F"></b-switch>&nbsp;
+	<b-switch text="开|关" @change="switchEvent" size="big"></b-switch>&nbsp;
+	<b-switch text="开放中|关闭" @change="switchEvent" size="small"></b-switch>&nbsp;
+	<b-switch disabled></b-switch>
 
 	<br><br><br>
 
-	<um-button @click="toAlertMessage_default">弹框按钮-default</um-button>&nbsp;
-	<um-button @click="toAlertMessage_success">弹框按钮-success</um-button>&nbsp;
-	<um-button @click="toAlertMessage_warning">弹框按钮-warning</um-button>&nbsp;
-	<um-button @click="toAlertMessage_error">弹框按钮-error</um-button>&nbsp;
+	<b-button @click="toAlertMessage_default">弹框按钮-default</b-button>&nbsp;
+	<b-button @click="toAlertMessage_success">弹框按钮-success</b-button>&nbsp;
+	<b-button @click="toAlertMessage_warning">弹框按钮-warning</b-button>&nbsp;
+	<b-button @click="toAlertMessage_error">弹框按钮-error</b-button>&nbsp;
 
 	<br><br><br>
 
-	<um-button @click="toShowModal">模态框按钮</um-button>
-	<um-modal v-model="modal" width="80%" @close="isCloseModal">
+	<b-button @click="toShowModal">模态框按钮</b-button>
+	<b-modal v-model="modal" width="80%" @close="isCloseModal">
 		<div style="width:100%; text-align:center; font-size:30px; font-weight:900; margin-top:50px">我是 modal</div>
-	</um-modal>
+	</b-modal>
 
 	<br><br><br>
 
-	<um-button @click="toShowLoading">loading按钮</um-button>
+	<b-button @click="toShowLoading">loading按钮</b-button>
 
 	<br><br><br>
-	<um-checkbox v-for="option in checkboxOptions" :result="checkboxResult" :option="option" model="id.upId">{{option.value}}</um-checkbox>
+
+	<b-checkall :options="checkboxOptions" v-model="checkboxResult" model="id.upId">全选</b-checkall>
+
+	<br><br><br>
+
+	<b-checkbox v-for="option in checkboxOptions" :result="checkboxResult" :option="option" model="id.upId">{{option.value}}</b-checkbox>
 	<br><br>
 	结果: {{checkboxResult}}
 
 	<br><br><br>
 
-	<um-radio v-for="(option, index) in radioOptions" v-model="radioResult" model="value" keyword="value.id" :disabled="index===0?true:false" :option="option" clearable>{{option.name}}</um-radio>
+	<b-radio v-for="(option, index) in radioOptions" v-model="radioResult" model="value" keyword="value.id" :disabled="index===0?true:false" :option="option">{{option.name}}</b-radio>
 	<br><br>
 	结果: {{radioResult}}
 
@@ -220,7 +225,7 @@ export default {
 
 //  ----------------- button --------------------------
 // **该组件可以直接在组件上绑定h5的原生事件而不用加.native修饰符
-// **该组件可以直接使用框架提供的icon, 比如: <um-button>&#xe651;</um-button>
+// **该组件可以直接使用框架提供的icon, 比如: <b-button>&#xe651;</b-button>
 // type 组件的样式和规格 [string] 该值将会以'|'拆分, 拆分后如果有2部分, 则第一部分为按钮样式, 第二部分为按钮规格; 拆分后如果只有1部分, 则该部分为按钮样式. 其中,按钮样式有8种, 分别为1、2、3、4、5、6、7、8, 默认为1; 按钮规格有3种, 分别为'default'、'big'和'small', 默认为'default'; 比如:type="2|big", 则表示样式为2规格为'big'的按钮, type="3"则表示样式为3规格为'default'的按钮, type="|small"则表示样式为1规格为'small'的按钮
 // disabled: 如果有该属性, 且该属性的值是''、'true'、true时, 则组件禁用
 // circle: 是否圆形按钮
@@ -282,6 +287,7 @@ export default {
 // option  绑定的选项值  [string|json]  必须  *radio组件支持输出json结果, 不仅仅是string
 // model  输出选项的路径, 可以指定绑定v-model所抛出的值的属性  [string]  比如该组件的option属性绑定的是一个json, 如:option="{id:1, value:{name:'um', high:180, sex:'m'}}", 如果你不需要option的id, 只想要option的value结果, 那么你可以设置model="value", 那样的话result输出的是json.value, 如:{name:'um', high:180, sex:'m'}; 如果你只想要option的value.name结果, 那么你可以设置model="value.name", 那样的话result输出的是json.value.name, 如:'um', ...
 // keyword  监听关键字 *该组件支持输出结果双向绑定  如果输出结果数组内的值是json, 则需要设置keyword, 比如:option的值是{id:'a', attr:{main:'b', name:'c', value:{age:34, high:180, sex:'m'}}}, model的值是'attr', 那么v-model绑定值的值为{main:'b', name:'c', value:{age:34, high:180, sex:'m'}}, 如果要实现当v-model绑定值改变的时候, 组件的选择状态跟随v-model绑定值的结果改变, 则必须设置keyword, 它表示判断组件选择状态改变的关键字, 比如这里我们设置keyword="attr.value.sex", 那么组件将以json.attr.value.sex的值为标准, (这里用item表示v-model绑定值数组内的值), 当json.attr.value.sex===[item对应的值](这里的'item对应的值'组件会根据model属性和keyword属性自动计算)时, 则判定组件的选择状态为true, 组件为选中状态, 否则组件则为未选中状态  ***特别注意: keyword设置的对象路径所指向的结果类型必须是string或者number! 用这个例子打个比方: 如果json.attr.value.sex的结果是一个json, 则不能实现组件的监听功能
+// clearable: 是否可以全部不选  [string|boolean]  如果存在该属性, 则组件可以全部不选
 // @change 组件状态改变时的回调函数, 该函数自带2个回调参数: 1:组件的结果数组, 2:组件的选项值  *注意, 通过改变v-model绑定值监听而改变组件状态的时候不会触发该函数
 
 

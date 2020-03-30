@@ -8,6 +8,7 @@ import Modal from './modal.vue'
 import Loading from './loading.vue'
 import Checkbox from './checkbox.vue'
 import Radio from './radio.vue'
+import Checkall from './checkall.vue'
 
 window.__verify=Symbol('verify');
 window.__verifyResult=Symbol('verifyResult');
@@ -36,14 +37,14 @@ let umJson={
 };
 
 let setRule=function(name, fn){ // 添加验证规则 返回vue对象本身  nanme:规则名称,如果该名称的规则已存在,则覆写该名称的规则; fn:规则方法
-	if(name in this._$UMSTORE.rules)console.log(`Um-Warn: ---> 验证规则 ${name} 已被覆写 !`);
+	if(name in this._$UMSTORE.rules)console.log(`b-Warn: ---> 验证规则 ${name} 已被覆写 !`);
 	this._$UMSTORE.rules[name]=fn;
 	return this;
 };
 
 let verify=function(obj){ // 验证的方法  obj:需要验证的对象
 	if(!_isJson(obj)){
-		console.log(`Um-Warn: ---> 验证对象必须是一个 json !`);
+		console.log(`b-Warn: ---> 验证对象必须是一个 json !`);
 		return false;
 	}
 	obj[__verifyResult]={};
@@ -87,14 +88,15 @@ let verify=function(obj){ // 验证的方法  obj:需要验证的对象
 
 export default {
 	install:function(Vue){
-		Vue.component('um-dropdown', Dropdown);
-		Vue.component('um-input', Input);
-		Vue.component('um-page', Page);
-		Vue.component('um-button', Button);
-		Vue.component('um-switch', Switch);
-		Vue.component('um-modal', Modal);
-		Vue.component('um-checkbox', Checkbox);
-		Vue.component('um-radio', Radio);
+		Vue.component('b-dropdown', Dropdown);
+		Vue.component('b-input', Input);
+		Vue.component('b-page', Page);
+		Vue.component('b-button', Button);
+		Vue.component('b-switch', Switch);
+		Vue.component('b-modal', Modal);
+		Vue.component('b-checkbox', Checkbox);
+		Vue.component('b-radio', Radio);
+		Vue.component('b-checkall', Checkall);
 
 		let MSG=Vue.extend(Message);
 

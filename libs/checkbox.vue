@@ -5,7 +5,7 @@
 		<div :class="{icon:true, um__checkbox__alert:!isDisabled, um__checkbox__desAlert:isDisabled, um__checkbox__alertAnimation0:!isOn && !first_alert, um__checkbox__alertAnimation1:isOn}"><span class="um__checkbox__position">&#xe65d;</span></div>
 	</div>
 	<span class="um__checkbox__defaultText" v-if="!isHideOption">0</span>
-	<span :id="id" :class="{um__checkbox__disabled:isDisabled}" style="font-size:14px" v-show="!isHideOption">
+	<span :class="{um__checkbox__disabled:isDisabled}" style="font-size:14px" v-show="!isHideOption">
 		<slot></slot>
 	</span>
 	<span class="um__checkbox__defaultText" v-if="!isHideOption">0</span>
@@ -24,9 +24,6 @@ export default {
 		}
 	},
 	computed:{
-		id(){
-			return '_um_checkbox_'+Math.ceil(Math.random()*100000000);
-		},
 		isHideOption:function(){
 			return Object.keys(this.$slots).length===0;
 		},
@@ -159,10 +156,10 @@ export default {
 						if(typeof _value==='string' || typeof _value==='number'){
 							keywordObj={value:_value, path:keywordPath};
 						}else{
-							throw '请正确设置um-checkbox组件的keyword!';
+							throw '请正确设置b-checkbox组件的keyword!';
 						};
 					}else{
-						throw '请正确设置um-checkbox组件的keyword!';
+						throw '请正确设置b-checkbox组件的keyword!';
 					};
 				};
 				return {model:modelObj, keyword:keywordObj};
