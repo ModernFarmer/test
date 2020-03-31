@@ -275,9 +275,19 @@ export default {
 // disabled  禁用组件  [boolean]  如果存在该属性,则禁用组件
 // result  绑定的结果  [array]  必须
 // option  绑定的选项值  [string|json]  必须  *checkbox组件支持输出json结果, 不仅仅是string
-// model  输出选项的路径, 可以指定绑定v-model所抛出的值的属性  [string]  比如该组件的option属性绑定的是一个json, 如:option="{id:1, value:{name:'um', high:180, sex:'m'}}", 如果你不需要option的id, 只想要option的value结果, 那么你可以设置model="value", 那样的话result输出的是json.value, 如:[{name:'um', high:180, sex:'m'}, ...]; 如果你只想要option的value.name结果, 那么你可以设置model="value.name", 那样的话result输出的是json.value.name, 如:['um', ...]
+// model  输出选项的路径, 可以指定绑定结果result属性所抛出的值的属性  [string]  比如该组件的option属性绑定的是一个json, 如:option="{id:1, value:{name:'um', high:180, sex:'m'}}", 如果你不需要option的id, 只想要option的value结果, 那么你可以设置model="value", 那样的话result输出的是json.value, 如:[{name:'um', high:180, sex:'m'}, ...]; 如果你只想要option的value.name结果, 那么你可以设置model="value.name", 那样的话result输出的是json.value.name, 如:['um', ...]
 // keyword  监听关键字 *该组件支持输出结果双向绑定  如果输出结果数组内的值是json, 则需要设置keyword, 比如:option的值是{id:'a', attr:{main:'b', name:'c', value:{age:34, high:180, sex:'m'}}}, model的值是'attr', 那么result的值为[{main:'b', name:'c', value:{age:34, high:180, sex:'m'}}, ...], 如果要实现当result改变的时候, 组件的选择状态跟随result的结果改变, 则必须设置keyword, 它表示判断组件选择状态改变的关键字, 比如这里我们设置keyword="attr.value.sex", 那么组件将以json.attr.value.sex的值为标准, (这里用item表示result数组内的值), 当json.attr.value.sex===[item对应的值](这里的'item对应的值'组件会根据model属性和keyword属性自动计算)时, 则判定组件的选择状态为true, 组件为选中状态, 否则组件则为未选中状态  ***特别注意: keyword设置的对象路径所指向的结果类型必须是string或者number! 用这个例子打个比方: 如果json.attr.value.sex的结果是一个json, 则不能实现组件的监听功能
 // @change 组件状态改变时的回调函数, 该函数自带2个回调参数: 1:组件的结果数组, 2:组件的选项值  *注意, 通过改变result监听而改变组件状态的时候不会触发该函数
+
+
+
+//  ----------------- checkall --------------------------
+// *该组件根据slot的内容来展示选项内容
+// options  所有选项数据  [array]  必须
+// v-model  checkbox组件的结果绑定数据  [array]  必须
+// model  同checkbox组件的model属性
+// @input  点击组件时的回调方法, 该函数自带1个回调参数: v-model当前绑定的值(即checkbox组件的结果数组)
+
 
 
 //  ----------------- radio --------------------------

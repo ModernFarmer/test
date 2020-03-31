@@ -6,16 +6,16 @@ export default new Router({
 	routes:[
 		{
 			path:'*',
-			redirect:'/um-dropdown',
-			component:()=>import('./components/dropdown.vue')
+			redirect:'/simple',
+			component:()=>import('./components/simple.vue')
 		},
 		{
-			path:'/um-dropdown',
-			component:()=>import('./components/dropdown.vue')
+			path:'/simple',
+			component:()=>import('./components/simple.vue')
 		},
 		{
-			path:'/um-input',
-			component:()=>import('./components/input.vue')
+			path:'/demo',
+			component:()=>import('./components/demo.vue')
 		}
 	]
 });
