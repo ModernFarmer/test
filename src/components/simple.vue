@@ -1,6 +1,6 @@
 <template>
 <div class="dropdown_simple">
-	qweqwe
+	<b-date></b-date>
 </div>
 </template>
 

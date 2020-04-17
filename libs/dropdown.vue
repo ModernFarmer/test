@@ -333,12 +333,12 @@ export default {
 			}.bind(this));
 			if(this.verifying){
 				this.$watch(function(){
-					return this.rules[__verify];
+					return this.rules[__umVerify];
 				}, function(){
-					if(this.rules[__verifyResult][this.validateField].success){
+					if(this.rules[__umVerifyResult][this.validateField].success){
 						this.toNomal();
 					}else{
-						this.alarmWord=this.rules[__verifyResult][this.validateField].value;
+						this.alarmWord=this.rules[__umVerifyResult][this.validateField].value;
 						this.toRed();
 					};
 				});

@@ -6,12 +6,15 @@ import Switch from './switch.vue'
 import Message from './message.vue'
 import Modal from './modal.vue'
 import Loading from './loading.vue'
-import Checkbox from './checkbox.vue'
+import _Checkbox from './checkbox.vue'
 import Radio from './radio.vue'
 import Checkall from './checkall.vue'
+import _Date from './date.vue'
+import Calendar from './calendar.vue'
+import _Time from './time.vue'
 
-window.__verify=Symbol('verify');
-window.__verifyResult=Symbol('verifyResult');
+window.__umVerify=Symbol('verify');
+window.__umVerifyResult=Symbol('verifyResult');
 
 let umJson={
 	rules:{ // 校验规则
@@ -47,26 +50,26 @@ let verify=function(obj){ // 验证的方法  obj:需要验证的对象
 		console.log(`b-Warn: ---> 验证对象必须是一个 json !`);
 		return false;
 	}
-	obj[__verifyResult]={};
+	obj[__umVerifyResult]={};
 	for(let key in obj){
 		for(let i=0; i<obj[key].length; i++){
 			if(typeof eval(`this.${key}`)!=='string'){
 				if(eval(`this.${key}`)===null){
-					obj[__verifyResult][key]={
+					obj[__umVerifyResult][key]={
 						success:false,
 						value:obj[key][i].split('|')[1]?obj[key][i].split('|')[1]:''
 					};
 					break;
 				}else{
-					obj[__verifyResult][key]={success:true};
+					obj[__umVerifyResult][key]={success:true};
 					break;
 				};
 			}else{
 				let success=eval(`this._$UMSTORE.rules.${obj[key][i].split('|')[0]}(this.${key})`);
 				if(success){
-					obj[__verifyResult][key]={success};
+					obj[__umVerifyResult][key]={success};
 				}else{
-					obj[__verifyResult][key]={
+					obj[__umVerifyResult][key]={
 						success,
 						value:obj[key][i].split('|')[1]?obj[key][i].split('|')[1]:''
 					};
@@ -75,10 +78,10 @@ let verify=function(obj){ // 验证的方法  obj:需要验证的对象
 			};
 		};
 	};
-	this.$set(obj, __verify, obj[__verify]?obj[__verify]+1:1); // 触发需要验证插件的监听机制
+	this.$set(obj, __umVerify, obj[__umVerify]?obj[__umVerify]+1:1); // 触发需要验证插件的监听机制
 	let result=true;
-	for(let key in obj[__verifyResult]){
-		if(!obj[__verifyResult][key].success){
+	for(let key in obj[__umVerifyResult]){
+		if(!obj[__umVerifyResult][key].success){
 			result=false;
 			break;
 		}
@@ -94,9 +97,12 @@ export default {
 		Vue.component('b-button', Button);
 		Vue.component('b-switch', Switch);
 		Vue.component('b-modal', Modal);
-		Vue.component('b-checkbox', Checkbox);
+		Vue.component('b-checkbox', _Checkbox);
 		Vue.component('b-radio', Radio);
 		Vue.component('b-checkall', Checkall);
+		Vue.component('b-date', _Date);
+		Vue.component('b-calendar', Calendar);
+		Vue.component('b-time', _Time);
 
 		let MSG=Vue.extend(Message);
 

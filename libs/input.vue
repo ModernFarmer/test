@@ -1,5 +1,5 @@
 <template>
-<div :class="{um__input__class_simple:true, [`um__input__lineH_${plugSize}`]:true, um__input__animationAble:!first}">
+<div :class="{um__input__class_simple:true, [`um__input__lineH_${plugSize}`]:true, um__input__animationAble:!hoverFirse}" @mouseenter="hoverFirse=false">
 	<div class="um__input__disabled" v-if="isCover"></div>   <!-- 禁用遮罩 -->
 	<div :class="`icon um__input__simpleIcon um__input__Icon_${plugSize}`" :style="{[iconObj.position]:'1px', cursor:haveIconClick?'pointer':'default'}" v-if="icon" v-html="iconObj.value" @click="toClickIcon"></div>
 	<input :id="id" type="text" 
@@ -25,6 +25,7 @@ export default {
 	data(){
 		return {
 			first:true, // 是否首次加载
+			hoverFirse:true, // 是否首次鼠标移入
 			blurBefore:true, // 标红之前的获取焦点状态, 用于优化展示动画
 			alarmBefore:false, // 失去或获取焦点之前的标红状态, 用于优化展示动画
 			isBlur:true, // 是否失去焦点状态
@@ -128,12 +129,12 @@ export default {
 	mounted:function(){
 		if(this.verifying){
 			this.$watch(function(){
-				return this.rules[__verify];
+				return this.rules[__umVerify];
 			}, function(){
-				if(this.rules[__verifyResult][this.validateField].success){
+				if(this.rules[__umVerifyResult][this.validateField].success){
 					this.toNomal();
 				}else{
-					this.alarmWord=this.rules[__verifyResult][this.validateField].value;
+					this.alarmWord=this.rules[__umVerifyResult][this.validateField].value;
 					this.toRed();
 				};
 			});
