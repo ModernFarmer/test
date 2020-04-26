@@ -1,9 +1,9 @@
 <template>
 <div id="rrdd" :class="{um__modal__class:true, um__modal__ennte:showAnimation, um__modal__leave:!showAnimation}" :style="{zIndex:index_z}" v-if="!first" v-show="showModal" @click="toCloseModal">
 	<div class="um__modal__mainBox" :style="widthObj" @click.stop>
-		<um-button class="um__modal__button" type="9" circle v-if="closeDisabled!==false" @click="closeModal">
+		<b-button class="um__modal__button" type="9" circle v-if="closeDisabled!==false" @click="closeModal">
 			<span class="um__modal__textBtn">&times;</span>
-		</um-button>
+		</b-button>
 		<slot></slot>
 	</div>
 </div>

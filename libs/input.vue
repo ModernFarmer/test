@@ -162,9 +162,9 @@ export default {
 .um__input__disabled {width:calc(100% + 2px); height:calc(100% + 2px); background:rgba(0,0,0,.1); cursor:not-allowed; border-radius:3px; position:absolute; left:-1px; top:-1px; z-index:10;}
 
 .um__input__simpleIcon {width:24px; color:#c0c4cc; text-align:center; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; position:absolute; top:1px; z-index:5;}
-.um__input__Icon_default {height:24px; line-height:24px; font-size:12px;}
-.um__input__Icon_big {height:30px; line-height:30px; font-size:14px;}
-.um__input__Icon_small {height:19px; line-height:19px; font-size:10px;}
+.um__input__Icon_default {height:24px; line-height:26px; font-size:12px;}
+.um__input__Icon_big {height:30px; line-height:32px; font-size:14px;}
+.um__input__Icon_small {height:19px; line-height:20px; font-size:10px;}
 
 .um__input__fontSize_default {font-size:12px;}
 .um__input__fontSize_big {font-size:14px;}

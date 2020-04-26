@@ -1,6 +1,8 @@
 <template>
 <div class="dropdown_simple">
 	<b-date></b-date>
+	<div style="margin-top:20px"></div>
+	<b-date range></b-date>
 </div>
 </template>
 
@@ -8,8 +10,11 @@
 export default {
 	data(){
 		return {
-
+			
 		}
+	},
+	mounted:function(){
+
 	}
 }
 </script>

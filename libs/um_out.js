@@ -35,12 +35,20 @@ let umJson={
 			return true; // --------------------------
 		}
 	},
-	isModuleEvent_dropdown:false, // 是否dropdown组件触发的事件, 用于判断dropdown组件是否监听v-model绑定值的改变
+	_uobj_dropdown:{  // dropdown组件状态
+		nowConditionId_dropdown:null,  // 上一次_PullDown对象id, 用于判断是否点击同一组件
+		nowConditionObj_dropdown:null,  // 上一次_PullDown对象, 用于当点击新dropdown组件时折叠上一次下拉组件
+		isModuleEvent_dropdown:false, // 是否dropdown组件触发的事件, 用于判断dropdown组件是否监听v-model绑定值的改变
+	},
+	_uobj_date:{  // date组件状态
+		nowConditionId_date:null,  // 上一次date组件对象id, 用于判断是否点击同一组件
+		nowConditionObj_date:null  // 上一次date组件对象, 用于当点击新date组件时折叠上一次日期组件
+	},
 	isModuleEvent_checkbox:false // 是否checkbox组件触发的事件, 用于判断checkbox组件是否监听result的改变
 };
 
 let setRule=function(name, fn){ // 添加验证规则 返回vue对象本身  nanme:规则名称,如果该名称的规则已存在,则覆写该名称的规则; fn:规则方法
-	if(name in this._$UMSTORE.rules)console.log(`b-Warn: ---> 验证规则 ${name} 已被覆写 !`);
+	if(name in this._$UMSTORE.rules)console.log(`b-Warn: ---> 验证规则 ${name} 将被覆写 !`);
 	this._$UMSTORE.rules[name]=fn;
 	return this;
 };
@@ -91,6 +99,7 @@ let verify=function(obj){ // 验证的方法  obj:需要验证的对象
 
 export default {
 	install:function(Vue){
+		require('../libs/um_css.css');
 		Vue.component('b-dropdown', Dropdown);
 		Vue.component('b-input', Input);
 		Vue.component('b-page', Page);

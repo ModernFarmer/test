@@ -132,7 +132,7 @@ export default {
 			_watchFn();
 		},
 		value:function(item){
-			if(this._$UMSTORE.isModuleEvent_dropdown || !item)return;
+			if(this._$UMSTORE._uobj_dropdown.isModuleEvent_dropdown || !item)return;
 			let modelPath=this.model;
 			if(typeof modelPath==='string' && modelPath.replace(/\s+/g, '').length>0){
 				modelPath='.'+modelPath;
@@ -221,6 +221,9 @@ export default {
 			}, 500);
 		},
 		toJudge(event){
+			if(this._$UMSTORE._uobj_dropdown.nowConditionId_dropdown!==null && this._$UMSTORE._uobj_dropdown.nowConditionId_dropdown!==this.num && this._$UMSTORE._uobj_dropdown.nowConditionObj_dropdown!==null)this._$UMSTORE._uobj_dropdown.nowConditionObj_dropdown.fold();
+			this._$UMSTORE._uobj_dropdown.nowConditionId_dropdown=this.num;
+			this._$UMSTORE._uobj_dropdown.nowConditionObj_dropdown=this.pullDownObj;
 			if(this.searchable!==undefined && this.closeSearchClear===undefined && !this.pullDownObj.now){ // 每次下拉初始化搜索数据
 				this.searchKey='';
 				this.showList=[...this.list];
@@ -242,14 +245,14 @@ export default {
 		},
 		toSelect(val, index){
 			if(this.index_now===index)return;
-			this._$UMSTORE.isModuleEvent_dropdown=true;
+			this._$UMSTORE._uobj_dropdown.isModuleEvent_dropdown=true;
 			this.index_now=index;
 			this.empty=false;
 			this.text=this.toFilterOption(val, this.view);
 			this.verifyContent=this.toFilterOption(val, this.model);
 			this.$emit('input', this.verifyContent);
 			this.$emit('change', val, index);
-			setTimeout(()=>{this._$UMSTORE.isModuleEvent_dropdown=false;});
+			setTimeout(()=>{this._$UMSTORE._uobj_dropdown.isModuleEvent_dropdown=false;});
 		},
 		toClearSelecter(){
 			if(this.empty)return;
