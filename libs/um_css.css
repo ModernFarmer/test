@@ -1,6 +1,6 @@
 html,body {width:100%; height:100%; padding:0; margin:0;}
-#um__message__container_id {max-width:35%; display:inline-block; text-align:center; transform:translate(-50%, 0); -webkit-transform:translate(-50%, 0); -o-transform:translate(-50%, 0); -moz-transform:translate(-50%, 0); -ms-transform:translate(-50%, 0); position:absolute; left:50%; top:15%; z-index:-1;}
-#um__loading__container_id {width:100%; height:100%; background:rgba(0,0,0,.05); opacity:0; position:absolute; left:0; top:0; z-index:-1;}
+#um__message__container_id {max-width:35%; display:inline-block; text-align:center; transform:translate(-50%, 0); -webkit-transform:translate(-50%, 0); -o-transform:translate(-50%, 0); -moz-transform:translate(-50%, 0); -ms-transform:translate(-50%, 0); position:fixed; left:50%; top:15%; z-index:-1;}
+#um__loading__container_id {width:100%; height:100%; background:rgba(0,0,0,.05); opacity:0; position:fixed; left:0; top:0; z-index:-1;}
 
 /* 动画的keyframes样式 */
 
