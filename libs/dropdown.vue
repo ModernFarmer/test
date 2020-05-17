@@ -12,7 +12,7 @@
 		<div :class="{um__dropdown__show:true, um__dropdown__show__placeholder:empty}">{{text}}</div>
 		<div :class="{icon:true, um__dropdown__icon:true, um__dropdown__icon_down:now===false && !first, um__dropdown__icon_up:now===true}">&#xe629;</div>
 	</div>
-	<div class="um__dropdown__container" :style="{top:unfoldUp?'none':'calc(100% + 5px)', bottom:unfoldUp?'calc(100% + 5px)':'none'}" :id="'down'+num">
+	<div class="um__dropdown__container" :id="'down'+num">
 		<div class="um__dropdown__scrollClassName" :id="'scroll'+num"></div>
 		<div class="um__dropdown__contentbox" :id="'contentbox'+num">
 			<div class="um__dropdown__search" v-if="searchable!==undefined" @click.stop @mousedown.stop="toStopFnDown" @mouseup="toStopFnUp($event)">
@@ -44,7 +44,6 @@ export default {
 			index_now:null, // 当前选中的选项的索引
 			text:this.placeholder?this.placeholder:'请选择 ...', // caption展示的内容
 			empty:true, // caption展示是否为空
-			unfoldUp:false, // 是否向上展开
 			searchKey:'', // 搜索关键字
 			downHeight:220, // 最大下拉框高度
 			isAlarm:false, // 是否标红
@@ -234,19 +233,6 @@ export default {
 				this.showList=[...this.list];
 				this.index_now=this.textList.indexOf(this.text);
 			}
-			if(!this.pullDownObj.now){ // 判断向上还是向下展开
-				let offsetY=event.offsetY;
-				let clientY=event.clientY;
-				let cH=_clientSize().h;
-				let h=eval(`caption${this.num}`).offsetHeight;
-				let dH=parseFloat(this.pullDownObj._m_height());
-				dH=dH<this.downHeight?dH:this.downHeight;
-				if(cH-h-clientY+offsetY-5<dH && clientY-offsetY-5>dH){
-					this.unfoldUp=true;
-				}else{
-					this.unfoldUp=false;
-				};
-			}
 		},
 		toSelect(val, index){
 			if(this.index_now===index)return;
@@ -396,9 +382,7 @@ export default {
 .um__dropdown__show__placeholder {color:#c0c4cc;}
 .um__dropdown__icon {width:26px; color:#c0c4cc; text-align:center; position:absolute; right:2px; top:0; z-index:5;}
 
-/* .um__dropdown__container_up {width:calc(100% - 2px); overflow:hidden; padding:5px 0; background:white; border-radius:3px; border:1px solid #e4e7ed; box-shadow:0 0 5px #e4e7ed; position:absolute; left:0; bottom:calc(100% + 5px);}
-.um__dropdown__container_down {width:calc(100% + 2px); overflow:hidden; padding:5px 0; background:white; border-radius:3px; border:1px solid #e4e7ed; box-shadow:0 0 5px #e4e7ed; position:absolute; left:-2px; top:calc(100% + 5px);} */
-.um__dropdown__container {width:calc(100% - 2px); overflow:hidden; padding:5px 0; background:white; border-radius:3px; border:1px solid #e4e7ed; box-shadow:0 0 5px #e4e7ed; position:absolute; left:0;}
+.um__dropdown__container {width:calc(100% + 2px); overflow:hidden; padding:5px 0; background:white; border-radius:3px; border:1px solid #e4e7ed; box-shadow:0 0 5px #e4e7ed; position:absolute; left:-2px; top:calc(100% + 5px);}
 .um__dropdown__search {width:100%; height:40px; position:relative;}
 .um__dropdown__searchInput {width:calc(100% - 54px); height:24px; padding-left:5px; padding-right:24px; outline-color:#ceddef; background:transparent; border:1px solid #e4e7ed; border-radius:3px; position:absolute; left:10px; top:7px;}
 .um__dropdown__searchIcon {width:24px; height:24px; line-height:24px; color:#c0c4cc; font-size:12px; text-align:center; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; position:absolute; left:calc(100% - 39px); top:9px; z-index:5;}

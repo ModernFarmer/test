@@ -13,7 +13,7 @@
 				um__date__input_blur_alarm:isAlarm && blurBefore}" 
 				v-model="timeItem" @compositionstart="importing=true" @compositionend="importing=false">
 	<div :class="{[`um__date__fontSize_${plugSize}`]:true, um__date__input_placeholder_right:!isRange && iconObj.position!=='left', um__date__input_placeholder_left:!isRange && iconObj.position==='left'}" v-show="!isRange && timeItem==='' && !importing">选择日期</div>
-	<div :id="id" type="text" v-if="isRange"
+	<div :id="id" v-if="isRange"
 		:class="{[`um__date__fontSize_${plugSize}`]:true, 
 				um__date__input_long_iconRight:iconObj.position!=='left', 
 				um__date__input_long_iconLeft:iconObj.position==='left', 
