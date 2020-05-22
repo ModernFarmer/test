@@ -6,6 +6,20 @@
   "description": "umui组件库图标",
   "glyphs": [
     {
+      "icon_id": "1722992",
+      "name": "关闭",
+      "font_class": "guanbi",
+      "unicode": "e7be",
+      "unicode_decimal": 59326
+    },
+    {
+      "icon_id": "8084557",
+      "name": "关闭",
+      "font_class": "guanbi1",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
       "icon_id": "3248661",
       "name": "时间日期",
       "font_class": "shijianriqi",

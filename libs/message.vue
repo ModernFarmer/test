@@ -30,7 +30,7 @@ export default {
 		}
 	},
 	mounted:function(){
-		um__message__container_id.style.zIndex=9999998;
+		um__message__container_id.style.zIndex=99999998;
 		setTimeout(()=>{
 			um__message__container_id.removeChild(eval(this.id));
 			if(um__message__container_id.children.length===0)um__message__container_id.style.zIndex=-1;

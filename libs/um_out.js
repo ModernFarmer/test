@@ -4,7 +4,7 @@ import Page from './page.vue'
 import Button from './button.vue'
 import Switch from './switch.vue'
 import Message from './message.vue'
-import Modal from './modal.vue'
+import ModalInside from './modalInside.vue'
 import Loading from './loading.vue'
 import _Checkbox from './checkbox.vue'
 import Radio from './radio.vue'
@@ -44,7 +44,8 @@ let umJson={
 		nowConditionId_date:null,  // 上一次date组件对象id, 用于判断是否点击同一组件
 		nowConditionObj_date:null  // 上一次date组件对象, 用于当点击新date组件时折叠上一次日期组件
 	},
-	isModuleEvent_checkbox:false // 是否checkbox组件触发的事件, 用于判断checkbox组件是否监听result的改变
+	isModuleEvent_checkbox:false, // 是否checkbox组件触发的事件, 用于判断checkbox组件是否监听result的改变
+	_uobj_zIndex_modalInside:9999999  // modalInside组件的z-index公共层级, 随着调用组件次数的增加递增
 };
 
 let setRule=function(name, fn){ // 添加验证规则 返回vue对象本身  nanme:规则名称,如果该名称的规则已存在,则覆写该名称的规则; fn:规则方法
@@ -105,7 +106,7 @@ export default {
 		Vue.component('b-page', Page);
 		Vue.component('b-button', Button);
 		Vue.component('b-switch', Switch);
-		Vue.component('b-modal', Modal);
+		Vue.component('b-modalInside', ModalInside);
 		Vue.component('b-checkbox', _Checkbox);
 		Vue.component('b-radio', Radio);
 		Vue.component('b-checkall', Checkall);
