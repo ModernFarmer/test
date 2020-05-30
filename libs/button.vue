@@ -30,8 +30,7 @@ export default {
 		listeners:function(){
 			return Object.assign({
 				mousedown:function(){ // 鼠标按下状态回调
-					// if(this.disabled!==undefined)this.down=true;
-					this.down=true;
+					if(!this.isDisabled)this.down=true;
 				}.bind(this),
 				'~mouseenter':function(){ // 取消首次加载状态
 					this.first=false;

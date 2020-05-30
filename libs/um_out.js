@@ -153,7 +153,7 @@ export default {
 			_preventDefault(event);
 		}).BD('DOMMouseScroll', event=>{
 			_preventDefault(event);
-		});;
+		});
 		dom_loading.id='um__loading__container_id';
 		document.body.appendChild(dom_message); // 添加全局message组件的外框元素节点
 		document.body.appendChild(dom_loading); // 添加全局loading组件的外框元素节点

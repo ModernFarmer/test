@@ -232,7 +232,7 @@ export default {
 
 
 
-//  ----------------- button --------------------------
+//  ----------------- switch --------------------------
 // v-model: 选中的选项绑定到使用环境的值, 支持双向绑定
 // model: 配合v-model使用, 可以指定绑定v-model所抛出的值的属性, 本组件默认抛出布尔值, 如果需要抛出其它值则可以设置model属性  [string]  该值将会以'|'拆分, 拆分后如果不是2部分, 则视为无效值; 拆分后如果是2部分, 则第一部分表示开关为开状态时的抛出值, 第二部分表示开关状态为关时的抛出值. 比如: 设置: v-model="switchValue" model="T|F", 则当开关状态变为true时, this.switchValue的值会被设置为'T', 当开关状态变为false时, this.switchValue的值会被设置为'F'
 // size 组件的高度规格 [string] 一共有3个规格, 分别为'default'、'big'和'small', 默认为'default'
@@ -261,6 +261,7 @@ export default {
 // close-disabled: 如果有该属性, 则模态框没有关闭按钮
 // width: 模态框宽度  string  *注: 必须要写单位, 否则无效
 // @close: 模态框关闭回调方法  function
+// $ref.closeModal: 组件内部提供关闭模态框的方法, 可以在父组件直接调用this.$refs.[模态框组件名].closeModal()方法来强制关闭模态框
 
 
 
