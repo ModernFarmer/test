@@ -1,7 +1,7 @@
 <template>
 <div class="mainRouteBox">
 	<um-row style="background:white">
-		<row-left width="85">
+		<row-left width="90">
 			<div class="mainList_searchBox">
 				<div class="mainList_searchTitle" @click="toChooseListType">
 					<div class="mainList_stLeft">{{businessList[businessNow].value}}</div>
@@ -11,7 +11,7 @@
 				<div class="mainList_searchIcon" @click="toSearch">&#xe651;</div>
 			</div>
 		</row-left>
-		<row-right class="mainList_icon" width="15" @click="toPesonCenter">&#xe67f;</row-right>
+		<row-right class="mainList_icon" width="10" @click="toPesonCenter">&#xe67f;</row-right>
 	</um-row>
 
 	<um-row style="margin-top:1rem">
@@ -43,7 +43,7 @@
 	<um-modal-page v-model="dateModal" ref="dateModal">
 		
 	</um-modal-page>
-	<um-date :show.sync="showDate" ref="dateModal">
+	<um-date ref="dateModal" :show.sync="showDate" v-model="playDate">
 		
 	</um-date>
 </div>
@@ -87,7 +87,7 @@ export default {
 </script>
 
 <style>
-.mainList_icon {font-size:2rem; text-align:center !important;}
+.mainList_icon {font-size:2rem;}
 .mainList_searchBox {width:100%; height:3rem; line-height:3rem; border-radius:1.5rem; background:#f2f5f8;}
 .mainList_searchTitle {width:6rem; height:2rem; padding-left:1rem; line-height:2rem; display:inline-block; border-right:1px solid #d0d5da; position:relative;}
 .mainList_searchIcon {width:1.5rem; height:2rem; text-align:center; line-height:2rem; display:inline-block; margin-left:.4rem; position:relative; top:1px;}
