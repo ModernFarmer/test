@@ -35,6 +35,7 @@
 </template>
 
 <script>
+let isback=false;
 export default {
 	data(){
 		return {
@@ -52,13 +53,21 @@ export default {
 		toLogin(){
 			this.umax.post('/admin/userDistributor/signIn', {  // 登陆
 				userName:this.userName,
-				password:this.password,
+				password:_transcoding(this.password),
 				checkCode:this.checkCode
 			}).then(data=>{
 				if(data.status==200){
+					let json={
+						id:data.data.id,
+				        corpCode:data.data.corpCode,
+				        name:data.data.name,
+				        realName:data.data.realName,
+				        sessionId:data.data.sessionId
+					};
+					_Storage.set('userInfo', JSON.stringify(json));
 					this.$router.push({path:'/home'}).catch(()=>{});
 				}else{
-					if(!first){
+					if(!this.first){
 						this.$Alert(data.message);
 					}else{
 						this.first=false;
@@ -74,20 +83,22 @@ export default {
 	},
 	mounted:function(){
 		this.DS.navigate.title=this.$route.meta.title;   // 每次进入路由的时候更新页面头部导航的title(导航位置:@/App.vue)
-		if(this.DS.loginInfo.userName && this.DS.loginInfo.password){  // 修改密码成功后返回到该页面, 从内存中取出用户信息并赋值到该页面, 用以自动登陆
+		if(this.DS.loginInfo.userName && this.DS.loginInfo.password){  // 修改密码成功后返回到该页面, 从内存中取出用户信息并赋值到该页面
 			this.userName=this.DS.loginInfo.userName;
 			this.password=this.DS.loginInfo.password;
 			this.DS.loginInfo={userName:null, password:null};
-			this.$Loading.run();
-			setTimeout(()=>{
-				this.toLogin();
-			}, 1000);
+		}else if(isback || this.$route.query.back){ // 当从忘记密码页面点击返回键返回时或者点击个人中心的退出登录按钮返回时, 不做自动登录处理
+			isback=false;
 		}else{
 			this.$Loading.run();
 			setTimeout(()=>{
 				this.toLogin();
 			}, 1000);
 		};
+	},
+	beforeRouteEnter(to, from, next){
+		if(from.path==='/forgetPwd')isback=true; // 判断是否从忘记密码页面点击返回键返回, 如果是, 则不做自动登录处理
+		next();
 	}
 }
 </script>

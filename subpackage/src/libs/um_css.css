@@ -63,6 +63,57 @@ html, body {width:100%; height:100%; padding:0; margin:0; font-family: -apple-sy
 	to {bottom:-60%;}
 }
 
+@keyframes UM_SWITCH_CONFIRM_ON {
+	from {top:100%;}
+	to {top:30%;}
+}
+@-webkit-keyframes UM_SWITCH_CONFIRM_ON {
+	from {top:100%;}
+	to {top:30%;}
+}
+@keyframes UM_SWITCH_CONFIRM_OFF {
+	from {top:30%;}
+	to {top:100%;}
+}
+@-webkit-keyframes UM_SWITCH_CONFIRM_OFF {
+	from {top:30%;}
+	to {top:100%;}
+}
+
+@keyframes UM_SWITCH_BOTTOM_DATE_ON {
+	from {bottom:-70%;}
+	to {bottom:0;}
+}
+@-webkit-keyframes UM_SWITCH_BOTTOM_DATE_ON {
+	from {bottom:-70%;}
+	to {bottom:0;}
+}
+@keyframes UM_SWITCH_BOTTOM_DATE_OFF {
+	from {bottom:0;}
+	to {bottom:-70%;}
+}
+@-webkit-keyframes UM_SWITCH_BOTTOM_DATE_OFF {
+	from {bottom:0;}
+	to {bottom:-70%;}
+}
+
+@keyframes UM_SWITCH_BOTTOM_AREA_ON {
+	from {bottom:-29rem;}
+	to {bottom:0;}
+}
+@-webkit-keyframes UM_SWITCH_BOTTOM_AREA_ON {
+	from {bottom:-29rem;}
+	to {bottom:0;}
+}
+@keyframes UM_SWITCH_BOTTOM_AREA_OFF {
+	from {bottom:0;}
+	to {bottom:-29rem;}
+}
+@-webkit-keyframes UM_SWITCH_BOTTOM_AREA_OFF {
+	from {bottom:0;}
+	to {bottom:-29rem;}
+}
+
 @keyframes UM_SWITCH_CLOSE_ON {
 	from {right:-2rem;}
 	to {right:.1rem;}

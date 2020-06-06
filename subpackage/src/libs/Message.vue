@@ -1,5 +1,5 @@
 <template>
-<div :id="id" class="um_menu_Box" v-html="msg"></div>
+<div :id="id" class="icon um_menu_Box" v-html="msg"></div>
 </template>
 
 <script>
