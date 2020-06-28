@@ -68,10 +68,10 @@ export default {
 			}
 		},
 		realTotal:function(){ // 数字类型的total
-			return Number(this.total);
+			return Number(this.total) || 1;
 		},
 		realSize:function(){ // 数字类型的size
-			return Number(this.sizeNow);
+			return Number(this.sizeNow) || 10;
 		},
 		maxPage:function(){ // 最大页数
 			return Math.ceil(this.realTotal/this.realSize);
@@ -186,7 +186,7 @@ export default {
 </script>
 
 <style>
-.um__page__class {height:28px; display:inline-block; position:relative; -moz-user-select:none; -webkit-user-select:none; -ms-user-select:none; -khtml-user-select:none; -o-user-select:none; user-select:none;}
+.um__page__class {display:inline-block; position:relative; -moz-user-select:none; -webkit-user-select:none; -ms-user-select:none; -khtml-user-select:none; -o-user-select:none; user-select:none;}
 .um__page__displacement {position:relative; top:1px;}
 
 .um__page__arrowSimple_simple {width:40px; background:white; font-size:12px; font-weight:900; color:#606266; text-align:center; border-radius:3px; cursor:pointer; display:inline-block; border:1px solid #A3A3A3;}
