@@ -18,17 +18,20 @@
   <script>
       var _dom_html=document.getElementsByTagName('html')[0];
 
-      var clientSize_w;
+      window._remSize=0;
       if (window.innerWidth) {
-        clientSize_w=parseInt(window.innerWidth);
+        var clientSize_w=parseInt(window.innerWidth);
+        _remSize=clientSize_w/27.5;
       } else if (document.body.clientWidth) {
-        clientSize_w=parseInt(document.body.clientWidth);
+        var clientSize_w=parseInt(document.body.clientWidth);
+        _remSize=clientSize_w/27.5;
       }
 
       if (document.documentElement.clientWidth) {
-        clientSize_w=parseInt(document.documentElement.clientWidth);
+        var clientSize_w=parseInt(document.documentElement.clientWidth);
+        _remSize=clientSize_w/27.5;
       }
 
-      _dom_html.style.fontSize=(clientSize_w/27.5) + 'px';
+      _dom_html.style.fontSize=_remSize + 'px';
   </script>
 </html>

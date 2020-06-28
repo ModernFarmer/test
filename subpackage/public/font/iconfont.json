@@ -6,6 +6,111 @@
   "description": "umui组件库图标",
   "glyphs": [
     {
+      "icon_id": "1638356",
+      "name": "旗帜",
+      "font_class": "qizhi",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "10995747",
+      "name": "旗帜-01",
+      "font_class": "qizhi-",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "2121722",
+      "name": "门票",
+      "font_class": "menpiao",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "2150786",
+      "name": "身份证",
+      "font_class": "credentials_icon",
+      "unicode": "e674",
+      "unicode_decimal": 58996
+    },
+    {
+      "icon_id": "594374",
+      "name": "箭头",
+      "font_class": "jiantou",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "1110403",
+      "name": "箭头 三角形",
+      "font_class": "jiantou1",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "1189734",
+      "name": "右下－填充",
+      "font_class": "youxiatianchong",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "1308249",
+      "name": "104方向_右上",
+      "font_class": "104fangxiang_youshang",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "1308254",
+      "name": "105方向_右下",
+      "font_class": "105fangxiang_youxia",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "1308255",
+      "name": "107方向_左下",
+      "font_class": "107fangxiang_zuoxia",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "1308256",
+      "name": "106方向_左上",
+      "font_class": "106fangxiang_zuoshang",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "12911875",
+      "name": "下 拉",
+      "font_class": "xiala",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "14456895",
+      "name": "下 拉",
+      "font_class": "shang",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "8341757",
+      "name": "箭头2_右",
+      "font_class": "jiantou_you",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "8341760",
+      "name": "箭头2_左",
+      "font_class": "jiantou_zuo",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
       "icon_id": "689278",
       "name": "日历 日期2",
       "font_class": "riliriqi2",

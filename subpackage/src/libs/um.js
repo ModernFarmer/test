@@ -2,7 +2,6 @@ import Message from './Message.vue';
 import Loading from './Loading.vue';
 import Button from './Button.vue'
 import Modal from './Modal.vue'
-import ModalPage from './Modal_Page.vue'
 import NumberPicker from './NumberPicker.vue'
 import Input from './Input.vue'
 import Row from './Row.vue'
@@ -10,6 +9,9 @@ import RowLeft from './RowLeft.vue'
 import RowMiddle from './RowMiddle.vue'
 import RowRight from './RowRight.vue'
 import DateVue from './Date.vue'
+import Area from './Area.vue'
+import ScrollLoad from './ScrollLoad.vue'
+import Confirm from './Confirm.vue'
 
 let umJson={
 	_uobj_zIndex_selectInside:9999999  // um-select组件的z-index公共层级, 随着调用组件次数的增加递增
@@ -21,7 +23,6 @@ export default {
 
 		Vue.component('um-button', Button);
 		Vue.component('um-modal', Modal);
-		Vue.component('um-modal-page', ModalPage);
 		Vue.component('um-number-picker', NumberPicker);
 		Vue.component('um-input', Input);
 		Vue.component('um-row', Row);
@@ -29,6 +30,9 @@ export default {
 		Vue.component('row-middle', RowMiddle);
 		Vue.component('row-right', RowRight);
 		Vue.component('um-date', DateVue);
+		Vue.component('um-area', Area);
+		Vue.component('um-scroll-load', ScrollLoad);
+		Vue.component('um-confirm', Confirm);
 
 		Vue.prototype._$UMSTORE=umJson;
 

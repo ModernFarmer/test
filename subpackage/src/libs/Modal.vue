@@ -1,5 +1,5 @@
 <template>
-<div :class="{um__modalInside__class:true, um__modalInside__ennte:showAnimation, um__modalInside__leave:!showAnimation}" :style="{zIndex:index_z}" v-if="!first" v-show="showModal" @click="toCloseModal">
+<div :class="{icon:true, um__modalInside__class:true, um__modalInside__ennte:showAnimation, um__modalInside__leave:!showAnimation}" :style="{zIndex:index_z}" v-if="!first" v-show="showModal" @click="toCloseModal">
 	<div :class="{um__modalInside__mainBox:true, um__modalInside_main__ennte:showAnimation, um__modalInside_main__leave:!showAnimation}" @click.stop>
 		<slot></slot>
 	</div>
@@ -52,6 +52,7 @@ export default {
 <style>
 .um__modalInside__class {width:100%; height:100%; background:rgba(0,0,0,.3); position:absolute; left:0; top:0;}
 .um__modalInside__mainBox {width:100%; height:60%; overflow-x:hidden; overflow-y:auto; background:white; border-radius:1rem 1rem 0 0; box-shadow:0px 0px 10px gray; position:absolute; left:0; bottom:-60%;}
+.um__modalInside__mainBox::-webkit-scrollbar {display:none;}
 .um__modalInside__ennte {animation:UM_SWITCH_OPACITY1 .5s forwards; -webkit-animation:UM_SWITCH_OPACITY1 .5s forwards;}
 .um__modalInside__leave {animation:UM_SWITCH_OPACITY0 .5s forwards; -webkit-animation:UM_SWITCH_OPACITY0 .5s forwards;}
 .um__modalInside_main__ennte {animation:UM_SWITCH_BOTTOM_ON .5s forwards; -webkit-animation:UM_SWITCH_BOTTOM_ON .5s forwards;}

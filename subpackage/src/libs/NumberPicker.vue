@@ -1,8 +1,8 @@
 <template>
-<div class="um__numberpicker__class">
+<div class="icon um__numberpicker__class">
 	<div class="um__numberpicker__disabled" v-if="isDisabled"></div>
-	<div :class="{um__numberpicker__btnLeft:true, um__numberpicker__down:this.down_min, um__numberpicker__btnDisabled:isDisabled}" @touchstart="toDown_min" @click="toMin">-</div>
-	<div :class="{um__numberpicker__btnRight:true, um__numberpicker__down:this.down_add, um__numberpicker__btnDisabled:isDisabled}" @touchstart="toDown_add" @click="toAdd">+</div>
+	<div :class="{um__numberpicker__btnLeft:true, um__numberpicker__down:this.down_min, um__numberpicker__btnDisabled:this.minNum!==null && num<=this.minNum}" @touchstart="toDown_min" @click="toMin">-</div>
+	<div :class="{um__numberpicker__btnRight:true, um__numberpicker__down:this.down_add, um__numberpicker__btnDisabled:this.maxNum!==null && num>=this.maxNum}" @touchstart="toDown_add" @click="toAdd">+</div>
 	<div class="um__numberpicker__value">{{num}}</div>
 </div>
 </template>
@@ -44,10 +44,12 @@ export default {
 				if(this.num>=this.minNum+1){
 					this.num--;
 					this.$emit('input', this.num);
+					this.$emit('change', this.num, this.num+1);
 				}
 			}else{
 				this.num--;
 				this.$emit('input', this.num);
+				this.$emit('change', this.num, this.num+1);
 			};
 		},
 		toAdd(){
@@ -55,10 +57,12 @@ export default {
 				if(this.num<=this.maxNum-1){
 					this.num++;
 					this.$emit('input', this.num);
+					this.$emit('change', this.num, this.num-1);
 				}
 			}else{
 				this.num++;
 				this.$emit('input', this.num);
+				this.$emit('change', this.num, this.num-1);
 			};
 		},
 		toWatch(){
@@ -81,40 +85,24 @@ export default {
 		toUp(){
 			this.down_add=false;
 			this.down_min=false;
-		},
-		BD(eventName, fn, target){
-			if(target.addEventListener){
-				target.addEventListener(eventName, fn, false);
-			}else if(target.attachEvent){
-				target.attachEvent('on'+eventName,fn);
-			}else{
-				target['on'+eventName]=fn;
-			};
-		},
-		unBD(eventName, fn, target){
-			if(target.attachEvent){
-				target.detachEvent('on'+eventName,fn);
-			}else{
-				target.removeEventListener(eventName,fn,false);
-			};
 		}
 	},
 	mounted:function(){
 		this.toWatch();
-		this.BD('touchend', this.toUp, document);
+		_BD('touchend', this.toUp, document);
 	},
 	beforeDestroy:function(){
-		this.unBD('touchend', this.toUp, document);
+		_unBD('touchend', this.toUp, document);
 	}
 }
 </script>
 
 <style>
-.um__numberpicker__class {width:7.4rem; height:2.2rem; line-height:2.2rem; text-align:center; position:relative;}
+.um__numberpicker__class {width:6.6rem; height:2.2rem; line-height:2.2rem; text-align:center; display:inline-block; position:relative;}
 .um__numberpicker__disabled {width:100%; height:100%; border-radius:1.1rem; background:rgba(0,0,0,.1); position:absolute; left:0; top:0; z-index:10;}
-.um__numberpicker__btnLeft {width:2.2rem; height:2.2rem; background-image:linear-gradient(to right, #10bafb, #4486ec); border-radius:50%; position:absolute; left:0; top:0;}
-.um__numberpicker__btnRight {width:2.2rem; height:2.2rem; background-image:linear-gradient(to right, #10bafb, #4486ec); border-radius:50%; position:absolute; right:0; top:0;}
+.um__numberpicker__btnLeft {width:2.2rem; height:2.2rem; background-image:linear-gradient(to right, #10bafb, #4486ec); color:white; font-weight:700; border-radius:50%; position:absolute; left:0; top:0;}
+.um__numberpicker__btnRight {width:2.2rem; height:2.2rem; background-image:linear-gradient(to right, #10bafb, #4486ec); color:white; font-weight:700; border-radius:50%; position:absolute; right:0; top:0;}
 .um__numberpicker__down {background-image:linear-gradient(to right, #4486ec, #10bafb);}
 .um__numberpicker__btnDisabled {background:#d5d5d5;}
-.um__numberpicker__value {width:3rem; height:2.2rem; position:absolute; left:2.2rem; top:0;}
+.um__numberpicker__value {width:2.2rem; height:2.2rem; font-weight:700; font-size:1rem; position:absolute; left:2.2rem; top:1px;}
 </style>

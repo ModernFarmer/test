@@ -5,6 +5,7 @@ import umax from 'umax'
 import UM from './libs/um.js'
 import DataStore from './DataStore.js'
 import Vconsole from 'vconsole';
+import GlobleMethod from './common/index.js'
 
 Vue.config.productionTip = false
 
@@ -23,41 +24,18 @@ Vue.use(UM);
 Vue.prototype.umax=umax;
 Vue.prototype.DS=DataStore;  // -------------------> 公用数据对象
 
-window._isJson=function(obj){             //判断一个对象是否为json对象,返回布尔值
-	var boolean_isjson = typeof(obj) == "object" && Object.prototype.toString.call(obj).toLowerCase() == "[object object]" && !obj.length;
-	return boolean_isjson;
-};
-
-window._isArray=function(obj) {           //判断一个对象是否为数组,返回布尔值
-	return Object.prototype.toString.call(obj) === '[object Array]';
-};
-
-window._Storage={  // -------------------> 缓存对象
-	self:window.localStorage,   // 获取当前所有缓存
-	get(name){                  // 读取指定缓存
-		try{
-			return JSON.parse(window.localStorage.getItem(name));
-		}catch{
-			return window.localStorage.getItem(name);
-		};
-	},
-	set(name, item){            // 设置指定缓存
-		if(typeof item==='string'){
-			window.localStorage.setItem(name, item);
-		}else if(_isJson(item) || _isArray(item)){
-			window.localStorage.setItem(name, JSON.stringify(item));
-		}else{
-			throw 'CACHE.set()方法的第二个参数的类型只能是 string、json 或者 array !';
-		};
-	},
-	remove(name){               // 移除指定缓存
-		window.localStorage.removeItem(name);
-	}
-};
-
-Vue.mixin({  // 全局混入
-	
-})
+window._isJson=GlobleMethod._isJson;  //判断一个对象是否为json对象,返回布尔值
+window._isArray=GlobleMethod._isArray; //判断一个对象是否为数组,返回布尔值
+window._dateFormat=GlobleMethod._dateFormat; //格式化日期时间
+window._transcoding=GlobleMethod._transcoding; // 密码转码
+window._BD=GlobleMethod._BD; // 给指定元素绑定事件
+window._unBD=GlobleMethod._unBD; // 给指定元素解除绑定事件
+window._Storage=GlobleMethod._Storage; // -------------------> 缓存对象
+window._isIdCard=GlobleMethod._isIdCard; // 判断字符串的值是否为国内身份证号码
+window._isPhone=GlobleMethod._isPhone; // 判断字符串的值是否为国内手机号码
+window._isEmpty=GlobleMethod._isEmpty;  // 判断字符串的值是否为空
+window._isMail=GlobleMethod._isMail;  // 判断字符串的值是否为邮箱
+window._isNumber=GlobleMethod._isNumber;  // 判断字符串的值是否为数字
 
 const vm=new Vue({
 	router,
@@ -70,14 +48,16 @@ umax.beforeRequest=function(config){  // http请求执行之前全局拦截
 };
 
 umax.responsed=function(res, xmlObj){  // http请求执行之后全局拦截
-	let bl=true;  // 某些接口的错误信息不需要拦截, 比如登录接口(它的错误拦截写在自己的.then方法和.catch方法里面)
+	let bl=true;
+	// 某些接口的错误信息不需要拦截, 比如登录接口(它的错误拦截写在自己的.then方法和.catch方法里面)
+	console.log(xmlObj._url)
+	let checkArr=['/admin/api/ui/uplode', '/admin/userDistributor/signIn'];
+	if(checkArr.indexOf(xmlObj._url)!==-1)bl=false;
 
-	if(xmlObj._url==='/admin/userDistributor/signIn')bl=false;
-
-	if(bl){
-		if(res.status!=200){
-			vm.$Alert(res.message);
-		}
+	if(bl && res.status!=500){
+		if(res.message)vm.$Alert(res.message);
+	}else if(res.status==500){
+		vm.$Alert('系统异常: 500');
 	}
 	vm.$Loading.stop();
 };

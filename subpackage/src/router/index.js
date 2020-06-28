@@ -23,7 +23,7 @@ const routes = [
     meta: {
       title:'主页'
     },
-    component: () => import('@/views/MainList.vue')
+    component: () => import('@/views/Home.vue')
   },
   ...route_login,
   ...route_order,

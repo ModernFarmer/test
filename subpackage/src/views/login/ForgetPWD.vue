@@ -17,13 +17,13 @@
 		<um-row class="forget_row_borderBottom">
 			<row-left class="forget_icon" width="13">&#xe656;</row-left>
 			<row-right width="87">
-				<um-input width="16" placeholder="请输入验证码" v-model="password"></um-input>
+				<um-input width="16" placeholder="请输入验证码" v-model="checkCode"></um-input>
 			</row-right>
 		</um-row>
 		<um-row class="forget_row_borderBottom">
 			<row-left class="forget_icon" width="13">&#xe62b;</row-left>
 			<row-right width="87">
-				<um-input type="password" width="16" placeholder="请输入新密码" v-model="checkCode"></um-input>
+				<um-input type="password" width="16" placeholder="请输入新密码" v-model="password"></um-input>
 			</row-right>
 		</um-row>
 		<div class="forget_forgetPwd"></div>
@@ -53,10 +53,9 @@ export default {
 			});
 		},
 		toReset(){
-	// ------------------------------------------------  这里少修改密码接口  
-			/*this.umax.post('', {
+			this.umax.post('/admin/api/storeUser/resetToCPwd', {
 				loginName:this.loginName,
-				password:this.password,
+				password:_transcoding(this.password),
 				checkCode:this.checkCode
 			}).then(data=>{
 				if(data.status==200){
@@ -69,7 +68,7 @@ export default {
 				}
 			}).catch(err=>{
 				this.$Alert('网络错误!');
-			});*/
+			});
 		}
 	},
 	mounted:function(){
