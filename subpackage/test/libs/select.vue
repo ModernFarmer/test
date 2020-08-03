@@ -14,16 +14,13 @@
 		<div :class="`icon um__select__closeIcon_${plugSize}`" v-if="clearable!==undefined" v-show="((pullDownObj && pullDownObj.now) || mouseIsEnter) && index_now!==null" @click.stop="toClearSelecter">&#xe7be;</div>
 	</div>
 	<div class="um__select__container" :id="'down'+num">
-		<div class="um__select__scrollClassName" :id="'scroll'+num"></div>
-		<div class="um__select__contentbox" :id="'contentbox'+num">
-			<div class="um__select__search" v-if="searchable!==undefined" @click.stop @mousedown.stop="toStopFnDown" @mouseup="toStopFnUp($event)">
-				<input class="um__select__searchInput" type="text" v-model="searchKey" @input="toSearch">
-				<div class="icon um__select__searchIcon">&#xe651;</div>
-			</div>
-			<div class="um__select__option_box" v-for="(val, index) in showList" :key="'key'+num+'_'+index" @click="toSelect(val, index)">
-				<div class="um__select__option__cover" v-show="!_rule(val)" @click.stop></div>
-				<div :class="{um__select__option:true, um__select__option__chooded:index==index_now}">{{optionList[index]}}</div>
-			</div>
+		<div class="um__select__search" v-if="searchable!==undefined" @click.stop>
+			<input class="um__select__searchInput" type="text" v-model="searchKey" @input="toSearch">
+			<div class="icon um__select__searchIcon">&#xe651;</div>
+		</div>
+		<div class="um__select__option_box" v-for="(val, index) in showList" :key="'key'+num+'_'+index" @click="toSelect(val, index)">
+			<div class="um__select__option__cover" v-show="!_rule(val)" @click.stop></div>
+			<div :class="{um__select__option:true, um__select__option__chooded:index==index_now}">{{optionList[index]}}</div>
 		</div>
 	</div>
 	<div :class="{um__select_textAlarm:true, um__select__text_showAnimation:isAlarm, um__select__text_hideAnimation:!isAlarm && !first}">{{alarmWord}}</div>
@@ -269,12 +266,6 @@ export default {
 				return item;
 			};
 		},
-		toStopFnDown(){ // 点击搜索div时合理改变_PullDown插件内部的downHidden值, 使它被点击时不会隐藏下拉框
-			this.pullDownObj.downHidden=false;
-		},
-		toStopFnUp(){ // 点击搜索div时合理改变_PullDown插件内部的downHidden值, 使它被点击时不会隐藏下拉框
-			this.pullDownObj.downHidden=true;
-		},
 		_rule(item){
 			if(!this.enabledRule){
 				return true;
@@ -315,54 +306,13 @@ export default {
 		}
 	},
 	mounted:function(){
-		this.$nextTick(function(){
-			let maxHeight=this.maxHeight || '220px';
-			maxHeight=maxHeight.replace(/\s+/g, '');
-			_(`#down${this.num}`).css({maxHeight});
-			this.movingScrollObj=_MovingScroll({
-				box:`#down${this.num}`,
-				contentBox:`#contentbox${this.num}`,
-				scrollBox:`#scroll${this.num}`,
-				speed:150
-			});
-			this.pullDownObj=_PullDown({
-			    caption:`#caption${this.num}`,
-			    down:`#down${this.num}`,
-			    speed:.2
-			}, this.movingScrollObj, function(dropdownObj){
-				this.first=false;
-				delete dropdownObj.fn;
-			}.bind(this));
-			if(this.verifying){
-				this.$watch(function(){
-					return this.rules[__umVerify];
-				}, function(){
-					if(this.rules[__umVerifyResult][this.validateField].success){
-						this.toNomal();
-					}else{
-						this.alarmWord=this.rules[__umVerifyResult][this.validateField].value;
-						this.toRed();
-					};
-				});
-				this.$watch('pullDownObj.now', function(val, old){
-					this.nowBefore=old;
-					if(val===false){
-						this.toVerifySimple();
-					}else{
-						this.toNomal();
-					};
-				});
-			}
-			if(/px$/.test(maxHeight)){
-				this.downHeight=Math.ceil(maxHeight.replace(/px$/, ''));
-			}else if(/rem$/.test(maxHeight)){
-				this.downHeight=Math.ceil(_(document.getElementsByTagName('html')[0]).getStyle('fontSize').replace(/px$/, ''))*Number(maxHeight.replace(/rem$/, ''));
-			}else if(/em$/.test(maxHeight)){
-				this.downHeight=Math.ceil(_(eval(`caption${this.num}`).parentNode).getStyle('fontSize').replace(/px$/, ''))*Number(maxHeight.replace(/em$/, ''))
-			}else{
-				throw `um-dropdown组件的maxHeight属性只支持三种单位: 'px', 'em', 'rem'`;
-			};
-		});
+		if(Number(this.maxHeight)){
+			document.querySelector(`#down${this.num}`).style.maxHeight=this.maxHeight+'px';
+		}else if(this.maxHeight && Number(this.maxHeight.replace(/(?:px)|(?:rem)|(?:em)/, '').replace(/\s/g, ''))){
+			document.querySelector(`#down${this.num}`).style.maxHeight=this.maxHeight;
+		}else{
+			document.querySelector(`#down${this.num}`).style.maxHeight='220px';
+		};
 	}
 }
 </script>
@@ -381,7 +331,7 @@ export default {
 .um__select__input_alarm_on {animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -webkit-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -o-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -moz-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards; -ms-animation:UM_BORDERFRAME_ALARM_CHOOSED .5s forwards;}
 .um__select__input_blur_alarm {animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -webkit-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -o-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -moz-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards; -ms-animation:UM_BORDERFRAME_BLUR_ALARM .5s forwards;}
 .um__select__disabled {width:calc(100% + 2px); height:calc(100% + 2px); background:rgba(0,0,0,.1); cursor:not-allowed; border-radius:3px; position:absolute; left:-1px; top:-1px; z-index:20;}
-.um__select__input {width:calc(100% - 5px); height:100%; font-size:14px; background:transparent; padding-left:5px; border-radius:3px; border:1px solid transparent; position:absolute; left:-1px; top:-1px;}
+.um__select__input {width:calc(100% - 5px); height:100%; font-size:14px; background:transparent; cursor:pointer; padding-left:5px; border-radius:3px; border:1px solid transparent; position:absolute; left:-1px; top:-1px;}
 .um__select_lineH_default {line-height:26px; font-size:12px;}
 .um__select_lineH_big {line-height:32px; font-size:14px;}
 .um__select_lineH_small {line-height:20px; font-size:10px;}
@@ -393,7 +343,7 @@ export default {
 .um__select__closeIcon_big {width:26px; height:32px; overflow:hidden; color:#c0c4cc; font-size:16px; text-align:center; background:white; position:absolute; right:2px; top:0; z-index:10;}
 .um__select__closeIcon_small {width:26px; height:18px; overflow:hidden; color:#c0c4cc; font-size:12px; text-align:center; background:white; position:absolute; right:0; top:1px; z-index:10;}
 
-.um__select__container {width:calc(100% + 2px); overflow:hidden; padding:5px 0; background:white; border-radius:3px; border:1px solid #e4e7ed; box-shadow:0 0 5px #e4e7ed; position:absolute; left:-2px; top:calc(100% + 5px);}
+.um__select__container {width:calc(100%); overflow:auto; padding:5px 0; background:white; border-radius:3px; border:1px solid #e4e7ed; box-shadow:0 0 5px #e4e7ed; position:absolute; left:-1px; top:calc(100% + 5px);}
 .um__select__search {width:100%; height:40px; position:relative;}
 .um__select__searchInput {width:calc(100% - 54px); height:24px; padding-left:5px; padding-right:24px; outline-color:#ceddef; background:transparent; border:1px solid #e4e7ed; border-radius:3px; position:absolute; left:10px; top:7px;}
 .um__select__searchIcon {width:24px; height:24px; line-height:24px; color:#c0c4cc; font-size:12px; text-align:center; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; position:absolute; left:calc(100% - 39px); top:9px; z-index:5;}
@@ -402,8 +352,6 @@ export default {
 .um__select__option {width:calc(100% - 10px); height:100%; padding-left:10px;}
 .um__select__option:hover {background:#f0f3f7;}
 .um__select__option__chooded {color:#409eff; font-weight:900;}
-.um__select__scrollClassName {width:5px; height:0; border-radius:3px; background:#e1e6ec; position:absolute; right:1px; top:0; z-index:100;} /*滚动条样式*/
-.um__select__contentbox {width:100%; overflow:hidden; position:relative;}
 .um__select__icon_down {animation:UM_DROPDOWN_DOWN .5s forwards; -webkit-animation:UM_DROPDOWN_DOWN .5s forwards; -o-animation:UM_DROPDOWN_DOWN .5s forwards; -moz-animation:UM_DROPDOWN_DOWN .5s forwards; -ms-animation:UM_DROPDOWN_DOWN .5s forwards;}
 .um__select__icon_up {animation:UM_DROPDOWN_UP .5s forwards; -webkit-animation:UM_DROPDOWN_UP .5s forwards; -o-animation:UM_DROPDOWN_UP .5s forwards; -moz-animation:UM_DROPDOWN_UP .5s forwards; -ms-animation:UM_DROPDOWN_UP .5s forwards;}
 .um__select_textAlarm {width:calc(100% - 5px); line-height:18px; font-size:10px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; color:red; position:absolute; left:5px; top:100%;}
