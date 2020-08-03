@@ -3,6 +3,7 @@
 	<!-- <b-date size="big"></b-date>
 	<div style="margin-top:400px"></div>
 	<b-date range align="right"></b-date> -->
+	sdfsdfsdf
 </div>
 </template>
 
