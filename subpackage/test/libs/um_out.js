@@ -92,7 +92,7 @@ let verify=function(obj){ // 验证的方法  obj:需要验证的对象
 	obj[__umVerifyResult]={};
 	for(let key in obj){
 		for(let i=0; i<obj[key].length; i++){
-			if(typeof eval(`this.${key}`)!=='string'){
+			if(typeof this[key]!=='string'){
 				if(this[key]===null){
 					obj[__umVerifyResult][key]={
 						success:false,

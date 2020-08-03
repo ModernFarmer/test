@@ -169,18 +169,18 @@ export default {
 			if(this.sizeable!==undefined){
 				this.input1=eval(this.$refs.um__page__inputIn1.id);
 				this.input1.style.textAlign='right';
-				_(document).BD('keydown', this.um__keyEnter1);
+				_BD(document, 'keydown', this.um__keyEnter1);
 			}
 			if(this.skipable!==undefined){
 				this.input2=eval(this.$refs.um__page__inputIn2.id);
 				this.input2.style.textAlign='right';
-				_(document).BD('keydown', this.um__keyEnter2);
+				_BD(document, 'keydown', this.um__keyEnter2);
 			}
 		});
 	},
 	beforeDestroy:function(){
-		if(this.sizeable!==undefined)_(document).unBD('keydown', this.um__keyEnter1);
-		if(this.skipable!==undefined)_(document).unBD('keydown', this.um__keyEnter2);
+		if(this.sizeable!==undefined)_unBD(document, 'keydown', this.um__keyEnter1);
+		if(this.skipable!==undefined)_unBD(document, 'keydown', this.um__keyEnter2);
 	}
 }
 </script>

@@ -299,7 +299,7 @@ export default {
 					this.alarmWord=this.rules[this.validateField][i].split('|')[1];
 					break;
 				}else if(typeof this.verifyContent==='string'){
-					let res=this._$UMSTORE.rules[this.rules[this.validateField][i].split('|')[0]](this.verifyContent);
+					let res=this._$UMSTORE.rules[this.rules[this.validateField][i].split('|')[0]].handle(this.verifyContent);
 					if(!res){
 						success=false;
 						this.alarmWord=this.rules[this.validateField][i].split('|')[1];

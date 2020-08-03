@@ -112,7 +112,7 @@ export default {
 			if(!this.verifying)return;
 			let success=true;
 			for(let i=0; i<this.rules[this.validateField].length; i++){
-				let res=this._$UMSTORE.rules[this.rules[this.validateField][i].split('|')[0]](eval(this.id).value);
+				let res=this._$UMSTORE.rules[this.rules[this.validateField][i].split('|')[0]].handle(eval(this.id).value);
 				if(!res){
 					success=false;
 					this.alarmWord=this.rules[this.validateField][i].split('|')[1];
