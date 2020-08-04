@@ -197,6 +197,7 @@ export default {
 // validateField: 验证关键字 [string] 该关键字是以属性路径的形式来展现, 具体请看'rules'属性的说明  **只支持以点分隔的路径, 不支持方括号分隔的属性路径, 如:支持attr1.attr2,不支持attr1[attr2]
 // rules: 验证规则对象 [json] 对象格式为: {validateField: array, validateField: array, ...}, 其中validateField为验证关键字, array为验证'规则名称|验证失败提示语'. 比如:{'form.obj.phone': ['required|电话不能为空!', 'isPhone|电话号码格式错误!', 'form.obj.name': ['required|姓名不能为空!']}, 组件将会验证 this.form.obj.phone字段和 this.form.obj.name字段, 以 this.form.obj.phone为例, 组件会根据'form.obj.phone'的键值(是一个数组)的每一个值的顺序来验证this.form.obj.phone字段. 比如:'required|电话不能为空!'规则验证, 组件会先以'|'分割该字符串, 得到规则名称和验证失败提示语, 然后会验证'required'规则, 如果验证通过, 则进入下一个规则(如果有的话)的验证; 如果验证失败, 则直接停止验证(不会继续下一个规则的验证), 然后将页面上input框体标红且显示验证失败提示语, 如果未设置提示语(如: ['required', 'isPhone|']), 则只是input框体标红, 不显示提示语  *规则验证耦合性强, 会验证对象里面所有的关键字, 所以不需要的验证关键字不要写入验证规则对象, 否则会判定为验证未通过  ** select组件的有效规则只有一个, 即'required'(判断是否已选择)
 // toVerifySimple(): vue子组件对象上的单个验证方法  [function]  *可以在父组件上通过this.$refs[子组件ref名称]来主动调用单体验证
+// keyword  监听关键字 *该组件支持输出结果双向绑定  如果输出结果数组内的值是json, 则需要设置keyword, 比如:option的值是{id:'a', attr:{main:'b', name:'c', value:{age:34, high:180, sex:'m'}}}, model的值是'attr', 那么result的值为[{main:'b', name:'c', value:{age:34, high:180, sex:'m'}}, ...], 如果要实现当result改变的时候, 组件的选择状态跟随result的结果改变, 则必须设置keyword, 它表示判断组件选择状态改变的关键字, 比如这里我们设置keyword="attr.value.sex", 那么组件将以json.attr.value.sex的值为标准, (这里用item表示result数组内的值), 当json.attr.value.sex===[item对应的值](这里的'item对应的值'组件会根据model属性和keyword属性自动计算)时, 则判定组件的选择状态为true, 组件为选中状态, 否则组件则为未选中状态  ***特别注意: keyword设置的对象路径所指向的结果类型必须是string或者number! 用这个例子打个比方: 如果json.attr.value.sex的结果是一个json, 则不能实现组件的监听功能
 
 
 
@@ -255,7 +256,7 @@ export default {
 
 
 
-//  ----------------- modal --------------------------
+//  ----------------- modalInside --------------------------
 // v-model: 是否展示模态框  boolean  双向数据绑定
 // back-disabled: 如果有该属性, 则点击遮罩不关闭模态框
 // close-disabled: 如果有该属性, 则模态框没有关闭按钮

@@ -70,7 +70,7 @@ export default {
 					realPath=obj.model.path;
 				}else{
 					if(obj.model.path){
-						let re=new RegExp(`^${obj.model.path.replace('.', '\\.')}`);
+						let re=new RegExp(`^${obj.model.path.replace(/\./g, '\\.')}`);
 						realPath=obj.keyword.path.replace(re, '');
 					}else{
 						realPath=obj.keyword.path;

@@ -38,7 +38,7 @@ export default {
 				});
 				return JSON.stringify(arr);
 			}else{
-				throw 'b-checkbox组件的keyword属性只能是一个字符串 !';
+				throw 'b-checkbox组件的model属性只能是一个字符串 !';
 			};
 		},
 		isZero:function(){

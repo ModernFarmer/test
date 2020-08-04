@@ -13,14 +13,16 @@
 		<div :class="{icon:true, um__select__icon:true, um__select__icon_down:now===false && !first, um__select__icon_up:now===true}">&#xe629;</div>
 		<div :class="`icon um__select__closeIcon_${plugSize}`" v-if="clearable!==undefined" v-show="((pullDownObj && pullDownObj.now) || mouseIsEnter) && index_now!==null" @click.stop="toClearSelecter">&#xe7be;</div>
 	</div>
-	<div class="um__select__container" :id="'down'+num">
+	<div class="um__select__container">
 		<div class="um__select__search" v-if="searchable!==undefined" @click.stop>
 			<input class="um__select__searchInput" type="text" v-model="searchKey" @input="toSearch">
 			<div class="icon um__select__searchIcon">&#xe651;</div>
 		</div>
-		<div class="um__select__option_box" v-for="(val, index) in showList" :key="'key'+num+'_'+index" @click="toSelect(val, index)">
-			<div class="um__select__option__cover" v-show="!_rule(val)" @click.stop></div>
-			<div :class="{um__select__option:true, um__select__option__chooded:index==index_now}">{{optionList[index]}}</div>
+		<div class="um__select__scrollBox" :id="'down'+num">
+			<div class="um__select__option_box" v-for="(val, index) in showList" :key="'key'+num+'_'+index" @click="toSelect(val, index)">
+				<div class="um__select__option__cover" v-show="!_rule(val)" @click.stop></div>
+				<div :class="{um__select__option:true, um__select__option__chooded:index==index_now}">{{optionList[index]}}</div>
+			</div>
 		</div>
 	</div>
 	<div :class="{um__select_textAlarm:true, um__select__text_showAnimation:isAlarm, um__select__text_hideAnimation:!isAlarm && !first}">{{alarmWord}}</div>
@@ -169,7 +171,7 @@ export default {
 					let realPath='';
 
 					if(modelPath!==''){
-						let re=new RegExp(`^${modelPath.replace('.', '\\.')}`);
+						let re=new RegExp(`^${modelPath.replace(/\./g, '\\.')}`);
 						realPath=keyPath.replace(re, '');
 					}else{
 						realPath=keyPath;
@@ -306,12 +308,21 @@ export default {
 		}
 	},
 	mounted:function(){
+		// 40px
 		if(Number(this.maxHeight)){
-			document.querySelector(`#down${this.num}`).style.maxHeight=this.maxHeight+'px';
+			if(this.searchable!==undefined){
+				document.querySelector(`#down${this.num}`).style.maxHeight=(Number(this.maxHeight)-40)+'px';
+			}else{
+				document.querySelector(`#down${this.num}`).style.maxHeight=this.maxHeight+'px';
+			};
 		}else if(this.maxHeight && Number(this.maxHeight.replace(/(?:px)|(?:rem)|(?:em)/, '').replace(/\s/g, ''))){
-			document.querySelector(`#down${this.num}`).style.maxHeight=this.maxHeight;
+			if(this.searchable!==undefined){
+				document.querySelector(`#down${this.num}`).style.maxHeight=`calc(${this.maxHeight} - 40px)`;
+			}else{
+				document.querySelector(`#down${this.num}`).style.maxHeight=this.maxHeight;
+			};
 		}else{
-			document.querySelector(`#down${this.num}`).style.maxHeight='220px';
+			document.querySelector(`#down${this.num}`).style.maxHeight='180px';
 		};
 	}
 }
@@ -343,10 +354,13 @@ export default {
 .um__select__closeIcon_big {width:26px; height:32px; overflow:hidden; color:#c0c4cc; font-size:16px; text-align:center; background:white; position:absolute; right:2px; top:0; z-index:10;}
 .um__select__closeIcon_small {width:26px; height:18px; overflow:hidden; color:#c0c4cc; font-size:12px; text-align:center; background:white; position:absolute; right:0; top:1px; z-index:10;}
 
-.um__select__container {width:calc(100%); overflow:auto; padding:5px 0; background:white; border-radius:3px; border:1px solid #e4e7ed; box-shadow:0 0 5px #e4e7ed; position:absolute; left:-1px; top:calc(100% + 5px);}
+.um__select__container {width:100%; padding:5px 0; background:white; border-radius:3px; border:1px solid #e4e7ed; box-shadow:0 0 5px #e4e7ed; position:absolute; left:-1px; top:calc(100% + 5px);}
 .um__select__search {width:100%; height:40px; position:relative;}
 .um__select__searchInput {width:calc(100% - 54px); height:24px; padding-left:5px; padding-right:24px; outline-color:#ceddef; background:transparent; border:1px solid #e4e7ed; border-radius:3px; position:absolute; left:10px; top:7px;}
 .um__select__searchIcon {width:24px; height:24px; line-height:24px; color:#c0c4cc; font-size:12px; text-align:center; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; position:absolute; left:calc(100% - 39px); top:9px; z-index:5;}
+.um__select__scrollBox {width:100%; overflow:auto;}
+.um__select__scrollBox::-webkit-scrollbar {width:6px; background:transparent;}
+.um__select__scrollBox::-webkit-scrollbar-thumb {background:yellow; border-radius:3px;}
 .um__select__option_box {width:100%; line-height:26px; font-size:14px; cursor:pointer; position:relative;}
 .um__select__option__cover {width:calc(100% - 10px); height:100%; padding-left:10px; background:rgba(255,255,255,.7); cursor:not-allowed; position:absolute; left:0; top:0; z-index:90}
 .um__select__option {width:calc(100% - 10px); height:100%; padding-left:10px;}

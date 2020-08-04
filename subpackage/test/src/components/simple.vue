@@ -17,7 +17,7 @@
 		model="value.product.name" 
 		@change="abc">
 	</b-select>
-	<br><br>
+	<div style="height:260px"></div>
 	{{selectValue1}}
 </div>
 </template>
