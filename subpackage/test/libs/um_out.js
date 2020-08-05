@@ -13,7 +13,7 @@ import _Date from './date.vue'
 import Calendar from './calendar.vue'
 import _Time from './time.vue'
 
-import GlobalMethods from './globle.js'
+import GlobalMethods from './global.js'
 
 for(let key in GlobalMethods){
 	window[key]=GlobalMethods[key];
@@ -92,8 +92,8 @@ let verify=function(obj){ // 验证的方法  obj:需要验证的对象
 	obj[__umVerifyResult]={};
 	for(let key in obj){
 		for(let i=0; i<obj[key].length; i++){
-			if(typeof this[key]!=='string'){
-				if(this[key]===null){
+			if(typeof _getKeyData(this, key)!=='string'){
+				if(_getKeyData(this, key)===null){
 					obj[__umVerifyResult][key]={
 						success:false,
 						value:obj[key][i].split('|')[1]?obj[key][i].split('|')[1]:''
@@ -104,7 +104,7 @@ let verify=function(obj){ // 验证的方法  obj:需要验证的对象
 					break;
 				};
 			}else{
-				let success=this._$UMSTORE.rules[obj[key][i].split('|')[0]].handle(this[key])
+				let success=this._$UMSTORE.rules[obj[key][i].split('|')[0]].handle(_getKeyData(this, key));
 				if(success){
 					obj[__umVerifyResult][key]={success};
 				}else{

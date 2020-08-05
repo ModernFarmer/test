@@ -250,6 +250,7 @@ export default {
 			this.$emit('input', this.verifyContent);
 			this.$emit('change', val, index);
 			setTimeout(()=>{this._$UMSTORE._uobj_select.isModuleEvent_select=false;});
+			this.toNomal();
 		},
 		toClearSelecter(){
 			if(this.empty)return;
@@ -308,7 +309,6 @@ export default {
 		}
 	},
 	mounted:function(){
-		// 40px
 		if(Number(this.maxHeight)){
 			if(this.searchable!==undefined){
 				document.querySelector(`#down${this.num}`).style.maxHeight=(Number(this.maxHeight)-40)+'px';
@@ -324,6 +324,18 @@ export default {
 		}else{
 			document.querySelector(`#down${this.num}`).style.maxHeight='180px';
 		};
+		if(this.verifying){
+			this.$watch(function(){
+				return this.rules[__umVerify];
+			}, function(){
+				if(this.rules[__umVerifyResult][this.validateField].success){
+					this.toNomal();
+				}else{
+					this.alarmWord=this.rules[__umVerifyResult][this.validateField].value;
+					this.toRed();
+				};
+			});
+		}
 	}
 }
 </script>
@@ -360,7 +372,7 @@ export default {
 .um__select__searchIcon {width:24px; height:24px; line-height:24px; color:#c0c4cc; font-size:12px; text-align:center; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none; position:absolute; left:calc(100% - 39px); top:9px; z-index:5;}
 .um__select__scrollBox {width:100%; overflow:auto;}
 .um__select__scrollBox::-webkit-scrollbar {width:6px; background:transparent;}
-.um__select__scrollBox::-webkit-scrollbar-thumb {background:yellow; border-radius:3px;}
+.um__select__scrollBox::-webkit-scrollbar-thumb {background:#e4e7ed; border-radius:3px;}
 .um__select__option_box {width:100%; line-height:26px; font-size:14px; cursor:pointer; position:relative;}
 .um__select__option__cover {width:calc(100% - 10px); height:100%; padding-left:10px; background:rgba(255,255,255,.7); cursor:not-allowed; position:absolute; left:0; top:0; z-index:90}
 .um__select__option {width:calc(100% - 10px); height:100%; padding-left:10px;}

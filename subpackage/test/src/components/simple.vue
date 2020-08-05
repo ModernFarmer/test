@@ -49,6 +49,9 @@ export default {
 		},
 	},
 	mounted:function(){
+		setTimeout(()=>{
+			console.log(this._verify(this.inputRulesObj));
+		}, 1000)
 		
 	}
 }

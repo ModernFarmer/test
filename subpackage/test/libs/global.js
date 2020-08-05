@@ -3,8 +3,20 @@ export default {
         let boolean_isjson=typeof(obj)=="object" && Object.prototype.toString.call(obj).toLowerCase()=="[object object]" && !obj.length;
         return boolean_isjson;
     },
-    _isArray:function(obj) {           //判断一个对象是否为数组,返回布尔值
+    _isArray:function(obj){           //判断一个对象是否为数组,返回布尔值
         return Object.prototype.toString.call(obj)==='[object Array]';
+    },
+    _getKeyData:function(obj, key){
+        let arr=key.split('.');
+        let result=null;
+        arr.forEach(val=>{
+            if(result===null){
+                result=obj[val];
+            }else{
+                result=result[val];
+            };
+        });
+        return result;
     },
     _dateFormat:function(dateValue, string){          //格式化日期时间
         var dateObj=dateValue==='now'?new Date():new Date(dateValue);
