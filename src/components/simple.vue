@@ -1,8 +1,8 @@
 <template>
 <div class="dropdown_simple">
-	<!-- <b-date size="big"></b-date>
+	<b-date size="big"></b-date>
 	<div style="margin-top:400px"></div>
-	<b-date range align="right"></b-date> -->
+	<b-date range align="right"></b-date>
 </div>
 </template>
 
