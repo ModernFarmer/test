@@ -1,10 +1,12 @@
+import methods from './global.js'
+
 import Select from './select.vue'
 import Input from './input.vue'
 import Page from './page.vue'
 import Button from './button.vue'
 import Switch from './switch.vue'
 import Message from './message.vue'
-import ModalInside from './modalInside.vue'
+import Modal from './modal.vue'
 import Loading from './loading.vue'
 import _Checkbox from './checkbox.vue'
 import Radio from './radio.vue'
@@ -12,6 +14,11 @@ import Checkall from './checkall.vue'
 import _Date from './date.vue'
 import Calendar from './calendar.vue'
 import _Time from './time.vue'
+import _Number from './number.vue'
+
+for(let key in methods){ // 在window上挂载全局方法
+    window[key]=methods[key];
+};
 
 window.__umVerify=Symbol('verify');
 window.__umVerifyResult=Symbol('verifyResult');
@@ -151,13 +158,14 @@ export default {
 		Vue.component('b-page', Page);
 		Vue.component('b-button', Button);
 		Vue.component('b-switch', Switch);
-		Vue.component('b-modalInside', ModalInside);
+		Vue.component('b-modal', Modal);
 		Vue.component('b-checkbox', _Checkbox);
 		Vue.component('b-radio', Radio);
 		Vue.component('b-checkall', Checkall);
 		Vue.component('b-date', _Date);
 		Vue.component('b-calendar', Calendar);
 		Vue.component('b-time', _Time);
+		Vue.component('b-number', _Number);
 
 		let MSG=Vue.extend(Message);
 

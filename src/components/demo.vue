@@ -51,10 +51,14 @@
 
 	<br><br><br>
 
+	<b-button @click="toShowModalInside">内部模态框按钮</b-button>&nbsp;
 	<b-button @click="toShowModal">模态框按钮</b-button>
-	<b-modalInside v-model="modalInside" width="80%" @close="isCloseModal">
+	<b-modal inside v-model="modalInside" width="80%" @close="isCloseModal">
 		<div style="width:100%; text-align:center; font-size:30px; font-weight:900; margin-top:50px">我是 modalInside</div>
-	</b-modalInside>
+	</b-modal>
+	<b-modal v-model="modalShow" width="80%" @close="isCloseModal">
+		<div style="width:100%; text-align:center; font-size:30px; font-weight:900; margin-top:50px">我是 modal</div>
+	</b-modal>
 
 	<br><br><br>
 
@@ -75,6 +79,10 @@
 	<b-radio v-for="(option, index) in radioOptions" v-model="radioResult" model="value" keyword="value.id" :disabled="index===0?true:false" :option="option">{{option.name}}</b-radio>
 	<br><br>
 	结果: {{radioResult}}
+
+	<br><br><br>
+
+	<b-number v-model="num"></b-number>
 
 	<br><br><br>
 
@@ -106,10 +114,12 @@ export default {
             },
             switchValue:'T',
             modalInside:false,
+            modalShow:false,
             checkboxOptions:[{value:'选项一', id:{upId:'1', downId:'11'}},{value:'选项二', id:{upId:'2', downId:'22'}},{value:'选项三', id:{upId:'3', downId:'33'}},{value:'选项四', id:{upId:'4', downId:'44'}}],
             checkboxResult:[],
             radioOptions:[{name:'单选1', value:{id:1, age:32}},{name:'单选2', value:{id:2, age:33}},{name:'单选3', value:{id:3, age:30}},{name:'单选4', value:{id:4, age:34}}],
-            radioResult:null
+            radioResult:null,
+            num:0
 		}
 	},
 	methods:{
@@ -155,8 +165,11 @@ export default {
 				value:'我是弹框信息'
 			})
 		},
-		toShowModal(){
+		toShowModalInside(){
 			this.modalInside=true;
+		},
+		toShowModal(){
+			this.modalShow=true;
 		},
 		isCloseModal(){
 			console.log('modal关闭了!');
@@ -257,11 +270,12 @@ export default {
 
 //  ----------------- modal --------------------------
 // v-model: 是否展示模态框  boolean  双向数据绑定
+// inside: 如果有该属性, 则模态框的蒙层只覆盖到定位它的父元素, 否则蒙层会覆盖整个浏览器页面
 // back-disabled: 如果有该属性, 则点击遮罩不关闭模态框
 // close-disabled: 如果有该属性, 则模态框没有关闭按钮
 // width: 模态框宽度  string  *注: 必须要写单位, 否则无效
 // @close: 模态框关闭回调方法  function
-// $ref.closeModal: 组件内部提供关闭模态框的方法, 可以在父组件直接调用this.$refs.[模态框组件名].closeModal()方法来强制关闭模态框
+// $ref.close: 组件内部提供关闭模态框的方法, 可以在父组件直接调用this.$refs.[模态框组件名].close()方法来强制关闭模态框
 
 
 
